@@ -13,7 +13,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
     
-    let feedFontSize:CGFloat = 14;
+    let feedFontSize:CGFloat = 13;
     
     override func viewDidLoad() {
         super.viewDidLoad()
