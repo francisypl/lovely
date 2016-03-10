@@ -15,6 +15,8 @@
 		150AF8DE1C90EDC900A4B0ED /* lovelyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AF8DD1C90EDC900A4B0ED /* lovelyUITests.swift */; };
 		6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2A1C912D4000B99F32 /* FeedViewController.swift */; };
 		6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */; };
+		6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2E1C91422400B99F32 /* UIHelper.swift */; };
+		6D259E321C91475300B99F32 /* heart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E311C91475300B99F32 /* heart@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		150AF8DF1C90EDC900A4B0ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D259E2A1C912D4000B99F32 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNoteTableViewCell.swift; sourceTree = "<group>"; };
+		6D259E2E1C91422400B99F32 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		6D259E311C91475300B99F32 /* heart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,7 @@
 				150AF8C41C90EDC800A4B0ED /* Assets.xcassets */,
 				150AF8C61C90EDC800A4B0ED /* LaunchScreen.storyboard */,
 				150AF8C91C90EDC800A4B0ED /* Info.plist */,
+				6D259E301C9146C400B99F32 /* Assets */,
 			);
 			path = lovely;
 			sourceTree = "<group>";
@@ -132,8 +137,17 @@
 			children = (
 				6D259E2A1C912D4000B99F32 /* FeedViewController.swift */,
 				6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */,
+				6D259E2E1C91422400B99F32 /* UIHelper.swift */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		6D259E301C9146C400B99F32 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E311C91475300B99F32 /* heart@3x.png */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +257,7 @@
 			files = (
 				150AF8C81C90EDC800A4B0ED /* LaunchScreen.storyboard in Resources */,
 				150AF8C51C90EDC800A4B0ED /* Assets.xcassets in Resources */,
+				6D259E321C91475300B99F32 /* heart@3x.png in Resources */,
 				150AF8C31C90EDC800A4B0ED /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +286,7 @@
 				6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */,
 				6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */,
 				150AF8BE1C90EDC800A4B0ED /* AppDelegate.swift in Sources */,
+				6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

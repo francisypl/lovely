@@ -16,4 +16,5 @@ class FeedNoteTableViewCell: UITableViewCell {
     @IBOutlet weak var toName: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var noteCopy: UILabel!
+    
 }
