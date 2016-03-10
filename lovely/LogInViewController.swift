@@ -15,10 +15,10 @@ class LogInViewController: UIViewController {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let contentViewController = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        let feed = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         
-        if contentViewController != nil {
-            self.presentViewController(contentViewController!, animated: true, completion: nil)
+        if feed != nil {
+            self.presentViewController(feed!, animated: true, completion: nil)
         }
     }
 }
