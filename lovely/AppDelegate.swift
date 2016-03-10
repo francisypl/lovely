@@ -32,13 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UIViewController?
         
-        let loggedIn = true
+        let loggedIn = true //TODO
         
         if loggedIn {
-            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
+            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         }
         else {
-            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+            
+            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
         }
         
         let navigationController = UINavigationController(rootViewController: rootViewController!)

@@ -11,5 +11,22 @@ import UIKit
 struct UIHelper {
     
     static var mainColor = UIColor(red: 178/255.0, green: 117/255.0, blue: 187/255.0, alpha: 1)
+    static var darkMainColor = UIColor(red: 167/255.0, green: 110/255.0, blue: 175/255.0, alpha: 1)
+    static var fbColor = UIColor(red: 66/255.0, green: 103/255.0, blue: 178/255.0, alpha: 1)
     
+    static func animateUpdateLayout(vc: UIViewController) {
+        UIView.animateWithDuration(0.35) {
+            vc.view.layoutIfNeeded()
+        }
+    }
+    
+    static func showFeed(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let feed = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        
+        if feed != nil {
+            vc.presentViewController(feed!, animated: false, completion: nil)
+        }
+    }
 }

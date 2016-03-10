@@ -10,15 +10,22 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        /*
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+    @IBOutlet weak var logInButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        let feed = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        logInButton.backgroundColor = UIHelper.fbColor
+        logInButton.layer.cornerRadius = 5
+        logInButton.clipsToBounds = true
         
-        if feed != nil {
-            self.presentViewController(feed!, animated: false, completion: nil)
-        }*/
+        self.view.backgroundColor = UIHelper.mainColor
     }
+    
+    @IBAction func logInPressed(sender: AnyObject) {
+        //TODO fb framework stuff
+        
+        UIHelper.showFeed(self)
+    }
+    
 }

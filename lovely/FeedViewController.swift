@@ -12,8 +12,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var privacyToggle: UISegmentedControl!
+    @IBOutlet weak var profileView: UIView!
+    @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var profileViewHeightConstraint: NSLayoutConstraint!
     
-    let feedFontSize:CGFloat = 13;
+    @IBOutlet weak var profileName: UILabel!
+    
+    var publicFeed = true
+    var profileViewHeight: CGFloat = 200
+    
+    let feedFontSize: CGFloat = 13;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +37,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         toolBar.backgroundColor = UIHelper.mainColor
         
         self.view.backgroundColor = UIHelper.mainColor
+        
+        profileView.backgroundColor = UIHelper.mainColor
+        profileView.hidden = true
+        profileViewHeightConstraint.constant = 0
+        
+        profileName.text = "Francis Yuen"
+        
+        requestButton.backgroundColor = UIHelper.darkMainColor
     }
     
     /**
@@ -61,9 +78,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func privacyViewChanged(sender: AnyObject) {
+        publicFeed = !publicFeed
+        
+        if privacyToggle.selectedSegmentIndex == 1 {
+            profileViewHeightConstraint.constant = profileViewHeight
+            profileView.hidden = false
+        }
+        else {
+            profileViewHeightConstraint.constant = 0
+            profileView.hidden = true
+        }
+        
+        self.view.layoutIfNeeded()
     }
 }
