@@ -10,4 +10,15 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let contentViewController = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        
+        if contentViewController != nil {
+            self.presentViewController(contentViewController!, animated: true, completion: nil)
+        }
+    }
 }
