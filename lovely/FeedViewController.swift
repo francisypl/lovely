@@ -28,9 +28,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         toolBar.backgroundColor = UIHelper.mainColor
         
         self.view.backgroundColor = UIHelper.mainColor
-        
-        var model = HomeModel()
-        model.downloadItems()
     }
     
     /**
