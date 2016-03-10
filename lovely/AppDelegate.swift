@@ -19,7 +19,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        determineFirstView()
+        
         return true
+    }
+    
+    /**
+    * Determines which view should be presented first based
+    * on whether user is logged in or not
+    */
+    func determineFirstView() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var rootViewController : UIViewController?
+        
+        let loggedIn = true
+        
+        if loggedIn {
+            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
+        }
+        else {
+            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        }
+        
+        let navigationController = UINavigationController(rootViewController: rootViewController!)
+        navigationController.navigationBarHidden = true // or not, your choice.
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window!.rootViewController = navigationController
+        self.window!.makeKeyAndVisible()
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
