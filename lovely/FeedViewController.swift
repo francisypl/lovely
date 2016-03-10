@@ -18,15 +18,19 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.estimatedRowHeight = 80
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorInset = UIEdgeInsetsZero
         
         toolBar.clipsToBounds = true
         toolBar.backgroundColor = UIHelper.mainColor
         
         self.view.backgroundColor = UIHelper.mainColor
+        
+        var model = HomeModel()
+        model.downloadItems()
     }
     
     /**
