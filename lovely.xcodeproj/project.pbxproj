@@ -8,12 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		150AF8BE1C90EDC800A4B0ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AF8BD1C90EDC800A4B0ED /* AppDelegate.swift */; };
-		150AF8C01C90EDC800A4B0ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AF8BF1C90EDC800A4B0ED /* ViewController.swift */; };
 		150AF8C31C90EDC800A4B0ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150AF8C11C90EDC800A4B0ED /* Main.storyboard */; };
 		150AF8C51C90EDC800A4B0ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150AF8C41C90EDC800A4B0ED /* Assets.xcassets */; };
 		150AF8C81C90EDC800A4B0ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 150AF8C61C90EDC800A4B0ED /* LaunchScreen.storyboard */; };
 		150AF8D31C90EDC900A4B0ED /* lovelyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AF8D21C90EDC900A4B0ED /* lovelyTests.swift */; };
 		150AF8DE1C90EDC900A4B0ED /* lovelyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150AF8DD1C90EDC900A4B0ED /* lovelyUITests.swift */; };
+		1589A0E31C92066400E3E6CD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1589A0E21C92066400E3E6CD /* FBSDKCoreKit.framework */; };
+		6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2A1C912D4000B99F32 /* FeedViewController.swift */; };
+		6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */; };
+		6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E2E1C91422400B99F32 /* UIHelper.swift */; };
+		6D259E321C91475300B99F32 /* heart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E311C91475300B99F32 /* heart@3x.png */; };
+		6D259E351C915D5700B99F32 /* DBTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E341C915D5700B99F32 /* DBTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +41,6 @@
 /* Begin PBXFileReference section */
 		150AF8BA1C90EDC800A4B0ED /* lovely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lovely.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		150AF8BD1C90EDC800A4B0ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		150AF8BF1C90EDC800A4B0ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		150AF8C21C90EDC800A4B0ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		150AF8C41C90EDC800A4B0ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		150AF8C71C90EDC800A4B0ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +51,13 @@
 		150AF8D91C90EDC900A4B0ED /* lovelyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = lovelyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		150AF8DD1C90EDC900A4B0ED /* lovelyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lovelyUITests.swift; sourceTree = "<group>"; };
 		150AF8DF1C90EDC900A4B0ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1589A0E21C92066400E3E6CD /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../FacebookSDKs-iOS-20160210/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		1589A0E41C9209ED00E3E6CD /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		6D259E2A1C912D4000B99F32 /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNoteTableViewCell.swift; sourceTree = "<group>"; };
+		6D259E2E1C91422400B99F32 /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		6D259E311C91475300B99F32 /* heart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@3x.png"; sourceTree = "<group>"; };
+		6D259E341C915D5700B99F32 /* DBTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1589A0E31C92066400E3E6CD /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +89,7 @@
 		150AF8B11C90EDC800A4B0ED = {
 			isa = PBXGroup;
 			children = (
+				1589A0DF1C92058800E3E6CD /* Frameworks */,
 				150AF8BC1C90EDC800A4B0ED /* lovely */,
 				150AF8D11C90EDC900A4B0ED /* lovelyTests */,
 				150AF8DC1C90EDC900A4B0ED /* lovelyUITests */,
@@ -98,11 +111,14 @@
 			isa = PBXGroup;
 			children = (
 				150AF8BD1C90EDC800A4B0ED /* AppDelegate.swift */,
-				150AF8BF1C90EDC800A4B0ED /* ViewController.swift */,
+				1589A0E41C9209ED00E3E6CD /* Bridging-Header.h */,
+				6D259E331C915D4700B99F32 /* Model */,
+				6D259E291C912D2E00B99F32 /* View */,
 				150AF8C11C90EDC800A4B0ED /* Main.storyboard */,
 				150AF8C41C90EDC800A4B0ED /* Assets.xcassets */,
 				150AF8C61C90EDC800A4B0ED /* LaunchScreen.storyboard */,
 				150AF8C91C90EDC800A4B0ED /* Info.plist */,
+				6D259E301C9146C400B99F32 /* Assets */,
 			);
 			path = lovely;
 			sourceTree = "<group>";
@@ -123,6 +139,40 @@
 				150AF8DF1C90EDC900A4B0ED /* Info.plist */,
 			);
 			path = lovelyUITests;
+			sourceTree = "<group>";
+		};
+		1589A0DF1C92058800E3E6CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1589A0E21C92066400E3E6CD /* FBSDKCoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6D259E291C912D2E00B99F32 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E2A1C912D4000B99F32 /* FeedViewController.swift */,
+				6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */,
+				6D259E2E1C91422400B99F32 /* UIHelper.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		6D259E301C9146C400B99F32 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E311C91475300B99F32 /* heart@3x.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		6D259E331C915D4700B99F32 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E341C915D5700B99F32 /* DBTest.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +282,7 @@
 			files = (
 				150AF8C81C90EDC800A4B0ED /* LaunchScreen.storyboard in Resources */,
 				150AF8C51C90EDC800A4B0ED /* Assets.xcassets in Resources */,
+				6D259E321C91475300B99F32 /* heart@3x.png in Resources */,
 				150AF8C31C90EDC800A4B0ED /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,8 +308,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				150AF8C01C90EDC800A4B0ED /* ViewController.swift in Sources */,
+				6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */,
+				6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */,
 				150AF8BE1C90EDC800A4B0ED /* AppDelegate.swift in Sources */,
+				6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */,
+				6D259E351C915D5700B99F32 /* DBTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,10 +453,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"/Users/francis/Documents/FacebookSDKs-iOS-20160210",
+				);
 				INFOPLIST_FILE = lovely/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovely;
+				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovelyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_DISABLE_SAFETY_CHECKS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "lovely/Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "lovely/Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -411,10 +475,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"/Users/francis/Documents/FacebookSDKs-iOS-20160210",
+				);
 				INFOPLIST_FILE = lovely/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovely;
+				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovelyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_DISABLE_SAFETY_CHECKS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "lovely/Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "lovely/Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -485,6 +559,7 @@
 				150AF8E41C90EDC900A4B0ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		150AF8E51C90EDC900A4B0ED /* Build configuration list for PBXNativeTarget "lovelyTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +568,7 @@
 				150AF8E71C90EDC900A4B0ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		150AF8E81C90EDC900A4B0ED /* Build configuration list for PBXNativeTarget "lovelyUITests" */ = {
 			isa = XCConfigurationList;
@@ -501,6 +577,7 @@
 				150AF8EA1C90EDC900A4B0ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
