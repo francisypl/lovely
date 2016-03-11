@@ -8,24 +8,32 @@
 
 import UIKit
 
-class LogInViewController: UIViewController {
-    
-    @IBOutlet weak var logInButton: UIButton!
+class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        logInButton.backgroundColor = UIHelper.fbColor
-        logInButton.layer.cornerRadius = 5
-        logInButton.clipsToBounds = true
-        
         self.view.backgroundColor = UIHelper.mainColor
-    }
-    
-    @IBAction func logInPressed(sender: AnyObject) {
-        //TODO fb framework stuff
         
-        UIHelper.showFeed(self)
+        let loginButton = FBSDKLoginButton()
+        
+        loginButton.delegate = self
+        loginButton.readPermissions = ["public_profile", "user_friends", "email", "user_location", "user_relationships",
+        "user_relationship_details"]
+        loginButton.center = CGPointMake(self.view.center.x, self.view.frame.height - 100)
+        
+        self.view.addSubview(loginButton)
     }
     
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
+        return true
+    }
 }
