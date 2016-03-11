@@ -39,4 +39,24 @@ struct UIHelper {
             vc.presentViewController(newVC!, animated: true, completion: nil)
         }
     }
+    
+    static func showRequest(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController
+        
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: true, completion: nil)
+        }
+    }
+    
+    static func showSettings(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController
+        
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: false, completion: nil)
+        }
+    }
 }

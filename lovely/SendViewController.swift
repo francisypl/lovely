@@ -110,5 +110,10 @@ class SendViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
+    /**
+    * Attempt to send message
+    */
+    @IBAction func send(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 }

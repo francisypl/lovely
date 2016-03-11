@@ -96,4 +96,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendButtonPressed(sender: AnyObject) {
         UIHelper.showSend(self)
     }
+    
+    @IBAction func requestButtonPressed(sender: AnyObject) {
+    }
+    
+    @IBAction func settingsButtonPressed(sender: AnyObject) {
+    }
+    
 }
