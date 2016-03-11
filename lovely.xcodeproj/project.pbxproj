@@ -25,6 +25,11 @@
 		6D259E491C922EBE00B99F32 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E481C922EBE00B99F32 /* SettingsViewController.swift */; };
 		6D259E4B1C922F3600B99F32 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E4A1C922F3600B99F32 /* SendViewController.swift */; };
 		6D259E4D1C922F4A00B99F32 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */; };
+		6D259E531C923FE600B99F32 /* fist@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E521C923FE600B99F32 /* fist@3x.png */; };
+		6D259E571C92637400B99F32 /* KMPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E561C92637400B99F32 /* KMPlaceholderTextView.swift */; };
+		6D259E591C92648100B99F32 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E581C92648100B99F32 /* PaddedTextField.swift */; };
+		6D259E5D1C927D1B00B99F32 /* fist-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E5C1C927D1B00B99F32 /* fist-option@3x.png */; };
+		6D259E611C927E4900B99F32 /* love-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E601C927E4900B99F32 /* love-option@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +75,11 @@
 		6D259E481C922EBE00B99F32 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6D259E4A1C922F3600B99F32 /* SendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendViewController.swift; sourceTree = "<group>"; };
 		6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
+		6D259E521C923FE600B99F32 /* fist@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fist@3x.png"; sourceTree = "<group>"; };
+		6D259E561C92637400B99F32 /* KMPlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPlaceholderTextView.swift; sourceTree = "<group>"; };
+		6D259E581C92648100B99F32 /* PaddedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
+		6D259E5C1C927D1B00B99F32 /* fist-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fist-option@3x.png"; sourceTree = "<group>"; };
+		6D259E601C927E4900B99F32 /* love-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "love-option@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +181,8 @@
 				6D259E481C922EBE00B99F32 /* SettingsViewController.swift */,
 				6D259E4A1C922F3600B99F32 /* SendViewController.swift */,
 				6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */,
+				6D259E561C92637400B99F32 /* KMPlaceholderTextView.swift */,
+				6D259E581C92648100B99F32 /* PaddedTextField.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -178,7 +190,10 @@
 		6D259E301C9146C400B99F32 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				6D259E521C923FE600B99F32 /* fist@3x.png */,
+				6D259E5C1C927D1B00B99F32 /* fist-option@3x.png */,
 				6D259E311C91475300B99F32 /* heart@3x.png */,
+				6D259E601C927E4900B99F32 /* love-option@3x.png */,
 				6D259E461C922DFE00B99F32 /* lovely@2x.png */,
 				6D259E401C922CFB00B99F32 /* fbLogInButton@3x.png */,
 			);
@@ -261,7 +276,7 @@
 				TargetAttributes = {
 					150AF8B91C90EDC800A4B0ED = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 4LZEV99H2U;
+						DevelopmentTeam = 9CQZV55V57;
 					};
 					150AF8CD1C90EDC900A4B0ED = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -298,10 +313,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D259E611C927E4900B99F32 /* love-option@3x.png in Resources */,
 				150AF8C81C90EDC800A4B0ED /* LaunchScreen.storyboard in Resources */,
 				6D259E411C922CFB00B99F32 /* fbLogInButton@3x.png in Resources */,
 				150AF8C51C90EDC800A4B0ED /* Assets.xcassets in Resources */,
 				6D259E321C91475300B99F32 /* heart@3x.png in Resources */,
+				6D259E5D1C927D1B00B99F32 /* fist-option@3x.png in Resources */,
+				6D259E531C923FE600B99F32 /* fist@3x.png in Resources */,
 				6D259E471C922DFE00B99F32 /* lovely@2x.png in Resources */,
 				150AF8C31C90EDC800A4B0ED /* Main.storyboard in Resources */,
 			);
@@ -331,10 +349,12 @@
 				6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */,
 				6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */,
 				6D259E491C922EBE00B99F32 /* SettingsViewController.swift in Sources */,
+				6D259E591C92648100B99F32 /* PaddedTextField.swift in Sources */,
 				6D259E391C92090900B99F32 /* LogInViewController.swift in Sources */,
 				6D259E4B1C922F3600B99F32 /* SendViewController.swift in Sources */,
 				6D259E4D1C922F4A00B99F32 /* RequestViewController.swift in Sources */,
 				150AF8BE1C90EDC800A4B0ED /* AppDelegate.swift in Sources */,
+				6D259E571C92637400B99F32 /* KMPlaceholderTextView.swift in Sources */,
 				6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */,
 				6D259E371C91EF7800B99F32 /* HttpHelper.swift in Sources */,
 			);

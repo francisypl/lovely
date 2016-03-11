@@ -63,7 +63,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.fromName.text = "Francis Yuen"
         cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
         
-        cell.noteIcon.image = UIImage(named: "heart")
+        cell.noteIcon.image = UIImage(named: "fist")
         
         cell.toName.text = "Max Hudson"
         cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
@@ -91,5 +91,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         self.view.layoutIfNeeded()
+    }
+    
+    @IBAction func sendButtonPressed(sender: AnyObject) {
+        UIHelper.showSend(self)
     }
 }

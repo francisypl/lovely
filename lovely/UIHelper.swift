@@ -23,10 +23,20 @@ struct UIHelper {
     static func showFeed(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let feed = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         
-        if feed != nil {
-            vc.presentViewController(feed!, animated: false, completion: nil)
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: false, completion: nil)
+        }
+    }
+    
+    static func showSend(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController
+        
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: true, completion: nil)
         }
     }
 }
