@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         application.statusBarStyle = UIStatusBarStyle.LightContent
         
@@ -32,13 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UIViewController?
         
-        let loggedIn = true //TODO
+        let state = AppState.getInstance()
         
-        if loggedIn {
+        if state.isAuthenticated() {
             rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         }
         else {
-            
             rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
         }
         
