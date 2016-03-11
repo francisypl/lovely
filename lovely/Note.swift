@@ -11,7 +11,7 @@ enum NoteSubType {
 }
 
 class Note {
-    private(set) var id: Int = -1
+    private(set) var id: Int = 0
     private(set) var sender: User
     private(set) var recipient: User
     private(set) var message: String
