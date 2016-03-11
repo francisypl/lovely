@@ -10,57 +10,49 @@ import Foundation
 
 struct HttpHelper {
     static let host = "http://54.187.56.45/ios-api/"
+    static let privateToken = "mkeib909asdm23klsd*"
     
     /**
-    Sends post request to page on server
+     Sends post request to page on server
+     
+     Sample usage:
+     
+     print(HttpHelper.post(["username": "uname", "token": "asdfasdf"], url: "notes.php"))
     */
-    static func post(params : Dictionary<String, String>, url : String, postCompleted : (succeeded: Bool, msg: String) -> ()) {
+    static func post(params : Dictionary<String, String>, url : String) -> String {
         let request = NSMutableURLRequest(URL: NSURL(string: host + url)!)
-        let session = NSURLSession.sharedSession()
         request.HTTPMethod = "POST"
         
-        var postString = "";
-        
+        var postString = "private-token=" + privateToken;
         for (key, value) in params {
-            if postString != "" {
-                postString += "&"
-            }
-            
-            postString += key + "=" + value
+            postString += "&" + key + "=" + value
         }
         
         request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
-            
-        let task = session.dataTaskWithRequest(request, completionHandler: {
-                data, response, error -> Void in
-            
-            if (error != nil) {
-                postCompleted(succeeded: false, msg: error!.localizedDescription)
-            }
-            else {
-                let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                
-                postCompleted(succeeded: true, msg: strData as! String)
-            }
-        })
         
+        let data = requestSynchronousData(request)
+        let strData = NSString(data: data!, encoding: NSUTF8StringEncoding) as! String
+        
+        return strData
+    }
+    
+    
+    static func requestSynchronousData(request: NSURLRequest) -> NSData? {
+        var data: NSData? = nil
+        let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
+            taskData, _, error -> () in
+            data = taskData
+            if data == nil, let error = error {print(error)}
+            dispatch_semaphore_signal(semaphore);
+        })
         task.resume()
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        return data
     }
     
     /**
     Converts JSON string to [[String: AnyObject]]
-     
-    Sample usage:
-
-    print(HttpHelper.post(["username": "uname", "token": "asdfasdf"], url: "notes.php", postCompleted: {(succeeded, msg) -> () in
-        if succeeded {
-            if let notesData = HttpHelper.jsonToDictionaryArray(msg) {
-                for noteData in notesData {
-                    print(noteData)
-                }
-            }
-        }
-    }))
     */
     static func jsonToDictionaryArray(text: String) -> [[String: AnyObject]]? {
         if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
@@ -73,6 +65,23 @@ struct HttpHelper {
             }
         }
     
+        return nil
+    }
+    
+    /**
+     Converts JSON string to [[String: AnyObject]]
+     */
+    static func jsonToDictionary(text: String) -> [String: AnyObject]? {
+        if let data = text.dataUsingEncoding(NSUTF8StringEncoding) {
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers) as? [String: AnyObject]
+                return json
+            }
+            catch {
+                print("Something went wrong")
+            }
+        }
+        
         return nil
     }
 }

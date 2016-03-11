@@ -18,8 +18,9 @@ class SendViewController: UIViewController {
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loveType: UIButton!
     @IBOutlet weak var fistType: UIButton!
+    @IBOutlet weak var publicToggle: UISegmentedControl!
     
-    var type = "love"
+    var subType = NoteSubType.Love
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +84,7 @@ class SendViewController: UIViewController {
     }
     
     @IBAction func loveTypePressed(sender: AnyObject) {
-        type = "love"
+        subType = NoteSubType.Love
         
         loveType.alpha = 1
         fistType.alpha = 0.3
@@ -94,7 +95,7 @@ class SendViewController: UIViewController {
     
     
     @IBAction func fistTypePressed(sender: AnyObject) {
-        type = "fist"
+        subType = NoteSubType.FistBump
         
         fistType.alpha = 1
         loveType.alpha = 0.3
@@ -114,6 +115,13 @@ class SendViewController: UIViewController {
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
+        let recipient = User(id: -1, fbId: -1, name: "user", email: "", image: UIImage())
+        let isPublic = publicToggle.selectedSegmentIndex == 0
+        
+        let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "note", subType: subType)
+        
+        note.send()
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

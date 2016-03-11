@@ -545,7 +545,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="8Rh-0k-hn0"/>
                                                     <constraint firstAttribute="width" constant="30" id="h0M-JG-jae"/>
                                                 </constraints>
-                                                <state key="normal" image="fist-option.png"/>
+                                                <state key="normal" image="fist-bump-option.png"/>
                                                 <connections>
                                                     <action selector="fistTypePressed:" destination="BMD-Rw-Wi3" eventType="touchUpInside" id="Gvg-N6-cVu"/>
                                                 </connections>
@@ -627,6 +627,7 @@
                         <outlet property="fistType" destination="iz3-9s-G2O" id="DGo-RE-MUk"/>
                         <outlet property="loveType" destination="UDn-JY-sDf" id="7dN-zY-aQb"/>
                         <outlet property="noteContent" destination="rIK-Eu-85p" id="wAb-O0-PwM"/>
+                        <outlet property="publicToggle" destination="7aZ-yd-7Of" id="TlW-qu-z5O"/>
                         <outlet property="recipientField" destination="oD2-hT-4xG" id="Zyv-yY-EMm"/>
                         <outlet property="sendButton" destination="rKS-wu-Vme" id="zn6-rw-R1g"/>
                         <outlet property="toolBar" destination="vDy-zt-oIX" id="hyZ-MS-rTj"/>
@@ -667,7 +668,7 @@
     </scenes>
     <resources>
         <image name="fbLogInButton.png" width="179" height="27"/>
-        <image name="fist-option.png" width="30" height="30"/>
+        <image name="fist-bump-option.png" width="30" height="30"/>
         <image name="love-option.png" width="30" height="30"/>
         <image name="lovely.png" width="200" height="200"/>
     </resources>
