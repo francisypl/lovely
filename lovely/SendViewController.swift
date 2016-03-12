@@ -199,6 +199,13 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /**
+     * Validate note fields on note content update
+     */
+    func textViewDidChange(textView: UITextView) {
+        validateNote()
+    }
+    
+    /**
      * Changes subType to love
      */
     @IBAction func loveTypePressed(sender: AnyObject) {
