@@ -66,7 +66,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.fromName.text = "Francis Yuen"
         cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
         
-        cell.noteIcon.image = UIImage(named: note.getSubTypeString())
+        cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
         
         cell.toName.text = "Max Hudson"
         cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);

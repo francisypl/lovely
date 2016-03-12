@@ -34,6 +34,7 @@
 		6D259E651C9354A300B99F32 /* DatabaseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E641C9354A300B99F32 /* DatabaseWrapper.swift */; };
 		6D259E671C9355B100B99F32 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E661C9355B100B99F32 /* User.swift */; };
 		6D259E691C93579500B99F32 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E681C93579500B99F32 /* AppState.swift */; };
+		6D259E6C1C938CBC00B99F32 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E6B1C938CBC00B99F32 /* UserTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		6D259E641C9354A300B99F32 /* DatabaseWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseWrapper.swift; sourceTree = "<group>"; };
 		6D259E661C9355B100B99F32 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6D259E681C93579500B99F32 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6D259E6B1C938CBC00B99F32 /* UserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,14 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				6D259E2E1C91422400B99F32 /* UIHelper.swift */,
-				6D259E2A1C912D4000B99F32 /* FeedViewController.swift */,
-				6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */,
-				6D259E381C92090900B99F32 /* LogInViewController.swift */,
-				6D259E481C922EBE00B99F32 /* SettingsViewController.swift */,
-				6D259E4A1C922F3600B99F32 /* SendViewController.swift */,
-				6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */,
-				6D259E561C92637400B99F32 /* KMPlaceholderTextView.swift */,
-				6D259E581C92648100B99F32 /* PaddedTextField.swift */,
+				6D259E6D1C938CE800B99F32 /* ViewControllers */,
+				6D259E6A1C938CAF00B99F32 /* SubClasses */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -218,6 +214,29 @@
 				6D259E681C93579500B99F32 /* AppState.swift */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		6D259E6A1C938CAF00B99F32 /* SubClasses */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E581C92648100B99F32 /* PaddedTextField.swift */,
+				6D259E561C92637400B99F32 /* KMPlaceholderTextView.swift */,
+				6D259E2C1C913E0100B99F32 /* FeedNoteTableViewCell.swift */,
+				6D259E6B1C938CBC00B99F32 /* UserTableViewCell.swift */,
+			);
+			name = SubClasses;
+			sourceTree = "<group>";
+		};
+		6D259E6D1C938CE800B99F32 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6D259E381C92090900B99F32 /* LogInViewController.swift */,
+				6D259E2A1C912D4000B99F32 /* FeedViewController.swift */,
+				6D259E4A1C922F3600B99F32 /* SendViewController.swift */,
+				6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */,
+				6D259E481C922EBE00B99F32 /* SettingsViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,6 +381,7 @@
 				6D259E2B1C912D4000B99F32 /* FeedViewController.swift in Sources */,
 				6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */,
 				6D259E491C922EBE00B99F32 /* SettingsViewController.swift in Sources */,
+				6D259E6C1C938CBC00B99F32 /* UserTableViewCell.swift in Sources */,
 				6D259E591C92648100B99F32 /* PaddedTextField.swift in Sources */,
 				6D259E391C92090900B99F32 /* LogInViewController.swift in Sources */,
 				6D259E691C93579500B99F32 /* AppState.swift in Sources */,

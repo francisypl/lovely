@@ -17,7 +17,7 @@ struct DatabaseWrapper {
     static func send(note: Note) -> Int {
         return Int(HttpHelper.post([
             "message": note.message,
-            "sub-type": note.getSubTypeString(),
+            "sub-type": note.subType.rawValue,
             "type": note.type,
             "sender-id": String(note.sender.id),
             "recipient-id": String(note.recipient.id),
@@ -66,9 +66,10 @@ struct DatabaseWrapper {
             let recipient = AppState.getUserForId(Int(noteData["recipient_id"] as! String)!)
             let isPublic = noteData["is_public"] as! String == "1"
             let type = noteData["type"] as! String
-            let subType = Note.getSubTypeFromString(noteData["sub_type"] as! String)
+            let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
+            let date = NSDate() //TODO - convert date from db to ns date
             
-            notes.append(Note(id: id, message: message, sender: sender, recipient: recipient, isPublic: isPublic, type: type, subType: subType))
+            notes.append(Note(id: id, message: message, sender: sender, recipient: recipient, isPublic: isPublic, type: type, subType: subType, date: date))
         }
         
         return notes
