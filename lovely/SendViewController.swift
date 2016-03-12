@@ -44,6 +44,7 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         noteContent.placeholder = "What's it for?"
         noteContent.textContainerInset = UIEdgeInsetsMake(15, 17, 15, 17)
+        noteContent.delegate = self
         
         sendButton.backgroundColor = UIHelper.darkMainColor
         
@@ -241,6 +242,7 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Verifies required fields are set
      */
     func validateNote() {
+        print(recipient != nil, noteContent.text! != "")
         if (recipient != nil && noteContent.text! != "") {
             sendButton.hidden = false
         }
