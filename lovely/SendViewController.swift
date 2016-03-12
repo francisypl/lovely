@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol SendViewControllerDelegate {
+    func noteCreated()
+}
+
 class SendViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
+    
+    var delegate: SendViewControllerDelegate?
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var recipientField: PaddedTextField!
@@ -16,6 +22,7 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButtonHeightContstraint: NSLayoutConstraint!
     @IBOutlet weak var loveType: UIButton!
     @IBOutlet weak var fistType: UIButton!
     @IBOutlet weak var publicToggle: UISegmentedControl!
@@ -242,12 +249,13 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Verifies required fields are set
      */
     func validateNote() {
-        print(recipient != nil, noteContent.text! != "")
         if (recipient != nil && noteContent.text! != "") {
             sendButton.hidden = false
+            sendButtonHeightContstraint.constant = 45
         }
         else {
             sendButton.hidden = true
+            sendButtonHeightContstraint.constant = 0
         }
     }
     
@@ -261,6 +269,10 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "note", subType: subType)
         
         note.send()
+        
+        if (self.delegate != nil) {
+            self.delegate!.noteCreated()
+        }
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }

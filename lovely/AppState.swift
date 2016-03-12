@@ -22,6 +22,13 @@ class AppState {
         return user
     }
     
+    /**
+     * Gets generic public user for requests
+     */
+    static func getPublicUser() -> User {
+        return User(id: 0, fbId: 0, name: "Public", email: "", image: UIImage())
+    }
+    
     static func getCurrentUser() -> User {
         return User(id: 1, fbId: 1, name: "Name", email: "email", image: UIImage()) //TODO
     }

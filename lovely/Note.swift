@@ -7,7 +7,7 @@
 //
 
 enum NoteSubType : String {
-    case Love = "love", FistBump = "fist-bump"
+    case Love = "love", FistBump = "fist-bump", Good = "good", Sad = "sad", Long = "long"
 }
 
 class Note {
