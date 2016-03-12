@@ -16,6 +16,9 @@ class User {
     private(set) var email: String
     private(set) var image: UIImage
     
+    /**
+    * For use by AppState.getUserById(id: Int)
+    */
     init(id: Int) {
         self.id = id
         
@@ -25,6 +28,9 @@ class User {
         self.image = UIImage()
     }
     
+    /**
+     * Standard init
+     */
     init(id: Int, fbId: Int, name: String, email: String, image: UIImage) {
         self.id = id
         self.fbId = fbId

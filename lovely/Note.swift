@@ -6,8 +6,8 @@
 //  Copyright © 2016 DweebsRUs. All rights reserved.
 //
 
-enum NoteSubType {
-    case Love, FistBump
+enum NoteSubType : String {
+    case Love = "love", FistBump = "fist-bump"
 }
 
 class Note {
@@ -18,7 +18,11 @@ class Note {
     private(set) var isPublic: Bool
     private(set) var type: String //"note" or "request"
     private(set) var subType: NoteSubType
+    private(set) var date: NSDate
     
+    /**
+    * Primarily used for creating a new note
+    */
     init(message: String, recipient: User, isPublic: Bool, type: String, subType: NoteSubType) {
         self.message = message
         self.recipient = recipient
@@ -27,20 +31,13 @@ class Note {
         self.subType = subType
         
         self.sender = AppState.getCurrentUser()
+        self.date = NSDate()
     }
     
-    init(id: Int, message: String, recipient: User, isPublic: Bool, type: String, subType: NoteSubType) {
-        self.id = id
-        self.message = message
-        self.recipient = recipient
-        self.isPublic = isPublic
-        self.type = type
-        self.subType = subType
-        
-        self.sender = AppState.getCurrentUser()
-    }
-    
-    init(id: Int, message: String, sender: User, recipient: User, isPublic: Bool, type: String, subType: NoteSubType) {
+    /**
+    * Used for pulling existing notes
+    */
+    init(id: Int, message: String, sender: User, recipient: User, isPublic: Bool, type: String, subType: NoteSubType, date: NSDate) {
         self.id = id
         self.message = message
         self.sender = sender
@@ -48,41 +45,12 @@ class Note {
         self.isPublic = isPublic
         self.type = type
         self.subType = subType
+        self.date = date
     }
     
-    func setId(id: Int) {
-        self.id = id
-    }
-    
-    func getSubTypeString() -> String {
-        switch self.subType {
-        case .Love:
-            return "love"
-        case .FistBump:
-            return "fist-bump"
-        }
-    }
-    
-    static func getStringFromSubType(subType: NoteSubType) -> String {
-        switch subType {
-        case .Love:
-            return "love"
-        case .FistBump:
-            return "fist-bump"
-        }
-    }
-    
-    static func getSubTypeFromString(string: String) -> NoteSubType {
-        switch string {
-        case "love":
-            return NoteSubType.Love
-        case "fist-bump":
-            return NoteSubType.FistBump
-        default:
-            return NoteSubType.Love
-        }
-    }
-    
+    /**
+     * Inserts note into db and gets id
+     */
     func send() {
         self.id = DatabaseWrapper.send(self)
     }
