@@ -12,6 +12,7 @@ struct UIHelper {
     
     static var mainColor = UIColor(red: 178/255.0, green: 117/255.0, blue: 187/255.0, alpha: 1)
     static var darkMainColor = UIColor(red: 167/255.0, green: 110/255.0, blue: 175/255.0, alpha: 1)
+    static var lightMainColor = UIColor(red: 201/255.0, green: 138/255.0, blue: 210/255.0, alpha: 1)
     static var fbColor = UIColor(red: 66/255.0, green: 103/255.0, blue: 178/255.0, alpha: 1)
     
     static func animateUpdateLayout(vc: UIViewController) {

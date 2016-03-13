@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate {
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
@@ -61,27 +61,53 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Builds cell content
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
-        
         let note = publicFeedNotes[indexPath.row]
         
-        cell.fromName.text = "Francis Yuen"
-        cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
-        
-        cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
-        
-        cell.toName.text = "Max Hudson"
-        cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
-        
-        cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
-        
-        cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
-        cell.noteCopy.text = note.message
-        
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        return cell
+        if note.type == "note" {
+            let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
+            
+            cell.fromName.text = "Francis Yuen"
+            cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
+            
+            cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
+            
+            cell.toName.text = "Max Hudson"
+            cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
+            
+            cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
+            
+            cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
+            cell.noteCopy.text = note.message
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
+            
+            cell.fromName.text = "Francis Yuen"
+            cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
+            
+            cell.dayType.text = "had a " + note.subType.rawValue + " day"
+            cell.dayType.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
+            
+            cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
+            
+            cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
+            
+            cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
+            cell.noteCopy.text = note.message
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            return cell
+        }
     }
+    
+    /**
+     * Toggle private/public
+     */
     
     @IBAction func privacyViewChanged(sender: AnyObject) {
         publicFeed = !publicFeed
@@ -99,13 +125,39 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
-        UIHelper.showSend(self)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController
+        
+        if newVC != nil {
+            newVC!.delegate = self
+            
+            self.presentViewController(newVC!, animated: true, completion: nil)
+        }
     }
     
     @IBAction func requestButtonPressed(sender: AnyObject) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController
+        
+        if newVC != nil {
+            newVC!.delegate = self
+            
+            self.presentViewController(newVC!, animated: true, completion: nil)
+        }
     }
     
     @IBAction func settingsButtonPressed(sender: AnyObject) {
+        UIHelper.showSettings(self)
     }
     
+    /**
+     * Reload feed
+     */
+    func noteCreated() {
+        publicFeedNotes = AppState.getNotes(true) //TODO - don't refresh whole feed?
+        
+        tableView.reloadData()
+    }
 }
