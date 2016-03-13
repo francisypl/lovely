@@ -159,8 +159,8 @@
 				6D259E331C915D4700B99F32 /* Model */,
 				6D259E291C912D2E00B99F32 /* View */,
 				150AF8C11C90EDC800A4B0ED /* Main.storyboard */,
-				150AF8C41C90EDC800A4B0ED /* Assets.xcassets */,
 				150AF8C61C90EDC800A4B0ED /* LaunchScreen.storyboard */,
+				150AF8C41C90EDC800A4B0ED /* Assets.xcassets */,
 				150AF8C91C90EDC800A4B0ED /* Info.plist */,
 				6D259E301C9146C400B99F32 /* Assets */,
 			);

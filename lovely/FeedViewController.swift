@@ -84,7 +84,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
             
-            cell.fromName.text = "Francis Yuen"
+            if note.sender.id == AppState.getCurrentUser().id {
+                if note.isPublic {
+                    cell.fromName.text = "Francis Yuen, I"
+                }
+                else {
+                    cell.fromName.text = "I"
+                }
+            }
+            else {
+                cell.fromName.text = "Francis Yuen"
+            }
+            
             cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
             
             cell.dayType.text = "had a " + note.subType.rawValue + " day"
@@ -104,9 +115,21 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /**
+     * Allows deleting of your notes
+     */
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        let note = publicFeedNotes[indexPath.row]
+        
+        if note.sender.id == AppState.getCurrentUser().id {
+            return true
+        }
+        
+        return false
+    }
+    
+    /**
      * Toggle private/public
      */
-    
     @IBAction func privacyViewChanged(sender: AnyObject) {
         publicFeed = !publicFeed
         
