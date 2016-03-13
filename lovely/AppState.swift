@@ -19,12 +19,14 @@ extension FBSDKAccessToken {
 }
 
 class AppState {
-    private var currentUser: User
+    private(set) var currentUser: User
     static var state: AppState?
-    private var publicFeed: [Note]
-    private var privateFeed: [Note]
+    private(set) var publicFeed: [Note]
+    private(set) var privateFeed: [Note]
     private var friendsList: [User]
     private var pageNumber: Int
+    private var lastPublicNoteId: Int
+    private var lastPrivateNoteId: Int
     
     /**
      * Gets the current AppState instance.
@@ -56,8 +58,13 @@ class AppState {
         // Load the stat with some dummy data
         self.currentUser = User(id: 1, fbId: "", name: "Name", email: "email")
         self.friendsList = []
+        
         self.publicFeed = []
         self.privateFeed = []
+        
+        self.lastPublicNoteId = 0
+        self.lastPrivateNoteId = 0
+        
         self.pageNumber = 0
         
         // Check if user is authenticated
@@ -90,8 +97,62 @@ class AppState {
         return FBSDKAccessToken.currentAccessToken() != nil && !FBSDKAccessToken.currentAccessToken().isExpired()
     }
     
-    func refreshNotes() {
+    /**
+     * Updates feed variables
+     */
+    func refreshNotes(isPublic: Bool) {
+        let notes = getNotes(isPublic)
+        
+        if isPublic {
+            self.publicFeed = notes
+            
+            if notes.last != nil {
+                self.lastPublicNoteId = notes.last!.id
+            }
+        }
+        else {
+            self.privateFeed = notes
+            
+            if notes.last != nil {
+                self.lastPrivateNoteId = notes.last!.id
+            }
+        }
+    }
     
+    /**
+     * Get batch of notes to append to feeds
+     */
+    func appendNotes(isPublic: Bool) {
+        /*let notes = getMoreNotes(isPublic)
+        
+        if isPublic {
+            self.publicFeed += notes
+            
+            if notes.last != nil {
+                self.lastPublicNoteId = notes.last!.id
+            }
+        }
+        else {
+            self.privateFeed += notes
+            
+            if notes.last != nil {
+                self.lastPrivateNoteId = notes.last!.id
+            }
+        }*/ //TODO - Max will implement this
+    }
+    
+    /**
+     * Allows public note deletion
+     */
+    func deletePublicNoteAtIndex(index: Int) {
+        self.publicFeed.removeAtIndex(index)
+    }
+    
+    /**
+     * Allows private note deletion
+     */
+    func deletePrivateNoteAtIndex(index: Int) {
+        self.privateFeed.removeAtIndex(index)
     }
     
     /**
@@ -100,16 +161,7 @@ class AppState {
     func getNotes(isPublic: Bool) -> [Note] {
         let notes = DatabaseWrapper.getNotes(isPublic)
         
-        //set [Note] to publicFeed/privateFeed
-        
         return notes
-    }    
-    func getCurrentUser() -> User {
-        return User(id: 1, fbId: "", name: "Name", email: "email") //TODO
-    }
-    
-    func suggestRecipientFromFriendList(name : String) -> [User] {
-        return [User(id: 1, fbId: "", name: "Name", email: "email")] // TODO
     }
     
     /**
@@ -134,10 +186,9 @@ class AppState {
      * Gets batch of notes for appending to bottom of list
      */
     private func getMoreNotes(isPublic: Bool) -> [Note] {
-        let lastNote = Note(message: "", recipient: getCurrentUser(), isPublic: true, type: "note", subType: NoteSubType.Love) //TODO - this is just a random note
+        let lastNoteId = isPublic ? self.lastPublicNoteId : self.lastPrivateNoteId
         
-        let notes = DatabaseWrapper.getNotes(lastNote, isPublic: isPublic)
-        //append [Note] to publicFeed/privateFeed
+        let notes = DatabaseWrapper.getNotes(lastNoteId, isPublic: isPublic)
         
         return notes
     }

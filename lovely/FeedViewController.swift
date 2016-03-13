@@ -18,10 +18,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var profileViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var profileName: UILabel!
     
-    var publicFeed = true
+    var isPublic = true
     var profileViewHeight: CGFloat = 200
     let feedFontSize: CGFloat = 13
-    var publicFeedNotes : [Note] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +54,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         requestButton.backgroundColor = UIHelper.darkMainColor
         
         if let state = AppState.getInstance() {
-            publicFeedNotes = state.getNotes(true) //TODO
+            state.refreshNotes(true)
+            state.refreshNotes(false)
         }
     }
     
@@ -63,14 +63,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Returns cell count
     */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return publicFeedNotes.count
+        if let state = AppState.getInstance() {
+            if isPublic {
+                return state.publicFeed.count
+            }
+            else {
+                return state.privateFeed.count
+            }
+        }
+        
+        return 0
     }
     
     /**
     * Builds cell content
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let note = publicFeedNotes[indexPath.row]
+        let state = AppState.getInstance()!
+        let note = isPublic ? state.publicFeed[indexPath.row] : state.privateFeed[indexPath.row]
         
         if note.type == "note" {
             let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
@@ -96,7 +106,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
             
             if let state = AppState.getInstance() {
-                if note.sender.id == state.getCurrentUser().id {
+                if note.sender.id == state.currentUser.id {
                     if note.isPublic {
                         cell.fromName.text = "Francis Yuen, I"
                     }
@@ -131,10 +141,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Allows deleting of your notes
      */
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        let note = publicFeedNotes[indexPath.row]
-        
         if let state = AppState.getInstance() {
-            if note.sender.id == state.getCurrentUser().id {
+            let note = isPublic ? state.publicFeed[indexPath.row] : state.privateFeed[indexPath.row]
+            
+            if note.sender.id == state.currentUser.id {
                 return true
             }
         }
@@ -150,22 +160,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /**
-     * Not
-     */
-    /*func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }*/
-    
-    /**
      * Handle delete element and event
      */
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {
         let deleteAction = UITableViewRowAction(style: .Default, title: "Delete", handler: { (action , indexPath) -> Void in
             
-            let note = self.publicFeedNotes[indexPath.row]
+            let state = AppState.getInstance()!
+            let note = self.isPublic ? state.publicFeed[indexPath.row] : state.privateFeed[indexPath.row]
+            
             note.delete()
             
-            self.publicFeedNotes.removeAtIndex(indexPath.row)
+            if self.isPublic {
+                state.deletePublicNoteAtIndex(indexPath.row)
+            }
+            else {
+                state.deletePrivateNoteAtIndex(indexPath.row)
+            }
+            
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
             
         })
@@ -181,7 +192,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func handleRefresh(refreshControl: UIRefreshControl) {
         if let state = AppState.getInstance() {
-            publicFeedNotes = state.getNotes(true)
+            state.refreshNotes(isPublic)
         }
         
         self.tableView.reloadData()
@@ -192,7 +203,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Toggle private/public
      */
     @IBAction func privacyViewChanged(sender: AnyObject) {
-        publicFeed = !publicFeed
+        isPublic = !isPublic
         
         if privacyToggle.selectedSegmentIndex == 1 {
             profileViewHeightConstraint.constant = profileViewHeight
@@ -202,6 +213,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             profileViewHeightConstraint.constant = 0
             profileView.hidden = true
         }
+        
+        tableView.reloadData()
         
         self.view.layoutIfNeeded()
     }
@@ -239,8 +252,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func noteCreated() {
         if let state = AppState.getInstance() {
-            publicFeedNotes = state.getNotes(true) //TODO - don't refresh whole feed?
+            state.refreshNotes(true)
+            state.refreshNotes(false)
         }
+        
         tableView.reloadData()
     }
 }

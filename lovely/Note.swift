@@ -30,7 +30,7 @@ class Note {
         self.type = type
         self.subType = subType
         
-        self.sender = AppState.getInstance()!.getCurrentUser()
+        self.sender = AppState.getInstance()!.currentUser
         self.date = NSDate()
     }
     

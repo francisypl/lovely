@@ -39,31 +39,35 @@ struct DatabaseWrapper {
      * Requests block of recent notes
      * @return array of notes
      */
-    static func getNotes(isPublic:Bool) -> [Note] {
+    static func getNotes(isPublic: Bool) -> [Note] {
         if let state = AppState.getInstance() {
             let postData = HttpHelper.post([
-                "user-id": String(state.getCurrentUser().id),
+                "user-id": String(state.currentUser.id),
                 "is-public": isPublic ? "1" : "0"
             ], url: "notes.php")
-            
+            if (!isPublic) {
+                print(postData)
+            }
             return getNotesArrayFromPostData(postData)
         }
+        
         return []
     }
     
     /**
      * Request block of notes from before last note
      */
-    static func getNotes(lastNote: Note, isPublic : Bool) -> [Note] {
+    static func getNotes(lastNoteId: Int, isPublic : Bool) -> [Note] {
         if let state = AppState.getInstance() {
             let postData = HttpHelper.post([
-                "user-id": String(state.getCurrentUser().id),
+                "user-id": String(state.currentUser.id),
                 "is-public": isPublic ? "1" : "0",
-                "last-note-id": String(lastNote.id)
+                "last-note-id": String(lastNoteId)
             ], url: "notes.php")
             
             return getNotesArrayFromPostData(postData)
         }
+        
         return []
     }
     
