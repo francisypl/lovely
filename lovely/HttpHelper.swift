@@ -9,7 +9,7 @@
 import Foundation
 
 struct HttpHelper {
-    static let host = "http://54.187.56.45/ios-api/"
+    static let host = "https://weflowapp.com/lovely-api/"
     static let privateToken = "mkeib909asdm23klsd*"
     
     /**
@@ -35,7 +35,6 @@ struct HttpHelper {
         
         return strData
     }
-    
     
     static func requestSynchronousData(request: NSURLRequest) -> NSData? {
         var data: NSData? = nil
