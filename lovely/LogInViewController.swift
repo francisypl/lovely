@@ -11,13 +11,13 @@ import UIKit
 class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     let fbPermissions : [String] = ["public_profile", "user_friends", "email"]
-        
+    let loginButton : FBSDKLoginButton! = FBSDKLoginButton()
+    let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIHelper.mainColor
-        
-        let loginButton = FBSDKLoginButton()
         
         loginButton.delegate = self
         loginButton.readPermissions = fbPermissions
@@ -54,11 +54,20 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
     
     private func displayLoading() {
         print("Loading...")
+        self.loginButton.removeFromSuperview()
+        
+        indicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
+        indicator.center = CGPointMake(self.view.center.x, self.view.frame.height - 100)
+        self.view.addSubview(indicator)
+        indicator.bringSubviewToFront(self.view)
+        indicator.startAnimating()
     }
     
     private func removeLoading() {
         print("Loading Removed...")
         // Transition to Feed View
+        indicator.stopAnimating()
+        indicator.removeFromSuperview()
         UIHelper.showFeed(self)
     }
     
