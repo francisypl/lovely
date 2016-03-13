@@ -77,6 +77,13 @@ class AppState {
     }
     
     /**
+     * Gets generic public user for requests
+     */
+    static func getPublicUser() -> User {
+        return User(id: 0, fbId: "", name: "Public", email: "")
+    }
+    
+    /**
      * Determine if the Facebook token is valid
      */
     static func isAuthenticated() -> Bool {

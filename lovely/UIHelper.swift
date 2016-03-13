@@ -27,7 +27,17 @@ struct UIHelper {
         let newVC = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         
         if newVC != nil {
-            vc.presentViewController(newVC!, animated: false, completion: nil)
+            vc.presentViewController(newVC!, animated: true, completion: nil)
+        }
+    }
+    
+    static func showLogIn(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
+        
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: true, completion: nil)
         }
     }
     
