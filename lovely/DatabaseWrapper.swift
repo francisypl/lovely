@@ -87,7 +87,9 @@ struct DatabaseWrapper {
             let isPublic = noteData["is_public"] as! String == "1"
             let type = noteData["type"] as! String
             let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
-            let date = NSDate() //TODO - convert date from db to ns date
+            
+            let date = NSDate(timeIntervalSince1970: Double(noteData["date"] as! String)!)
+            
             
             notes.append(Note(id: id, message: message, sender: sender, recipient: recipient, isPublic: isPublic, type: type, subType: subType, date: date))
         }

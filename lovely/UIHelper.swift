@@ -71,4 +71,39 @@ struct UIHelper {
             vc.presentViewController(newVC!, animated: true, completion: nil)
         }
     }
+    
+    static func ago(date:NSDate) -> String {
+        let calendar = NSCalendar.currentCalendar()
+        let now = NSDate()
+        let earliest = now.earlierDate(date)
+        let latest = (earliest == now) ? date : now
+        
+        let components:NSDateComponents = calendar.components([NSCalendarUnit.Minute , NSCalendarUnit.Hour , NSCalendarUnit.Day , NSCalendarUnit.WeekOfYear , NSCalendarUnit.Month , NSCalendarUnit.Year , NSCalendarUnit.Second], fromDate: earliest, toDate: latest, options: NSCalendarOptions())
+        
+        if (components.year >= 1){
+            return "\(components.year)y"
+        }
+        else if (components.month >= 1){
+           return "\(components.month)m"
+        }
+        else if (components.weekOfYear >= 1){
+            return "\(components.weekOfYear)w"
+        }
+        else if (components.day >= 1){
+            return "1d"
+        }
+        else if (components.hour >= 1){
+            return "\(components.hour)h"
+        }
+        else if (components.minute >= 1){
+            return "\(components.minute)m"
+        }
+        else if (components.second >= 3) {
+            return "\(components.second)s"
+        }
+        else {
+            return "Just now"
+        }
+        
+    }
 }

@@ -93,6 +93,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.toName.text = "Max Hudson"
             cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
             
+            cell.ageLabel.text = UIHelper.ago(note.date)
             cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
             
             cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
@@ -126,6 +127,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
             
+            cell.ageLabel.text = UIHelper.ago(note.date)
             cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
             
             cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
