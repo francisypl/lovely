@@ -26,6 +26,16 @@ struct DatabaseWrapper {
     }
     
     /**
+     * Deletes note from db
+     */
+    static func deleteNote(note: Note) {
+        HttpHelper.post([
+            "mode": "delete",
+            "note-id": String(note.id)
+        ], url: "note.php")
+    }
+    
+    /**
      * Requests block of recent notes
      * @return array of notes
      */

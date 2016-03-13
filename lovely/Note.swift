@@ -54,4 +54,11 @@ class Note {
     func send() {
         self.id = DatabaseWrapper.send(self)
     }
+    
+    /**
+     * Deletes note from db
+     */
+    func delete() {
+        DatabaseWrapper.deleteNote(self)
+    }
 }

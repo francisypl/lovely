@@ -32,6 +32,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset = UIEdgeInsetsZero
         
+        let refreshControl: UIRefreshControl = {
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+            
+            return refreshControl
+        }()
+        
+        tableView.addSubview(refreshControl)
+        
         toolBar.clipsToBounds = true
         toolBar.backgroundColor = UIHelper.mainColor
         
@@ -86,16 +95,18 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
             
-            if note.sender.id == AppState.getCurrentUser().id {
-                if note.isPublic {
-                    cell.fromName.text = "Francis Yuen, I"
+            if let state = AppState.getInstance() {
+                if note.sender.id == state.getCurrentUser().id {
+                    if note.isPublic {
+                        cell.fromName.text = "Francis Yuen, I"
+                    }
+                    else {
+                        cell.fromName.text = "I"
+                    }
                 }
                 else {
-                    cell.fromName.text = "I"
+                    cell.fromName.text = "Francis Yuen"
                 }
-            }
-            else {
-                cell.fromName.text = "Francis Yuen"
             }
             
             cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
@@ -122,8 +133,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         let note = publicFeedNotes[indexPath.row]
         
-        if note.sender.id == AppState.getCurrentUser().id {
-            return true
+        if let state = AppState.getInstance() {
+            if note.sender.id == state.getCurrentUser().id {
+                return true
+            }
         }
         
         return false
@@ -136,18 +149,43 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewCellEditingStyle.Delete
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    /**
+     * Not
+     */
+    /*func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-    }
+    }*/
     
+    /**
+     * Handle delete element and event
+     */
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {
         let deleteAction = UITableViewRowAction(style: .Default, title: "Delete", handler: { (action , indexPath) -> Void in
+            
+            let note = self.publicFeedNotes[indexPath.row]
+            note.delete()
+            
+            self.publicFeedNotes.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
             
         })
         
         deleteAction.backgroundColor = UIHelper.deleteColor
         
         return [deleteAction]
+    }
+    
+    
+    /**
+     * Repulls notes & refreshes data
+     */
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        if let state = AppState.getInstance() {
+            publicFeedNotes = state.getNotes(true)
+        }
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
     /**

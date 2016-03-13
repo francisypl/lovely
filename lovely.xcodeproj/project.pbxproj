@@ -22,7 +22,6 @@
 		6D259E371C91EF7800B99F32 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E361C91EF7800B99F32 /* HttpHelper.swift */; };
 		6D259E391C92090900B99F32 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E381C92090900B99F32 /* LogInViewController.swift */; };
 		6D259E411C922CFB00B99F32 /* fbLogInButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E401C922CFB00B99F32 /* fbLogInButton@3x.png */; };
-		6D259E471C922DFE00B99F32 /* lovely@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D259E461C922DFE00B99F32 /* lovely@2x.png */; };
 		6D259E491C922EBE00B99F32 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E481C922EBE00B99F32 /* SettingsViewController.swift */; };
 		6D259E4B1C922F3600B99F32 /* SendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E4A1C922F3600B99F32 /* SendViewController.swift */; };
 		6D259E4D1C922F4A00B99F32 /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */; };
@@ -42,6 +41,7 @@
 		6D9CE4F21C94982E0035ED65 /* RecipientCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F11C94982E0035ED65 /* RecipientCollectionViewCell.swift */; };
 		6D9CE4F41C94A0020035ED65 /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F31C94A0020035ED65 /* LeftAlignedFlowLayout.swift */; };
 		6D9CE4F61C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F51C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift */; };
+		6D9CE4FA1C95532E0035ED65 /* lovely@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F91C95532E0035ED65 /* lovely@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +84,6 @@
 		6D259E361C91EF7800B99F32 /* HttpHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		6D259E381C92090900B99F32 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		6D259E401C922CFB00B99F32 /* fbLogInButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fbLogInButton@3x.png"; sourceTree = "<group>"; };
-		6D259E461C922DFE00B99F32 /* lovely@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lovely@2x.png"; sourceTree = "<group>"; };
 		6D259E481C922EBE00B99F32 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6D259E4A1C922F3600B99F32 /* SendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendViewController.swift; sourceTree = "<group>"; };
 		6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +103,7 @@
 		6D9CE4F11C94982E0035ED65 /* RecipientCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D9CE4F31C94A0020035ED65 /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		6D9CE4F51C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedPublicRequestTableViewCell.swift; sourceTree = "<group>"; };
+		6D9CE4F91C95532E0035ED65 /* lovely@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lovely@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,7 +217,7 @@
 				6D259E5C1C927D1B00B99F32 /* fist-bump-option@3x.png */,
 				6D259E311C91475300B99F32 /* love@3x.png */,
 				6D259E601C927E4900B99F32 /* love-option@3x.png */,
-				6D259E461C922DFE00B99F32 /* lovely@2x.png */,
+				6D9CE4F91C95532E0035ED65 /* lovely@3x.png */,
 				6D259E401C922CFB00B99F32 /* fbLogInButton@3x.png */,
 			);
 			name = Assets;
@@ -376,7 +376,7 @@
 				6D259E5D1C927D1B00B99F32 /* fist-bump-option@3x.png in Resources */,
 				6D259E531C923FE600B99F32 /* fist-bump@3x.png in Resources */,
 				6D84F7B51C93C7DC00960B68 /* sad-option@3x.png in Resources */,
-				6D259E471C922DFE00B99F32 /* lovely@2x.png in Resources */,
+				6D9CE4FA1C95532E0035ED65 /* lovely@3x.png in Resources */,
 				150AF8C31C90EDC800A4B0ED /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

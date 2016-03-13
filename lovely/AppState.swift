@@ -103,12 +103,7 @@ class AppState {
         //set [Note] to publicFeed/privateFeed
         
         return notes
-    }
-    
-    static func getCurrentUser() -> User {
-        return User(id: 1, fbId: "", name: "Name", email: "email") //TODO
-    }
-    
+    }    
     func getCurrentUser() -> User {
         return User(id: 1, fbId: "", name: "Name", email: "email") //TODO
     }
@@ -139,7 +134,7 @@ class AppState {
      * Gets batch of notes for appending to bottom of list
      */
     private func getMoreNotes(isPublic: Bool) -> [Note] {
-        let lastNote = Note(message: "", recipient: AppState.getCurrentUser(), isPublic: true, type: "note", subType: NoteSubType.Love) //TODO - this is just a random note
+        let lastNote = Note(message: "", recipient: getCurrentUser(), isPublic: true, type: "note", subType: NoteSubType.Love) //TODO - this is just a random note
         
         let notes = DatabaseWrapper.getNotes(lastNote, isPublic: isPublic)
         //append [Note] to publicFeed/privateFeed
