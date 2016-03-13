@@ -45,7 +45,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         requestButton.backgroundColor = UIHelper.darkMainColor
         
-        publicFeedNotes = AppState.getNotes(true) //TODO
+        if let state = AppState.getInstance() {
+            publicFeedNotes = state.getNotes(true) //TODO
+        }
     }
     
     /**

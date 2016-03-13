@@ -31,9 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         var rootViewController : UIViewController?
         
-        let state = AppState.getInstance()
-        
-        if state.isAuthenticated() {
+        // If the facebook token is valid
+        if AppState.isAuthenticated() {
+            _ = AppState.getInstance() // spin up an app state if needed
             rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
         }
         else {
@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         FBSDKAppEvents.activateApp()
+        determineFirstView()
     }
 
     func applicationWillTerminate(application: UIApplication) {

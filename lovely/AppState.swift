@@ -8,30 +8,79 @@
 
 import Foundation
 
+extension FBSDKAccessToken {
+    func isExpired() -> Bool {
+        let token = FBSDKAccessToken.currentAccessToken()
+        if token == nil {
+            return true
+        }
+        return token.expirationDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending
+    }
+}
+
 class AppState {
-    private var loggedIn: Bool
     private var currentUser: User
     static var state: AppState?
-    private var publicFeed: [Note]?
-    private var privateFeed: [Note]?
+    private var publicFeed: [Note]
+    private var privateFeed: [Note]
     private var friendsList: [User]
     private var pageNumber: Int
     
-    static func getInstance() -> AppState {
+    /**
+     * Gets the current AppState instance.
+     * If we don't have one, make one.
+     * If the facebook token is not good, send app back to login screen.
+     */
+    static func getInstance() -> AppState? {
+        let token = FBSDKAccessToken.currentAccessToken()
+        // Send the user to login again if the token is expired
+        if token == nil || token.isExpired() {
+            print("Token is expired...")
+            // TODO: Take them to the login screen
+            return nil
+        }
+
         if state == nil {
+            print("Initializing App State...")
             state = AppState()
         }
         
         return state!
     }
     
+    /**
+     * Initialize a new App State.
+     * @precondition: Facebook token must be a valid token.
+     */
     private init() {
-        // Check if user is authenticated
+        // Load the stat with some dummy data
+        self.currentUser = User(id: 1, fbId: "", name: "Name", email: "email")
+        self.friendsList = []
+        self.publicFeed = []
+        self.privateFeed = []
+        self.pageNumber = 0
         
+        // Check if user is authenticated
+        let token = FBSDKAccessToken.currentAccessToken()
+        // Get User Info
+        let params = ["fields":"id,email,name"]
+        let request = FBSDKGraphRequest(graphPath: "/" + token.userID, parameters: params, HTTPMethod: "GET")
+        request.startWithCompletionHandler({ (connection, result, error) -> Void in
+            let res = result as! [String : String]
+            let id = DatabaseWrapper.getUser(res["id"]!).id
+            
+            // Set current User
+            self.currentUser = User(id: id, fbId: res["id"]!, name: res["name"]!, email: res["email"]!)
+        })
+        
+        // Load friends list
     }
     
-    func isAuthenticated() -> Bool {
-        return true
+    /**
+     * Determine if the Facebook token is valid
+     */
+    static func isAuthenticated() -> Bool {
+        return FBSDKAccessToken.currentAccessToken() != nil && !FBSDKAccessToken.currentAccessToken().isExpired()
     }
     
     func refreshNotes() {
@@ -50,11 +99,18 @@ class AppState {
     }
     
     func getCurrentUser() -> User {
-        return User(id: 1, fbId: 1, name: "Name", email: "email", image: UIImage()) //TODO
+        return User(id: 1, fbId: "", name: "Name", email: "email") //TODO
     }
     
     func suggestRecipientFromFriendList(name : String) -> [User] {
-        return [User(id: 1, fbId: 1, name: "Name", email: "email", image: UIImage())] // TODO
+        return [User(id: 1, fbId: "", name: "Name", email: "email")] // TODO
+    }
+    
+    /**
+     * Clears the state.
+     */
+    static func clearState() {
+        AppState.state = nil
     }
     
     /**

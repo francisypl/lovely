@@ -11,10 +11,9 @@ import UIKit
 class User {
     
     private(set) var id: Int
-    private(set) var fbId: Int
+    private(set) var fbId: String
     private(set) var name: String
     private(set) var email: String
-    private(set) var image: UIImage
     
     /**
     * For use by AppState.getUserById(id: Int)
@@ -23,19 +22,14 @@ class User {
         self.id = id
         
         self.email = ""
-        self.fbId = -1
+        self.fbId = ""
         self.name = ""
-        self.image = UIImage()
     }
     
-    /**
-     * Standard init
-     */
-    init(id: Int, fbId: Int, name: String, email: String, image: UIImage) {
+    init(id: Int, fbId: String, name: String, email: String) {
         self.id = id
         self.fbId = fbId
         self.name = name
         self.email = email
-        self.image = image
     }
 }
