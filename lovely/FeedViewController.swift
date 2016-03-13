@@ -130,6 +130,27 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /**
+     * Set deletable
+     */
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.Delete
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]?  {
+        let deleteAction = UITableViewRowAction(style: .Default, title: "Delete", handler: { (action , indexPath) -> Void in
+            
+        })
+        
+        deleteAction.backgroundColor = UIHelper.deleteColor
+        
+        return [deleteAction]
+    }
+    
+    /**
      * Toggle private/public
      */
     @IBAction func privacyViewChanged(sender: AnyObject) {

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        determineFirstView()
+        //determineFirstView()
         
         return true
     }
@@ -39,10 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         else {
             rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
         }
-        
+        print("TEst")
         let navigationController = UINavigationController(rootViewController: rootViewController!)
         navigationController.navigationBarHidden = true // or not, your choice.
-        
+
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window!.rootViewController = navigationController
         self.window!.makeKeyAndVisible()

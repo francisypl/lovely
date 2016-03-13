@@ -13,6 +13,7 @@ struct UIHelper {
     static var mainColor = UIColor(red: 178/255.0, green: 117/255.0, blue: 187/255.0, alpha: 1)
     static var darkMainColor = UIColor(red: 167/255.0, green: 110/255.0, blue: 175/255.0, alpha: 1)
     static var lightMainColor = UIColor(red: 201/255.0, green: 138/255.0, blue: 210/255.0, alpha: 1)
+    static var deleteColor = UIColor(red: 223/255.0, green: 96/255.0, blue: 96/255.0, alpha: 1)
     static var fbColor = UIColor(red: 66/255.0, green: 103/255.0, blue: 178/255.0, alpha: 1)
     
     static func animateUpdateLayout(vc: UIViewController) {
@@ -37,7 +38,7 @@ struct UIHelper {
         let newVC = storyBoard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
         
         if newVC != nil {
-            vc.presentViewController(newVC!, animated: true, completion: nil)
+            vc.presentViewController(newVC!, animated: false, completion: nil)
         }
     }
     
@@ -67,7 +68,7 @@ struct UIHelper {
         let newVC = storyBoard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController
         
         if newVC != nil {
-            vc.presentViewController(newVC!, animated: false, completion: nil)
+            vc.presentViewController(newVC!, animated: true, completion: nil)
         }
     }
 }

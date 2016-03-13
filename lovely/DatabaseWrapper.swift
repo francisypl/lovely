@@ -34,7 +34,7 @@ struct DatabaseWrapper {
             let postData = HttpHelper.post([
                 "user-id": String(state.getCurrentUser().id),
                 "is-public": isPublic ? "1" : "0"
-                ], url: "notes.php")
+            ], url: "notes.php")
             
             return getNotesArrayFromPostData(postData)
         }
@@ -50,7 +50,7 @@ struct DatabaseWrapper {
                 "user-id": String(state.getCurrentUser().id),
                 "is-public": isPublic ? "1" : "0",
                 "last-note-id": String(lastNote.id)
-                ], url: "notes.php")
+            ], url: "notes.php")
             
             return getNotesArrayFromPostData(postData)
         }
@@ -88,11 +88,24 @@ struct DatabaseWrapper {
         let postData = HttpHelper.post([
             "mode": "select",
             "user-id": String(id)
-            ], url: "user.php")
+        ], url: "user.php")
         
         let userData = HttpHelper.jsonToDictionary(postData)!
         
         return User(id: Int(userData["id"] as! String)!)
+    }
+    
+    /**
+     * Sends post request to the server to insert user
+     * @return user id
+     */
+    static func createUser(user: User) -> Int {
+        return Int(HttpHelper.post([
+            "mode": "insert",
+            "email": user.email,
+            "fb-id": user.fbId,
+            "name": user.name
+        ], url: "user.php"))!
     }
     
     static func getUser(fbId: String) -> User {

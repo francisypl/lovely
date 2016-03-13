@@ -21,7 +21,10 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
         
         loginButton.delegate = self
         loginButton.readPermissions = fbPermissions
+        loginButton.frame.size.width = 240
+        loginButton.frame.size.height = 40
         loginButton.center = CGPointMake(self.view.center.x, self.view.frame.height - 100)
+        loginButton.titleLabel!.font = UIFont.systemFontOfSize(16, weight: UIFontWeightRegular)
         
         self.view.addSubview(loginButton)
     }
