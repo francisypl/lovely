@@ -30,25 +30,31 @@ struct DatabaseWrapper {
      * @return array of notes
      */
     static func getNotes(isPublic:Bool) -> [Note] {
-        let postData = HttpHelper.post([
-            "user-id": String(AppState.getCurrentUser().id),
-            "is-public": isPublic ? "1" : "0"
-            ], url: "notes.php")
-        
-        return getNotesArrayFromPostData(postData)
+        if let state = AppState.getInstance() {
+            let postData = HttpHelper.post([
+                "user-id": String(state.getCurrentUser().id),
+                "is-public": isPublic ? "1" : "0"
+                ], url: "notes.php")
+            
+            return getNotesArrayFromPostData(postData)
+        }
+        return []
     }
     
     /**
      * Request block of notes from before last note
      */
     static func getNotes(lastNote: Note, isPublic : Bool) -> [Note] {
-        let postData = HttpHelper.post([
-            "user-id": String(AppState.getCurrentUser().id),
-            "is-public": isPublic ? "1" : "0",
-            "last-note-id": String(lastNote.id)
-            ], url: "notes.php")
-        
-        return getNotesArrayFromPostData(postData)
+        if let state = AppState.getInstance() {
+            let postData = HttpHelper.post([
+                "user-id": String(state.getCurrentUser().id),
+                "is-public": isPublic ? "1" : "0",
+                "last-note-id": String(lastNote.id)
+                ], url: "notes.php")
+            
+            return getNotesArrayFromPostData(postData)
+        }
+        return []
     }
     
     /**
@@ -87,5 +93,9 @@ struct DatabaseWrapper {
         let userData = HttpHelper.jsonToDictionary(postData)!
         
         return User(id: Int(userData["id"] as! String)!)
+    }
+    
+    static func getUser(fbId: String) -> User {
+        return User(id: 1)
     }
 }

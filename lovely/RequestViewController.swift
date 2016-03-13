@@ -80,10 +80,10 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         recipientListHeightConstraint.constant = 0
         
         ////////fake
-        friends.append(User(id: 1, fbId: 1, name: "Max Hudson", email: "", image: UIImage()))
-        friends.append(User(id: 2, fbId: 1, name: "Francis Yuen", email: "", image: UIImage()))
-        friends.append(User(id: 3, fbId: 1, name: "Kiana Nafisi", email: "", image: UIImage()))
-        friends.append(User(id: 4, fbId: 1, name: "Eric Woods", email: "", image: UIImage()))
+        friends.append(User(id: 1, fbId: "", name: "Max Hudson", email: ""))
+        friends.append(User(id: 2, fbId: "", name: "Francis Yuen", email: ""))
+        friends.append(User(id: 3, fbId: "", name: "Kiana Nafisi", email: ""))
+        friends.append(User(id: 4, fbId: "", name: "Eric Woods", email: ""))
         
         //friends = getFriends()
         

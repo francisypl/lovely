@@ -45,7 +45,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         requestButton.backgroundColor = UIHelper.darkMainColor
         
-        publicFeedNotes = AppState.getNotes(true) //TODO
+        if let state = AppState.getInstance() {
+            publicFeedNotes = state.getNotes(true) //TODO
+        }
     }
     
     /**
@@ -177,8 +179,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Reload feed
      */
     func noteCreated() {
-        publicFeedNotes = AppState.getNotes(true) //TODO - don't refresh whole feed?
-        
+        if let state = AppState.getInstance() {
+            publicFeedNotes = state.getNotes(true) //TODO - don't refresh whole feed?
+        }
         tableView.reloadData()
     }
 }

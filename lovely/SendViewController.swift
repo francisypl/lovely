@@ -67,10 +67,10 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         bottomView.hidden = true
         
         ////////fake
-        friends.append(User(id: 1, fbId: 1, name: "Max Hudson", email: "", image: UIImage()))
-        friends.append(User(id: 2, fbId: 1, name: "Francis Yuen", email: "", image: UIImage()))
-        friends.append(User(id: 3, fbId: 1, name: "Kiana Nafisi", email: "", image: UIImage()))
-        friends.append(User(id: 4, fbId: 1, name: "Eric Woods", email: "", image: UIImage()))
+        friends.append(User(id: 1, fbId: "", name: "Max Hudson", email: ""))
+        friends.append(User(id: 2, fbId: "", name: "Francis Yuen", email: ""))
+        friends.append(User(id: 3, fbId: "", name: "Kiana Nafisi", email: ""))
+        friends.append(User(id: 4, fbId: "", name: "Eric Woods", email: ""))
         
         //friends = getFriends()
         
@@ -263,7 +263,7 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
-        let recipient = User(id: -1, fbId: -1, name: "user", email: "", image: UIImage())
+        let recipient = User(id: -1, fbId: "", name: "user", email: "")
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "note", subType: subType)
