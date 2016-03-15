@@ -134,8 +134,6 @@ class AppState {
             let diary = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Diary", email: "", image: UIImage()) //need diary icon
             
             self.friendsList = [diary] + DatabaseWrapper.getFriendIds(friends)
-            
-            print(self.friendsList.count)
         })
     }
     
@@ -191,7 +189,7 @@ class AppState {
         
         if !outOfNotes {
             let lastNoteId = isPublic ? self.lastPublicNoteId : self.lastPrivateNoteId
-            print(lastNoteId)
+            
             DatabaseWrapper.getNotes(lastNoteId, isPublic: isPublic) { (notes) -> () in
                 if isPublic {
                     self.publicFeed += notes

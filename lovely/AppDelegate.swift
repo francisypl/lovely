@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var activated = false
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         application.statusBarStyle = UIStatusBarStyle.LightContent
@@ -26,25 +27,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     * on whether user is logged in or not
     */
     func determineFirstView() {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        var rootViewController : UIViewController?
-        
-        // If the facebook token is valid
-        if AppState.isAuthenticated() {
-            _ = AppState.getInstance() // spin up an app state if needed
-            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
-        }
-        else {
-            rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
-        }
-        
-        let navigationController = UINavigationController(rootViewController: rootViewController!)
-        navigationController.navigationBarHidden = true // or not, your choice.
+        if !activated {
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            var rootViewController : UIViewController?
+            
+            // If the facebook token is valid
+            if AppState.isAuthenticated() {
+                _ = AppState.getInstance() // spin up an app state if needed
+                rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+            }
+            else {
+                rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
+            }
+            
+            let navigationController = UINavigationController(rootViewController: rootViewController!)
+            navigationController.navigationBarHidden = true // or not, your choice.
 
-        self.window = UIWindow()
-        self.window!.rootViewController = navigationController
-        self.window!.makeKeyAndVisible()
-        self.window!.frame = UIScreen.mainScreen().bounds
+            self.window = UIWindow()
+            self.window!.rootViewController = navigationController
+            self.window!.makeKeyAndVisible()
+            self.window!.frame = UIScreen.mainScreen().bounds
+            
+            activated = true
+        }
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {

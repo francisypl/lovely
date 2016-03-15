@@ -310,24 +310,22 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Toggle private/public
      */
     @IBAction func privacyViewChanged(sender: AnyObject) {
-        /*tableView.setContentOffset(tableView.contentOffset, animated: false)
-        
         if isPublic {
             publicTableOffset = tableView.contentOffset.y
         }
         else {
             privateTableOffset = tableView.contentOffset.y
-        }*/
+        }
         
         isPublic = !isPublic
         tableView.reloadData()
         
-        /*if isPublic {
+        if isPublic {
             tableView.scrollRectToVisible(CGRect(x: tableView.contentOffset.x, y: publicTableOffset, width: tableView.frame.width, height: tableView.frame.height), animated: false)
         }
         else {
             tableView.scrollRectToVisible(CGRect(x: tableView.contentOffset.x, y: privateTableOffset, width: tableView.frame.width, height: tableView.frame.height), animated: false)
-        }*/
+        }
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
