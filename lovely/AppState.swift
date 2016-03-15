@@ -131,9 +131,9 @@ class AppState {
                 friends.append(friend)
             }
             
-            let diary = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Diary", email: "", image: UIImage()) //need diary icon
+            let journal = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Journal", email: "", image: UIImage()) //need diary icon
             
-            self.friendsList = [diary] + DatabaseWrapper.getFriendIds(friends)
+            self.friendsList = [journal] + DatabaseWrapper.getFriendIds(friends)
         })
     }
     
