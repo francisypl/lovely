@@ -8,9 +8,20 @@
 
 import UIKit
 
+protocol ProfileViewDelegate {
+    func showSend()
+}
+
 class ProfileTableViewCell: UITableViewCell {
+    
+    var delegate: ProfileViewDelegate?
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var journalButton: UIButton!
+    
+    @IBAction func journalButtonPressed(sender: AnyObject) {
+        self.delegate?.showSend()
+    }
     
 }

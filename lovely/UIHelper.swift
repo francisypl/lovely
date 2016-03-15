@@ -25,60 +25,48 @@ struct UIHelper {
     static func showFeed(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: true, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController {
+            vc.presentViewController(newVC, animated: true, completion: nil)
         }
     }
     
     static func showLogIn(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: false, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController {
+            vc.presentViewController(newVC, animated: false, completion: nil)
         }
     }
     
     static func showSend(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: true, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController {
+            vc.presentViewController(newVC, animated: true, completion: nil)
         }
     }
     
     static func showRequest(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: true, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController {
+            vc.presentViewController(newVC, animated: true, completion: nil)
         }
     }
     
     static func showSettings(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: true, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController {
+            vc.presentViewController(newVC, animated: true, completion: nil)
         }
     }
     
     static func showNotificationRequest(vc: UIViewController) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("NotificationRequestViewController") as? NotificationRequestViewController
-        
-        if newVC != nil {
-            vc.presentViewController(newVC!, animated: false, completion: nil)
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("NotificationRequestViewController") as? NotificationRequestViewController {
+            vc.presentViewController(newVC, animated: false, completion: nil)
         }
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate, ProfileViewDelegate {
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
@@ -105,6 +105,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             cell.nameLabel.text = state.currentUser.name
             
+            cell.journalButton.layer.shadowColor = UIColor.blackColor().CGColor
+            cell.journalButton.layer.shadowOffset = CGSizeMake(0, 0)
+            cell.journalButton.layer.shadowRadius = 5
+            cell.journalButton.layer.shadowOpacity = 0.2
+            
+            cell.delegate = self
+            
             cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             
@@ -121,22 +128,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         else {
             let note = isPublic ? state.publicFeed[indexPath.row] : state.privateFeed[indexPath.row - 2]
+            let IAmSender = note.sender.id == state.currentUser.id
+            let journalIsRecipient = note.recipient.id == state.currentUser.id
             
             if note.type == "note" {
                 let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
                 
-                if note.sender.id == state.currentUser.id {
+                if IAmSender {
                     cell.fromName.text = "You"
                 }
                 else {
-                    cell.fromName.text = "Francis Yuen"
+                    cell.fromName.text = note.sender.name
                 }
                 
                 cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
                 
                 cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
                 
-                cell.toName.text = "Max Hudson"
+                cell.toName.text = journalIsRecipient ? "Journal" : note.recipient.name
                 cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
                 
                 cell.ageLabel.text = UIHelper.ago(note.date)
@@ -152,18 +161,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             else {
                 let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
                 
-                if let state = AppState.getInstance() {
-                    if note.sender.id == state.currentUser.id {
-                        if note.isPublic {
-                            cell.fromName.text = "Francis Yuen, I"
-                        }
-                        else {
-                            cell.fromName.text = "I"
-                        }
+                if IAmSender {
+                    if !note.isPublic {
+                        let recipientName = journalIsRecipient ? "Journal" : note.recipient.name
+                        cell.fromName.text = recipientName + ", I"
                     }
                     else {
-                        cell.fromName.text = "Francis Yuen"
+                        cell.fromName.text = "I"
                     }
+                }
+                else {
+                    cell.fromName.text = note.sender.name
                 }
                 
                 cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
@@ -329,6 +337,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
+        showSend()
+    }
+    
+    @IBAction func settingsButtonPressed(sender: AnyObject) {
+        UIHelper.showSettings(self)
+    }
+    
+    func showSend() {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
         let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController
@@ -338,10 +354,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.presentViewController(newVC!, animated: true, completion: nil)
         }
-    }
-    
-    @IBAction func settingsButtonPressed(sender: AnyObject) {
-        UIHelper.showSettings(self)
     }
     
     /**

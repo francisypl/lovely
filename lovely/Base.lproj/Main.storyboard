@@ -197,6 +197,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="192.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r9U-QV-oZW">
+                                                    <rect key="frame" x="530" y="20" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="464-I1-oaW"/>
+                                                        <constraint firstAttribute="width" constant="50" id="lta-EY-ZUT"/>
+                                                    </constraints>
+                                                    <state key="normal" image="journal.png"/>
+                                                    <connections>
+                                                        <action selector="journalButtonPressed:" destination="7RM-ER-QqW" eventType="touchUpInside" id="gYo-iw-532"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="STe-wg-ghO">
                                                     <rect key="frame" x="239" y="140" width="122" height="32.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="25"/>
@@ -216,10 +227,13 @@
                                                 <constraint firstItem="STe-wg-ghO" firstAttribute="top" secondItem="8Ao-Mr-dmc" secondAttribute="bottom" constant="20" id="5Zh-4e-pXK"/>
                                                 <constraint firstItem="8Ao-Mr-dmc" firstAttribute="centerX" secondItem="jmi-eC-q6u" secondAttribute="centerX" id="NJF-D9-yHy"/>
                                                 <constraint firstAttribute="bottom" secondItem="STe-wg-ghO" secondAttribute="bottom" constant="20" id="UIp-dd-dko"/>
+                                                <constraint firstAttribute="trailing" secondItem="r9U-QV-oZW" secondAttribute="trailing" constant="20" id="YTb-jP-K3g"/>
                                                 <constraint firstItem="STe-wg-ghO" firstAttribute="centerX" secondItem="jmi-eC-q6u" secondAttribute="centerX" id="YtB-Zl-7XI"/>
+                                                <constraint firstItem="r9U-QV-oZW" firstAttribute="top" secondItem="jmi-eC-q6u" secondAttribute="top" constant="20" id="tQR-3C-ffi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="journalButton" destination="r9U-QV-oZW" id="H6x-2C-krD"/>
                                             <outlet property="nameLabel" destination="STe-wg-ghO" id="Vv5-uQ-Ohg"/>
                                             <outlet property="profilePicture" destination="8Ao-Mr-dmc" id="RaQ-dt-6r6"/>
                                         </connections>
@@ -1226,6 +1240,7 @@
     <resources>
         <image name="fist-bump-option.png" width="30" height="30"/>
         <image name="good-option.png" width="30" height="30"/>
+        <image name="journal.png" width="50" height="50"/>
         <image name="long-option.png" width="30" height="30"/>
         <image name="love-option.png" width="30" height="30"/>
         <image name="lovely.png" width="200" height="200"/>

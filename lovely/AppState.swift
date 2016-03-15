@@ -72,12 +72,12 @@ class AppState {
         // Get User Info
         let params = ["fields":"id, email, name, picture.width(200).height(200)"]
         
-        let request = FBSDKGraphRequest(graphPath: "/me", parameters: params, HTTPMethod: "GET")
+        let request = FBSDKGraphRequest(graphPath: "/v2.5/me", parameters: params, HTTPMethod: "GET")
         
         request.startWithCompletionHandler({ (connection, result, error) -> Void in
             let res = result as! [String : AnyObject]
             var id = DatabaseWrapper.getUserIdForFbId(res["id"] as! String)
-            
+            print(res["id"] as! String)
             //Verify user exists, create if they don't
             if id == -1 {
                 id = DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()))
@@ -108,7 +108,7 @@ class AppState {
         //sort alphabetically?
         //not paginated ideally
         let params = ["fields":"id, email, name, picture.width(50).height(50)"]
-        let friendsRequest = FBSDKGraphRequest(graphPath: "/me/taggable_friends", parameters: params, HTTPMethod: "GET")
+        let friendsRequest = FBSDKGraphRequest(graphPath: "/v2.5/me/taggable_friends", parameters: params, HTTPMethod: "GET")
         
         //Get friends list
         friendsRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
@@ -131,14 +131,19 @@ class AppState {
                 friends.append(friend)
             }
             
-            let journal = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Journal", email: "", image: UIImage()) //need diary icon
-            
             //This isn't working because facebook is giving me an Int id for myself, but then ids like this for friends:
             //'AaKIcOnx-LX366J0z_yCYEdkVaKr1frKHjFaK9qk1BbI8VtuFBxjE5oHA9tvGNQrrReKAL-9VexVqYYbn7gseuDQQNZhjauYJydiYrK3K6cDKw'
             DatabaseWrapper.getFriendIds(friends) { (friends: [User]) -> () in
-                self.friendsList = [journal] + friends
+                self.friendsList = [self.getJournal()] + friends
             }
         })
+    }
+    
+    /**
+     * Gets generic journal user
+     */
+    func getJournal() -> User{
+        return User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Journal", email: "", image: UIImage(named: "journal-icon")!)
     }
     
     /**

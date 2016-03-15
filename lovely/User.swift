@@ -12,7 +12,7 @@ class User {
     
     private(set) var id: Int = 0
     private(set) var fbId: String = ""
-    private(set) var name: String = ""
+    private(set) var name: String = "Name"
     private(set) var email: String = ""
     private(set) var image: UIImage = UIImage()
     
