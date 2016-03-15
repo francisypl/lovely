@@ -79,15 +79,9 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         recipientList.hidden = true
         recipientListHeightConstraint.constant = 0
         
-        ////////fake
-        friends.append(User(id: 1, fbId: "", name: "Max Hudson", email: ""))
-        friends.append(User(id: 2, fbId: "", name: "Francis Yuen", email: ""))
-        friends.append(User(id: 3, fbId: "", name: "Kiana Nafisi", email: ""))
-        friends.append(User(id: 4, fbId: "", name: "Eric Woods", email: ""))
-        
-        //friends = getFriends()
-        
-        userList = friends
+        if let state = AppState.getInstance() {
+            userList = state.friendsList
+        }
         
         validateNote()
     }
@@ -217,6 +211,9 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.nameLabel.text = user.name
         cell.nameLabel.font = UIFont.systemFontOfSize(16, weight: UIFontWeightRegular);
         
+        cell.profilePicture.image = user.image
+        cell.profilePicture.circle()
+        
         return cell
     }
     
@@ -269,6 +266,11 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     /**
+     * Limits text length
+     */
+    
+    
+    /**
      * User typed in recipient box
      */
     @IBAction func searchUsers(sender: AnyObject) {
@@ -308,12 +310,14 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
     func resetUserList(search: String) {
         userList.removeAll()
         
-        for friend in friends {
-            let name = friend.name.lowercaseString
-            
-            //checks for string match and non-intersection with recipient list
-            if (name.rangeOfString(search) != nil || search == "") && recipients.indexOf({$0.id == friend.id}) == nil {
-                userList.append(friend)
+        if let state = AppState.getInstance() {
+            for friend in state.friendsList {
+                let name = friend.name.lowercaseString
+                
+                //checks for string match and non-intersection with recipient list
+                if (name.rangeOfString(search) != nil || search == "") && recipients.indexOf({$0.id == friend.id}) == nil {
+                    userList.append(friend)
+                }
             }
         }
     }

@@ -72,6 +72,16 @@ struct UIHelper {
         }
     }
     
+    static func showNotificationRequest(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let newVC = storyBoard.instantiateViewControllerWithIdentifier("NotificationRequestViewController") as? NotificationRequestViewController
+        
+        if newVC != nil {
+            vc.presentViewController(newVC!, animated: false, completion: nil)
+        }
+    }
+    
     static func ago(date:NSDate) -> String {
         let calendar = NSCalendar.currentCalendar()
         let now = NSDate()
@@ -106,4 +116,13 @@ struct UIHelper {
         }
         
     }
+}
+
+extension UIImageView{
+    
+    func circle() {
+        self.layer.cornerRadius = self.frame.width / 2;
+        self.layer.masksToBounds = true
+    }
+    
 }

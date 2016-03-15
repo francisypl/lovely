@@ -42,10 +42,11 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
             request.startWithCompletionHandler({ (connection, result, error) -> Void in
                 let res = result as! [String : String]
                 
-                if DatabaseWrapper.getUser(res["id"]!).id == -1 {
-                    // TODO: Create a user
+                if DatabaseWrapper.getUserIdForFbId(res["id"]!) == -1 {
+                    DatabaseWrapper.createUser(User(fbId: res["id"]!, name: res["name"]!, email: res["email"]!, image: UIImage()))
                 }
-                _ = AppState.getInstance() // Initialized App State
+                
+                _ = AppState.getInstance()
                 
                 self.removeLoading()
             })

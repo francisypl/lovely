@@ -20,6 +20,7 @@ struct DatabaseWrapper {
             "sub-type": note.subType.rawValue,
             "type": note.type,
             "sender-id": String(note.sender.id),
+            "sender-name": note.sender.name,
             "recipient-id": String(note.recipient.id),
             "is-public": note.isPublic ? "1" : "0"
         ], url: "send-note.php"))!
@@ -45,9 +46,7 @@ struct DatabaseWrapper {
                 "user-id": String(state.currentUser.id),
                 "is-public": isPublic ? "1" : "0"
             ], url: "notes.php")
-            if (!isPublic) {
-                print(postData)
-            }
+            
             return getNotesArrayFromPostData(postData)
         }
         
@@ -98,6 +97,20 @@ struct DatabaseWrapper {
     }
     
     /**
+     * Get user from db by fbId
+     */
+    static func getUserIdForFbId(fbId: String) -> Int {
+        let postData = HttpHelper.post([
+            "mode": "select",
+            "fb-id": fbId,
+            ], url: "user.php")
+        
+        let userData = HttpHelper.jsonToDictionary(postData)!
+        
+        return Int(userData["id"] as! String)!
+    }
+    
+    /**
     * Get user from db by id
     */
     static func getUser(id: Int) -> User {
@@ -124,7 +137,23 @@ struct DatabaseWrapper {
         ], url: "user.php"))!
     }
     
-    static func getUser(fbId: String) -> User {
-        return User(id: 1)
+    /**
+     * Sends post request to the server to insert device token
+     */
+    static func createDevice(token: String) {
+        if let state = AppState.getInstance() {
+            HttpHelper.post([
+                "mode": "insert",
+                "token": token,
+                "user-id": String(state.currentUser.id)
+            ], url: "device.php")
+        }
+    }
+    
+    /**
+     * Joins fb friends with users in db
+     */
+    static func getFriendIds(friends: [User]) -> [User] {
+        return friends
     }
 }

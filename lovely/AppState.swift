@@ -23,8 +23,7 @@ class AppState {
     static var state: AppState?
     private(set) var publicFeed: [Note]
     private(set) var privateFeed: [Note]
-    private var friendsList: [User]
-    private var pageNumber: Int
+    private(set) var friendsList: [User]
     private var lastPublicNoteId: Int
     private var lastPrivateNoteId: Int
     
@@ -56,7 +55,7 @@ class AppState {
      */
     private init() {
         // Load the stat with some dummy data
-        self.currentUser = User(id: 1, fbId: "", name: "Name", email: "email")
+        self.currentUser = User(id: 0, fbId: "", name: "Name", email: "email", image: UIImage())
         self.friendsList = []
         
         self.publicFeed = []
@@ -65,29 +64,79 @@ class AppState {
         self.lastPublicNoteId = 0
         self.lastPrivateNoteId = 0
         
-        self.pageNumber = 0
-        
         // Check if user is authenticated
-        let token = FBSDKAccessToken.currentAccessToken()
+        //let token = FBSDKAccessToken.currentAccessToken()
         // Get User Info
-        let params = ["fields":"id,email,name"]
-        let request = FBSDKGraphRequest(graphPath: "/" + token.userID, parameters: params, HTTPMethod: "GET")
+        let params = ["fields":"id, email, name, picture.width(200).height(200)"]
+        
+        let request = FBSDKGraphRequest(graphPath: "/me", parameters: params, HTTPMethod: "GET")
+        
         request.startWithCompletionHandler({ (connection, result, error) -> Void in
-            let res = result as! [String : String]
-            let id = DatabaseWrapper.getUser(res["id"]!).id
+            let res = result as! [String : AnyObject]
+            var id = DatabaseWrapper.getUserIdForFbId(res["id"] as! String)
+            
+            //Verify user exists, create if they don't
+            if id == -1 {
+                id = DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()))
+            }
+            
+            //Profile picture
+            let pictureData = (res["picture"] as! NSDictionary)["data"] as! NSDictionary
+            let profilePictureUrl = NSURL(string: pictureData["url"] as! String)
+            let profilePictureUrlData = NSData(contentsOfURL: profilePictureUrl!)
+            let profilePicture = UIImage(data: profilePictureUrlData!)
             
             // Set current User
-            self.currentUser = User(id: id, fbId: res["id"]!, name: res["name"]!, email: res["email"]!)
+            self.currentUser = User(id: id, fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: profilePicture!)
+            
+            self.getFriendsList()
         })
+    }
+    
+    /**
+     *
+     */
+    func getFriendsList() {
+        //taggable_friends -> all friends ... /friends -> friends with the app
+        //sort alphabetically?
+        //not paginated ideally
+        let params = ["fields":"id, email, name, picture.width(50).height(50)"]
+        let friendsRequest = FBSDKGraphRequest(graphPath: "/me/taggable_friends", parameters: params, HTTPMethod: "GET")
         
-        // Load friends list
+        //Get friends list
+        friendsRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            let res = result as! NSDictionary
+            let friendsData = res["data"] as! [NSDictionary]
+            
+            var friends: [User] = []
+            
+            //Build [User] array
+            for friendData in friendsData {
+                
+                //Profile picture
+                let pictureData = (friendData["picture"] as! NSDictionary)["data"] as! NSDictionary
+                let profilePictureUrl = NSURL(string: pictureData["url"] as! String)
+                let profilePictureUrlData = NSData(contentsOfURL: profilePictureUrl!)
+                let profilePicture = UIImage(data: profilePictureUrlData!)
+                
+                let friend = User(id: 0, fbId: friendData["id"] as! String, name: friendData["name"] as! String, email: friendData["id"] as! String, image: profilePicture!)
+                
+                friends.append(friend)
+            }
+            
+            let diary = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Diary", email: "", image: UIImage()) //need diary icon
+            
+            self.friendsList = [diary] + DatabaseWrapper.getFriendIds(friends)
+            
+            print(self.friendsList.count)
+        })
     }
     
     /**
      * Gets generic public user for requests
      */
     static func getPublicUser() -> User {
-        return User(id: 0, fbId: "", name: "Public", email: "")
+        return User(id: 0, fbId: "", name: "Public", email: "", image: UIImage())
     }
     
     /**
@@ -123,7 +172,7 @@ class AppState {
      * Get batch of notes to append to feeds
      */
     func appendNotes(isPublic: Bool) {
-        /*let notes = getMoreNotes(isPublic)
+        let notes = getMoreNotes(isPublic)
         
         if isPublic {
             self.publicFeed += notes
@@ -138,7 +187,7 @@ class AppState {
             if notes.last != nil {
                 self.lastPrivateNoteId = notes.last!.id
             }
-        }*/ //TODO - Max will implement this
+        }
     }
     
     /**

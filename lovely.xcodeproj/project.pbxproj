@@ -38,10 +38,13 @@
 		6D84F7B31C93C7DC00960B68 /* good-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D84F7B01C93C7DC00960B68 /* good-option@3x.png */; };
 		6D84F7B41C93C7DC00960B68 /* long-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D84F7B11C93C7DC00960B68 /* long-option@3x.png */; };
 		6D84F7B51C93C7DC00960B68 /* sad-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D84F7B21C93C7DC00960B68 /* sad-option@3x.png */; };
+		6D869F0B1C97801E00562FC8 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D869F0A1C97801E00562FC8 /* ProfileTableViewCell.swift */; };
+		6D869F0F1C97903B00562FC8 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D869F0E1C97903B00562FC8 /* settings@2x.png */; };
 		6D9CE4F21C94982E0035ED65 /* RecipientCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F11C94982E0035ED65 /* RecipientCollectionViewCell.swift */; };
 		6D9CE4F41C94A0020035ED65 /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F31C94A0020035ED65 /* LeftAlignedFlowLayout.swift */; };
 		6D9CE4F61C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F51C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift */; };
 		6D9CE4FA1C95532E0035ED65 /* lovely@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D9CE4F91C95532E0035ED65 /* lovely@2x.png */; };
+		6D9CE4FC1C96272C0035ED65 /* NotificationRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CE4FB1C96272C0035ED65 /* NotificationRequestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,10 +103,13 @@
 		6D84F7B01C93C7DC00960B68 /* good-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "good-option@3x.png"; sourceTree = "<group>"; };
 		6D84F7B11C93C7DC00960B68 /* long-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "long-option@3x.png"; sourceTree = "<group>"; };
 		6D84F7B21C93C7DC00960B68 /* sad-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sad-option@3x.png"; sourceTree = "<group>"; };
+		6D869F0A1C97801E00562FC8 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		6D869F0E1C97903B00562FC8 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		6D9CE4F11C94982E0035ED65 /* RecipientCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientCollectionViewCell.swift; sourceTree = "<group>"; };
 		6D9CE4F31C94A0020035ED65 /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		6D9CE4F51C94CC0E0035ED65 /* FeedPublicRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedPublicRequestTableViewCell.swift; sourceTree = "<group>"; };
 		6D9CE4F91C95532E0035ED65 /* lovely@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lovely@2x.png"; sourceTree = "<group>"; };
+		6D9CE4FB1C96272C0035ED65 /* NotificationRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationRequestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +225,7 @@
 				6D259E601C927E4900B99F32 /* love-option@3x.png */,
 				6D9CE4F91C95532E0035ED65 /* lovely@2x.png */,
 				6D259E401C922CFB00B99F32 /* fbLogInButton@3x.png */,
+				6D869F0E1C97903B00562FC8 /* settings@2x.png */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -245,6 +252,7 @@
 				6D259E6B1C938CBC00B99F32 /* UserTableViewCell.swift */,
 				6D9CE4F11C94982E0035ED65 /* RecipientCollectionViewCell.swift */,
 				6D9CE4F31C94A0020035ED65 /* LeftAlignedFlowLayout.swift */,
+				6D869F0A1C97801E00562FC8 /* ProfileTableViewCell.swift */,
 			);
 			name = SubClasses;
 			sourceTree = "<group>";
@@ -257,6 +265,7 @@
 				6D259E4A1C922F3600B99F32 /* SendViewController.swift */,
 				6D259E4C1C922F4A00B99F32 /* RequestViewController.swift */,
 				6D259E481C922EBE00B99F32 /* SettingsViewController.swift */,
+				6D9CE4FB1C96272C0035ED65 /* NotificationRequestViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -330,6 +339,11 @@
 					150AF8B91C90EDC800A4B0ED = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 9CQZV55V57;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					150AF8CD1C90EDC900A4B0ED = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -367,6 +381,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D259E611C927E4900B99F32 /* love-option@3x.png in Resources */,
+				6D869F0F1C97903B00562FC8 /* settings@2x.png in Resources */,
 				6D84F7B41C93C7DC00960B68 /* long-option@3x.png in Resources */,
 				150AF8C81C90EDC800A4B0ED /* LaunchScreen.storyboard in Resources */,
 				6D259E411C922CFB00B99F32 /* fbLogInButton@3x.png in Resources */,
@@ -407,6 +422,7 @@
 				6D259E2D1C913E0100B99F32 /* FeedNoteTableViewCell.swift in Sources */,
 				6D9CE4F41C94A0020035ED65 /* LeftAlignedFlowLayout.swift in Sources */,
 				6D259E491C922EBE00B99F32 /* SettingsViewController.swift in Sources */,
+				6D9CE4FC1C96272C0035ED65 /* NotificationRequestViewController.swift in Sources */,
 				6D9CE4F21C94982E0035ED65 /* RecipientCollectionViewCell.swift in Sources */,
 				6D259E6C1C938CBC00B99F32 /* UserTableViewCell.swift in Sources */,
 				6D259E591C92648100B99F32 /* PaddedTextField.swift in Sources */,
@@ -416,6 +432,7 @@
 				6D259E671C9355B100B99F32 /* User.swift in Sources */,
 				6D259E4B1C922F3600B99F32 /* SendViewController.swift in Sources */,
 				6D259E4D1C922F4A00B99F32 /* RequestViewController.swift in Sources */,
+				6D869F0B1C97801E00562FC8 /* ProfileTableViewCell.swift in Sources */,
 				150AF8BE1C90EDC800A4B0ED /* AppDelegate.swift in Sources */,
 				6D259E571C92637400B99F32 /* KMPlaceholderTextView.swift in Sources */,
 				6D259E2F1C91422400B99F32 /* UIHelper.swift in Sources */,

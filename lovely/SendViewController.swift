@@ -30,7 +30,6 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var userTableBottomContstraint: NSLayoutConstraint!
     
     var subType = NoteSubType.Love
-    var friends : [User] = []
     var userList : [User] = []
     var recipient : User?
     
@@ -66,15 +65,9 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         noteContent.hidden = true
         bottomView.hidden = true
         
-        ////////fake
-        friends.append(User(id: 1, fbId: "", name: "Max Hudson", email: ""))
-        friends.append(User(id: 2, fbId: "", name: "Francis Yuen", email: ""))
-        friends.append(User(id: 3, fbId: "", name: "Kiana Nafisi", email: ""))
-        friends.append(User(id: 4, fbId: "", name: "Eric Woods", email: ""))
-        
-        //friends = getFriends()
-        
-        userList = friends
+        if let state = AppState.getInstance() {
+            userList = state.friendsList
+        }
         
         validateNote()
     }
@@ -107,7 +100,6 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         let convertedKeyboardEndFrame = view.convertRect(keyboardEndFrame, fromView: view.window)
         
         bottomViewBottomConstraint.constant = CGRectGetMaxY(view.bounds) - CGRectGetMinY(convertedKeyboardEndFrame)
-        
     }
     
     /**
@@ -145,7 +137,8 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.nameLabel.text = user.name
         cell.nameLabel.font = UIFont.systemFontOfSize(16, weight: UIFontWeightRegular);
         
-        //cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.profilePicture.image = user.image
+        cell.profilePicture.circle()
         
         return cell
     }
@@ -181,11 +174,13 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         userList.removeAll()
         
-        for friend in friends {
-            let name = friend.name.lowercaseString
-            
-            if name.rangeOfString(search) != nil || search == "" {
-                userList.append(friend)
+        if let state = AppState.getInstance() {
+            for friend in state.friendsList {
+                let name = friend.name.lowercaseString
+                
+                if name.rangeOfString(search) != nil || search == "" {
+                    userList.append(friend)
+                }
             }
         }
         
@@ -263,10 +258,10 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
-        let recipient = User(id: -1, fbId: "", name: "user", email: "")
+        //let recipient = User(id: -1, fbId: "", name: "user", email: "")
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
-        let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "note", subType: subType)
+        let note = Note(message: noteContent.text, recipient: recipient!, isPublic: isPublic, type: "note", subType: subType)
         
         note.send()
         
