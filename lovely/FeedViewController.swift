@@ -233,12 +233,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         if !isPublic && indexPath.row == 1 {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             
-            let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController
-            
-            if newVC != nil {
-                newVC!.delegate = self
+            if let newVC = storyBoard.instantiateViewControllerWithIdentifier("RequestViewController") as? RequestViewController {
+                newVC.delegate = self
                 
-                self.presentViewController(newVC!, animated: true, completion: nil)
+                self.presentViewController(newVC, animated: true, completion: nil)
             }
         }
     }
@@ -337,22 +335,21 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
-        showSend()
+        showSend(nil)
     }
     
     @IBAction func settingsButtonPressed(sender: AnyObject) {
         UIHelper.showSettings(self)
     }
     
-    func showSend() {
+    func showSend(recipient: User?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
-        let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController
-        
-        if newVC != nil {
-            newVC!.delegate = self
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("SendViewController") as? SendViewController {
+            newVC.delegate = self
+            newVC.recipient = recipient
             
-            self.presentViewController(newVC!, animated: true, completion: nil)
+            self.presentViewController(newVC, animated: true, completion: nil)
         }
     }
     

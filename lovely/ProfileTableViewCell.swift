@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ProfileViewDelegate {
-    func showSend()
+    func showSend(recipient: User?)
 }
 
 class ProfileTableViewCell: UITableViewCell {
@@ -21,7 +21,9 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var journalButton: UIButton!
     
     @IBAction func journalButtonPressed(sender: AnyObject) {
-        self.delegate?.showSend()
+        if let state = AppState.getInstance() {
+            self.delegate?.showSend(state.getJournal())
+        }
     }
     
 }

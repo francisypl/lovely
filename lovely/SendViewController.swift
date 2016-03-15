@@ -62,8 +62,19 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         userTable.rowHeight = UITableViewAutomaticDimension
         userTable.separatorInset = UIEdgeInsetsZero
         
-        noteContent.hidden = true
-        bottomView.hidden = true
+        if recipient != nil {
+            recipientField.text = recipient!.name
+            
+            userTable.hidden = true
+            
+            noteContent.becomeFirstResponder()
+        }
+        else {
+            noteContent.hidden = true
+            bottomView.hidden = true
+            
+            recipientField.becomeFirstResponder()
+        }
         
         if let state = AppState.getInstance() {
             userList = state.friendsList
@@ -82,8 +93,6 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         recipientField.leftTextMargin = 20
         recipientField.setNeedsLayout()
         recipientField.layoutIfNeeded()
-        
-        recipientField.becomeFirstResponder()
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRectMake(0.0, recipientField.frame.height - 1, recipientField.frame.width, 1.0)
