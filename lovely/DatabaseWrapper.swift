@@ -57,6 +57,7 @@ struct DatabaseWrapper {
      * Request block of notes from before last note
      */
     static func getNotes(lastNoteId: Int, isPublic : Bool) -> [Note] {
+        print("lnid:" + String(lastNoteId))
         if let state = AppState.getInstance() {
             let postData = HttpHelper.post([
                 "user-id": String(state.currentUser.id),

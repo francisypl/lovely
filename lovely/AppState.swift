@@ -27,6 +27,9 @@ class AppState {
     private var lastPublicNoteId: Int
     private var lastPrivateNoteId: Int
     
+    private(set) var outOfPublicNotes: Bool = false
+    private(set) var outOfPrivateNotes: Bool = false
+    
     /**
      * Gets the current AppState instance.
      * If we don't have one, make one.
@@ -40,7 +43,7 @@ class AppState {
             // TODO: Take them to the login screen
             return nil
         }
-
+        
         if state == nil {
             print("Initializing App State...")
             state = AppState()
@@ -91,10 +94,14 @@ class AppState {
             
             self.getFriendsList()
         })
+        
+        //I want these here but they make the app state initalize indefinitely
+        //self.refreshNotes(true)
+        //self.refreshNotes(false)
     }
     
     /**
-     *
+     * Populate friendsList variable
      */
     func getFriendsList() {
         //taggable_friends -> all friends ... /friends -> friends with the app
@@ -154,6 +161,7 @@ class AppState {
         
         if isPublic {
             self.publicFeed = notes
+            self.outOfPublicNotes = false
             
             if notes.last != nil {
                 self.lastPublicNoteId = notes.last!.id
@@ -161,6 +169,7 @@ class AppState {
         }
         else {
             self.privateFeed = notes
+            self.outOfPrivateNotes = true
             
             if notes.last != nil {
                 self.lastPrivateNoteId = notes.last!.id
@@ -171,21 +180,31 @@ class AppState {
     /**
      * Get batch of notes to append to feeds
      */
-    func appendNotes(isPublic: Bool) {
-        let notes = getMoreNotes(isPublic)
+    func appendNotes(isPublic: Bool) -> [Note] {
+        let outOfNotes = isPublic ? self.outOfPublicNotes : self.outOfPrivateNotes
         
-        if isPublic {
-            self.publicFeed += notes
+        if !outOfNotes {
+            let notes = self.getMoreNotes(isPublic)
             
-            if notes.last != nil {
-                self.lastPublicNoteId = notes.last!.id
+            if isPublic {
+                self.publicFeed += notes
+                
+                if notes.last != nil {
+                    self.lastPublicNoteId = notes.last!.id
+                }
+                else {
+                    self.outOfPublicNotes = true
+                }
             }
-        }
-        else {
-            self.privateFeed += notes
-            
-            if notes.last != nil {
-                self.lastPrivateNoteId = notes.last!.id
+            else {
+                self.privateFeed += notes
+                
+                if notes.last != nil {
+                    self.lastPrivateNoteId = notes.last!.id
+                }
+                else {
+                    self.outOfPublicNotes = true
+                }
             }
         }
     }

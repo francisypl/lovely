@@ -39,14 +39,17 @@ struct HttpHelper {
     static func requestSynchronousData(request: NSURLRequest) -> NSData? {
         var data: NSData? = nil
         let semaphore: dispatch_semaphore_t = dispatch_semaphore_create(0)
+        
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {
             taskData, _, error -> () in
             data = taskData
             if data == nil, let error = error {print(error)}
             dispatch_semaphore_signal(semaphore);
         })
+        
         task.resume()
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        
         return data
     }
     

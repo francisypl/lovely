@@ -173,6 +173,22 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="94" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WT6-Dd-mxv">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="QD8-Mg-8HV" userLabel="Footer View">
+                                    <rect key="frame" x="0.0" y="635" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="HDk-Fo-9Md">
+                                            <rect key="frame" x="290" y="12" width="20" height="20"/>
+                                            <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="HDk-Fo-9Md" secondAttribute="bottom" constant="12" id="0ob-fA-dMH"/>
+                                        <constraint firstItem="HDk-Fo-9Md" firstAttribute="centerX" secondItem="QD8-Mg-8HV" secondAttribute="centerX" id="Vmn-Lr-Plh"/>
+                                        <constraint firstItem="HDk-Fo-9Md" firstAttribute="top" secondItem="QD8-Mg-8HV" secondAttribute="top" constant="12" id="fTb-Cx-nDb"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Profile" rowHeight="193" id="7RM-ER-QqW" customClass="ProfileTableViewCell" customModule="lovely" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="193"/>
@@ -624,6 +640,7 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="footerView" destination="QD8-Mg-8HV" id="MDg-Ie-yMt"/>
                         <outlet property="privacyToggle" destination="79b-jL-Cjl" id="6mc-XF-DYm"/>
                         <outlet property="tableView" destination="WT6-Dd-mxv" id="y6G-Vj-YSl"/>
                         <outlet property="toolBar" destination="T9r-JY-U7N" id="k4p-No-hZW"/>

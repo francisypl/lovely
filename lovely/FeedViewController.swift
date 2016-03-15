@@ -13,8 +13,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var privacyToggle: UISegmentedControl!
+    @IBOutlet weak var footerView: UIView!
     
     var isPublic = true
+    var isLoading = false
     var profileViewHeight: CGFloat = 200
     let feedFontSize: CGFloat = 13
     var refreshControl: UIRefreshControl!
@@ -29,7 +31,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset = UIEdgeInsetsZero
-        tableView.backgroundColor = UIHelper.mainColor
+        //tableView.backgroundColor = UIHelper.mainColor
         
         refreshControl = {
             let refreshControl = UIRefreshControl()
@@ -176,6 +178,62 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        let maxOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        if (maxOffset - offset) <= 40 {
+            appendItems()
+        }
+    }
+    
+    func appendItems() {
+        if (!isLoading) {
+            isLoading = true
+            
+            if let state = AppState.getInstance() {
+                let notes = isPublic ? state.publicFeed.count : state.privateFeed.count
+                let outOfNotes = isPublic ? state.outOfPublicNotes : state.outOfPrivateNotes
+                
+                let load = notes >= 50 && !outOfNotes
+                footerView.hidden = load
+                
+                /*if load {
+                
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    let notes = state.appendNotes(self.isPublic)
+                    
+                    for note in notes {
+                        var row = self.items.count
+                        var indexPath = NSIndexPath(forRow:row,inSection:0)
+                        self.items += item
+                        self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                    }
+                    
+                    self.isLoading = false
+                    self.MyFooterView.hidden = true
+                }
+                
+                manager.requestData(offset, size: size,
+                    listener: {(items:[MyTableViewController.MyItem]) -> () in
+                        
+                        for item in items {
+                            var row = self.items.count
+                            var indexPath = NSIndexPath(forRow:row,inSection:0)
+                            self.items += item
+                            self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        }
+                        self.isLoading = false
+                        self.MyFooterView.hidden = true
+                    }
+                )*/
+            }
+        }
+    }
+    
+    /**
+     * Table cell tap event
+     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if !isPublic && indexPath.row == 1 {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
@@ -216,6 +274,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewCellEditingStyle.Delete
     }
     
+    /**
+     * Mandatory implementation method even though it doesn't need to be used...
+     */
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
     }
@@ -239,14 +300,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Top)
-            
         })
         
         deleteAction.backgroundColor = UIHelper.deleteColor
         
         return [deleteAction]
     }
-    
     
     /**
      * Repulls notes & refreshes data
