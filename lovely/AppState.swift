@@ -133,7 +133,11 @@ class AppState {
             
             let journal = User(id: self.currentUser.id, fbId: self.currentUser.fbId, name: "Journal", email: "", image: UIImage()) //need diary icon
             
-            self.friendsList = [journal] + DatabaseWrapper.getFriendIds(friends)
+            //This isn't working because facebook is giving me an Int id for myself, but then ids like this for friends:
+            //'AaKIcOnx-LX366J0z_yCYEdkVaKr1frKHjFaK9qk1BbI8VtuFBxjE5oHA9tvGNQrrReKAL-9VexVqYYbn7gseuDQQNZhjauYJydiYrK3K6cDKw'
+            DatabaseWrapper.getFriendIds(friends) { (friends: [User]) -> () in
+                self.friendsList = [journal] + friends
+            }
         })
     }
     

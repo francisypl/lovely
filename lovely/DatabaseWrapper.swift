@@ -155,7 +155,36 @@ struct DatabaseWrapper {
     /**
      * Joins fb friends with users in db
      */
-    static func getFriendIds(friends: [User]) -> [User] {
-        return friends
+    static func getFriendIds(friends: [User], callback: ((friends: [User]) -> ())?) {
+        var fbIdArray = [String]()
+        
+        for friend in friends {
+            fbIdArray.append(friend.fbId)
+        }
+        
+        do {
+            let fbIdJsonData = try NSJSONSerialization.dataWithJSONObject(fbIdArray, options: NSJSONWritingOptions.PrettyPrinted)
+            let fbIdString = NSString(data: fbIdJsonData, encoding: NSUTF8StringEncoding)
+            
+            HttpHelper.post_async([
+                "mode": "fb-join",
+                "fb-id-array": fbIdString as! String,
+                ], url: "user.php") { (response) -> () in
+                    if let fbIdPairs = HttpHelper.jsonToDictionary(response) {
+                        for var i = 0; i < friends.count; i++ {
+                            if let id = fbIdPairs[friends[i].fbId] {
+                                friends[i].setId(id as! Int)
+                            }
+                        }
+                        
+                        if callback != nil {
+                            callback!(friends: friends)
+                        }
+                    }
+                }
+        }
+        catch {
+            print("Something went wrong")
+        }
     }
 }

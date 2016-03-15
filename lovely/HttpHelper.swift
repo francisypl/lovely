@@ -30,9 +30,9 @@ struct HttpHelper {
         
         NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {(data, response, error) in
             if error == nil {
-                let output = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                
-                callback!(response: output as! String)
+                if let output = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String {
+                    callback!(response: output)
+                }
             }
         }).resume()
     }
