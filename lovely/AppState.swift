@@ -156,23 +156,29 @@ class AppState {
     /**
      * Updates feed variables
      */
-    func refreshNotes(isPublic: Bool) {
-        let notes = getNotes(isPublic)
-        
-        if isPublic {
-            self.publicFeed = notes
-            self.outOfPublicNotes = false
-            
-            if notes.last != nil {
-                self.lastPublicNoteId = notes.last!.id
+    func refreshNotes(isPublic: Bool, callback: (Void -> ())?) {
+        DatabaseWrapper.getNotes(isPublic) { (notes) -> () in
+            if isPublic {
+                self.publicFeed = notes
+                self.outOfPublicNotes = false
+                
+                if notes.last != nil {
+                    self.lastPublicNoteId = notes.last!.id
+                }
             }
-        }
-        else {
-            self.privateFeed = notes
-            self.outOfPrivateNotes = true
+            else {
+                self.privateFeed = notes
+                self.outOfPrivateNotes = true
+                
+                if notes.last != nil {
+                    self.lastPrivateNoteId = notes.last!.id
+                }
+            }
             
-            if notes.last != nil {
-                self.lastPrivateNoteId = notes.last!.id
+            if callback != nil {
+                dispatch_async(dispatch_get_main_queue()) {
+                    callback!()
+                }
             }
         }
     }
@@ -180,33 +186,43 @@ class AppState {
     /**
      * Get batch of notes to append to feeds
      */
-    func appendNotes(isPublic: Bool) -> [Note] {
+    func appendNotes(isPublic: Bool, callback: (() -> ())?) -> [Note] {
         let outOfNotes = isPublic ? self.outOfPublicNotes : self.outOfPrivateNotes
         
         if !outOfNotes {
-            let notes = self.getMoreNotes(isPublic)
-            
-            if isPublic {
-                self.publicFeed += notes
-                
-                if notes.last != nil {
-                    self.lastPublicNoteId = notes.last!.id
+            let lastNoteId = isPublic ? self.lastPublicNoteId : self.lastPrivateNoteId
+            print(lastNoteId)
+            DatabaseWrapper.getNotes(lastNoteId, isPublic: isPublic) { (notes) -> () in
+                if isPublic {
+                    self.publicFeed += notes
+                    
+                    if notes.last != nil {
+                        self.lastPublicNoteId = notes.last!.id
+                    }
+                    else {
+                        self.outOfPublicNotes = true
+                    }
                 }
                 else {
-                    self.outOfPublicNotes = true
+                    self.privateFeed += notes
+                    
+                    if notes.last != nil {
+                        self.lastPrivateNoteId = notes.last!.id
+                    }
+                    else {
+                        self.outOfPublicNotes = true
+                    }
                 }
-            }
-            else {
-                self.privateFeed += notes
                 
-                if notes.last != nil {
-                    self.lastPrivateNoteId = notes.last!.id
-                }
-                else {
-                    self.outOfPublicNotes = true
+                if callback != nil {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        callback!()
+                    }
                 }
             }
         }
+        
+        return []
     }
     
     /**
@@ -221,15 +237,6 @@ class AppState {
      */
     func deletePrivateNoteAtIndex(index: Int) {
         self.privateFeed.removeAtIndex(index)
-    }
-    
-    /**
-     * Gets batch of most recent notes
-     */
-    func getNotes(isPublic: Bool) -> [Note] {
-        let notes = DatabaseWrapper.getNotes(isPublic)
-        
-        return notes
     }
     
     /**
@@ -250,15 +257,9 @@ class AppState {
         return user
     }
     
-    /**
-     * Gets batch of notes for appending to bottom of list
-     */
-    private func getMoreNotes(isPublic: Bool) -> [Note] {
-        let lastNoteId = isPublic ? self.lastPublicNoteId : self.lastPrivateNoteId
-        
-        let notes = DatabaseWrapper.getNotes(lastNoteId, isPublic: isPublic)
-        
-        return notes
+    
+    func suggestRecipientFromFriendList(name : String) -> [User] {
+        return []
     }
 
 }

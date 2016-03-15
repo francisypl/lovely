@@ -20,6 +20,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var profileViewHeight: CGFloat = 200
     let feedFontSize: CGFloat = 13
     var refreshControl: UIRefreshControl!
+    var privateTableOffset: CGFloat = 0
+    var publicTableOffset: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +33,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset = UIEdgeInsetsZero
-        //tableView.backgroundColor = UIHelper.mainColor
+        //tableView.backgroundColor = UIColor.clearColor()
         
         refreshControl = {
             let refreshControl = UIRefreshControl()
@@ -47,10 +49,16 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.view.backgroundColor = UIHelper.mainColor
         
+        footerView.hidden = true
+        
         if let state = AppState.getInstance() {
-            state.refreshNotes(true)
-            state.refreshNotes(false)
+            state.refreshNotes(true, callback: self.reloadTable)
+            state.refreshNotes(false, callback: self.reloadTable)
         }
+    }
+    
+    func reloadTable() {
+        self.tableView.reloadData()
     }
     
     func considerPresentingNotificationRequest() {
@@ -188,45 +196,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func appendItems() {
         if (!isLoading) {
-            isLoading = true
             
             if let state = AppState.getInstance() {
                 let notes = isPublic ? state.publicFeed.count : state.privateFeed.count
                 let outOfNotes = isPublic ? state.outOfPublicNotes : state.outOfPrivateNotes
                 
                 let load = notes >= 50 && !outOfNotes
-                footerView.hidden = load
+                footerView.hidden = !load
                 
-                /*if load {
-                
-                
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                    let notes = state.appendNotes(self.isPublic)
+                if load {
+                    isLoading = true
                     
-                    for note in notes {
-                        var row = self.items.count
-                        var indexPath = NSIndexPath(forRow:row,inSection:0)
-                        self.items += item
-                        self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                    }
-                    
-                    self.isLoading = false
-                    self.MyFooterView.hidden = true
-                }
-                
-                manager.requestData(offset, size: size,
-                    listener: {(items:[MyTableViewController.MyItem]) -> () in
+                    state.appendNotes(self.isPublic) { Void -> () in
+                        self.tableView.reloadData()
                         
-                        for item in items {
-                            var row = self.items.count
-                            var indexPath = NSIndexPath(forRow:row,inSection:0)
-                            self.items += item
-                            self.tableView?.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                        }
                         self.isLoading = false
-                        self.MyFooterView.hidden = true
+                        self.footerView.hidden = true
                     }
-                )*/
+                }
             }
         }
     }
@@ -312,27 +299,35 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func handleRefresh(refreshControl: UIRefreshControl) {
         if let state = AppState.getInstance() {
-            state.refreshNotes(isPublic)
+            state.refreshNotes(isPublic, callback: { Void -> () in
+                self.tableView.reloadData()
+                refreshControl.endRefreshing()
+            })
         }
-        
-        self.tableView.reloadData()
-        refreshControl.endRefreshing()
     }
     
     /**
      * Toggle private/public
      */
     @IBAction func privacyViewChanged(sender: AnyObject) {
-        isPublic = !isPublic
+        /*tableView.setContentOffset(tableView.contentOffset, animated: false)
         
         if isPublic {
-            tableView.backgroundColor = UIColor.whiteColor()
+            publicTableOffset = tableView.contentOffset.y
         }
         else {
-            //tableView.backgroundColor = UIHelper.mainColor
-        }
+            privateTableOffset = tableView.contentOffset.y
+        }*/
         
+        isPublic = !isPublic
         tableView.reloadData()
+        
+        /*if isPublic {
+            tableView.scrollRectToVisible(CGRect(x: tableView.contentOffset.x, y: publicTableOffset, width: tableView.frame.width, height: tableView.frame.height), animated: false)
+        }
+        else {
+            tableView.scrollRectToVisible(CGRect(x: tableView.contentOffset.x, y: privateTableOffset, width: tableView.frame.width, height: tableView.frame.height), animated: false)
+        }*/
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
@@ -356,8 +351,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func noteCreated() {
         if let state = AppState.getInstance() {
-            state.refreshNotes(true)
-            state.refreshNotes(false)
+            state.refreshNotes(true, callback: self.reloadTable)
+            state.refreshNotes(false, callback: self.reloadTable)
         }
         
         tableView.reloadData()

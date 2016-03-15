@@ -12,23 +12,39 @@ struct HttpHelper {
     static let host = "https://weflowapp.com/lovely-api/"
     static let privateToken = "mkeib909asdm23klsd*"
     
-    /**
-     Sends post request to page on server
-     
-     Sample usage:
-     
-     print(HttpHelper.post(["username": "uname", "token": "asdfasdf"], url: "notes.php"))
-    */
-    static func post(params : Dictionary<String, String>, url : String) -> String {
-        let request = NSMutableURLRequest(URL: NSURL(string: host + url)!)
-        request.HTTPMethod = "POST"
-        
+    static func formatPostParams(params: [String: String]) -> NSData {
         var postString = "private-token=" + privateToken;
+        
         for (key, value) in params {
             postString += "&" + key + "=" + value
         }
+
+        return postString.dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+    
+    static func post_async(params: [String: String], url: String, callback: ((response: String) -> ())?) {
+        let request = NSMutableURLRequest(URL: NSURL(string: host + url)!, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 5.0)
         
-        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = formatPostParams(params)
+        
+        NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {(data, response, error) in
+            if error == nil {
+                let output = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                
+                callback!(response: output as! String)
+            }
+        }).resume()
+    }
+    
+    /**
+     Sends post request to page on server
+    */
+    static func post(params : [String: String], url : String) -> String {
+        let request = NSMutableURLRequest(URL: NSURL(string: host + url)!)
+        
+        request.HTTPMethod = "POST"
+        request.HTTPBody = formatPostParams(params)
         
         let data = requestSynchronousData(request)
         let strData = NSString(data: data!, encoding: NSUTF8StringEncoding) as! String

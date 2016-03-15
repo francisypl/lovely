@@ -40,61 +40,62 @@ struct DatabaseWrapper {
      * Requests block of recent notes
      * @return array of notes
      */
-    static func getNotes(isPublic: Bool) -> [Note] {
+    static func getNotes(isPublic: Bool, callback: ((notes: [Note]) -> ())?) {
         if let state = AppState.getInstance() {
-            let postData = HttpHelper.post([
+            HttpHelper.post_async([
                 "user-id": String(state.currentUser.id),
                 "is-public": isPublic ? "1" : "0"
-            ], url: "notes.php")
-            
-            return getNotesArrayFromPostData(postData)
+            ], url: "notes.php") { (response) -> () in
+                if callback != nil {
+                    callback!(notes: getNotesArrayFromPostData(response))
+                }
+            }
         }
-        
-        return []
     }
     
     /**
      * Request block of notes from before last note
      */
-    static func getNotes(lastNoteId: Int, isPublic : Bool) -> [Note] {
-        print("lnid:" + String(lastNoteId))
+    static func getNotes(lastNoteId: Int, isPublic : Bool, callback: ((notes: [Note]) -> ())?) {
         if let state = AppState.getInstance() {
-            let postData = HttpHelper.post([
+            HttpHelper.post_async([
                 "user-id": String(state.currentUser.id),
                 "is-public": isPublic ? "1" : "0",
                 "last-note-id": String(lastNoteId)
-            ], url: "notes.php")
-            
-            return getNotesArrayFromPostData(postData)
+            ], url: "notes.php") { (response) -> () in
+                if callback != nil {
+                    callback!(notes: getNotesArrayFromPostData(response))
+                }
+            }
         }
-        
-        return []
     }
     
     /**
      * Convert post result to structured notes array
      */
     static func getNotesArrayFromPostData(postData: String) -> [Note] {
-        let notesData = HttpHelper.jsonToDictionaryArray(postData)
-        
-        var notes : [Note] = []
-        
-        for noteData in notesData! {
-            let id = Int(noteData["id"] as! String)!
-            let message = noteData["message"] as! String
-            let sender = AppState.getUserForId(Int(noteData["sender_id"] as! String)!)
-            let recipient = AppState.getUserForId(Int(noteData["recipient_id"] as! String)!)
-            let isPublic = noteData["is_public"] as! String == "1"
-            let type = noteData["type"] as! String
-            let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
+        if let notesData = HttpHelper.jsonToDictionaryArray(postData) {
+            var notes : [Note] = []
             
-            let date = NSDate(timeIntervalSince1970: Double(noteData["date"] as! String)!)
+            for noteData in notesData {
+                let id = Int(noteData["id"] as! String)!
+                let message = noteData["message"] as! String
+                let sender = User(id: Int(noteData["sender_id"] as! String)!)
+                let recipient = User(id: Int(noteData["recipient_id"] as! String)!)
+                let isPublic = noteData["is_public"] as! String == "1"
+                let type = noteData["type"] as! String
+                let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
+                
+                let date = NSDate(timeIntervalSince1970: Double(noteData["date"] as! String)!)
+                
+                
+                notes.append(Note(id: id, message: message, sender: sender, recipient: recipient, isPublic: isPublic, type: type, subType: subType, date: date))
+            }
             
-            
-            notes.append(Note(id: id, message: message, sender: sender, recipient: recipient, isPublic: isPublic, type: type, subType: subType, date: date))
+            return notes
         }
         
-        return notes
+        return []
     }
     
     /**
