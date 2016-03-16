@@ -27,8 +27,10 @@ class AppState {
     private var lastPublicNoteId: Int
     private var lastPrivateNoteId: Int
     
-    private(set) var outOfPublicNotes: Bool = false
-    private(set) var outOfPrivateNotes: Bool = false
+    private(set) var outOfPublicNotes: Bool
+    private(set) var outOfPrivateNotes: Bool
+    
+    private(set) var readyForUserControl: Bool
     
     internal var feedVC: FeedViewController?
     
@@ -68,6 +70,11 @@ class AppState {
         
         self.lastPublicNoteId = 0
         self.lastPrivateNoteId = 0
+        
+        self.outOfPublicNotes = false
+        self.outOfPrivateNotes = false
+        
+        self.readyForUserControl = false
         
         // Check if user is authenticated
         //let token = FBSDKAccessToken.currentAccessToken()
@@ -157,6 +164,8 @@ class AppState {
         if let feed = self.feedVC {
             self.refreshNotes(true, callback: feed.reloadTable)
             self.refreshNotes(false, callback: nil)
+            
+            self.readyForUserControl = true
         }
     }
     

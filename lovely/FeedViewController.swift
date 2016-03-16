@@ -219,9 +219,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    /**
+     * Adds items to the end of the table if there are items to be added
+     * Attempts to avoid showing loading icon if no notes will be loaded
+     */
     func appendItems() {
         if (!isLoading) {
-            
             if let state = AppState.getInstance() {
                 let notes = isPublic ? state.publicFeed.count : state.privateFeed.count
                 let outOfNotes = isPublic ? state.outOfPublicNotes : state.outOfPrivateNotes
@@ -229,7 +232,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let load = notes >= 50 && !outOfNotes
                 footerView.hidden = !load
                 
-                if load {
+                if load && state.readyForUserControl {
                     isLoading = true
                     
                     state.appendNotes(self.isPublic) { Void -> () in
@@ -322,10 +325,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func handleRefresh(refreshControl: UIRefreshControl) {
         if let state = AppState.getInstance() {
-            state.refreshNotes(isPublic, callback: { Void -> () in
-                self.tableView.reloadData()
-                refreshControl.endRefreshing()
-            })
+            if state.readyForUserControl {
+                state.refreshNotes(isPublic, callback: { Void -> () in
+                    self.tableView.reloadData()
+                    refreshControl.endRefreshing()
+                })
+            }
         }
     }
     
@@ -375,8 +380,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      */
     func noteCreated() {
         if let state = AppState.getInstance() {
-            state.refreshNotes(true, callback: self.reloadTable)
-            state.refreshNotes(false, callback: self.reloadTable)
+            if state.readyForUserControl {
+                state.refreshNotes(true, callback: self.reloadTable)
+                state.refreshNotes(false, callback: self.reloadTable)
+            }
         }
         
         tableView.reloadData()
