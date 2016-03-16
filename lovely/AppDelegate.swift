@@ -33,8 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // If the facebook token is valid
             if AppState.isAuthenticated() {
-                _ = AppState.getInstance() // spin up an app state if needed
-                rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+                let state = AppState.getInstance()! // spin up an app state if needed
+                
+                state.feedVC = mainStoryboard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController
+                
+                rootViewController = state.feedVC
             }
             else {
                 rootViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LogInViewController") as? LogInViewController

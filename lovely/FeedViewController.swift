@@ -51,10 +51,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         footerView.hidden = true
         
-        if let state = AppState.getInstance() {
+        /*if let state = AppState.getInstance() {
             state.refreshNotes(true, callback: self.reloadTable)
             state.refreshNotes(false, callback: self.reloadTable)
-        }
+        }*/
     }
     
     func reloadTable() {

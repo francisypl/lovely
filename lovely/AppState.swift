@@ -30,6 +30,8 @@ class AppState {
     private(set) var outOfPublicNotes: Bool = false
     private(set) var outOfPrivateNotes: Bool = false
     
+    internal var feedVC: FeedViewController?
+    
     /**
      * Gets the current AppState instance.
      * If we don't have one, make one.
@@ -118,8 +120,10 @@ class AppState {
         let params = ["fields":"id, email, name, picture.width(50).height(50)"]
         let friendsRequest = FBSDKGraphRequest(graphPath: "/v2.5/me/taggable_friends", parameters: params, HTTPMethod: "GET")
         
+        self.loadFeed() //TODO: delete when below code starts working
         //Get friends list
         friendsRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            /////////////////////Won't come inside here for some reason
             let res = result as! NSDictionary
             let friendsData = res["data"] as! [NSDictionary]
             
@@ -143,8 +147,17 @@ class AppState {
             //'AaKIcOnx-LX366J0z_yCYEdkVaKr1frKHjFaK9qk1BbI8VtuFBxjE5oHA9tvGNQrrReKAL-9VexVqYYbn7gseuDQQNZhjauYJydiYrK3K6cDKw'
             DatabaseWrapper.getFriendIds(friends) { (friends: [User]) -> () in
                 self.friendsList = [self.getJournal()] + friends
+                
+                //self.loadFeed()
             }
         })
+    }
+    
+    func loadFeed() {
+        if let feed = self.feedVC {
+            self.refreshNotes(true, callback: feed.reloadTable)
+            self.refreshNotes(false, callback: nil)
+        }
     }
     
     /**
