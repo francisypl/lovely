@@ -102,6 +102,9 @@ class AppState {
         //self.refreshNotes(false)
     }
     
+    /**
+     * Sets up current user
+     */
     func buildCurrentUser(id: Int, fbResult: [String : AnyObject]?) {
         if let res = fbResult {
             //Profile picture
@@ -121,51 +124,58 @@ class AppState {
      * Populate friendsList variable
      */
     func getFriendsList() {
-        //taggable_friends -> all friends ... /friends -> friends with the app
-        //sort alphabetically?
-        //not paginated ideally
-        let params = ["fields":"id, email, name, picture.width(50).height(50)"]
-        let friendsRequest = FBSDKGraphRequest(graphPath: "/v2.5/me/taggable_friends", parameters: params, HTTPMethod: "GET")
-        
-        self.loadFeed() //TODO: delete when below code starts working
-        //Get friends list
-        friendsRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-            /////////////////////Won't come inside here for some reason
-            let res = result as! NSDictionary
-            let friendsData = res["data"] as! [NSDictionary]
+        //has to be inside main queue block for FBSDK to work
+        dispatch_async(dispatch_get_main_queue()) {
+            //taggable_friends -> all friends ... /friends -> friends with the app
+            //sort alphabetically?
+            //not paginated ideally
+            let params = ["fields":"id, email, name, picture.width(50).height(50)"]
+            let friendsRequest = FBSDKGraphRequest(graphPath: "/v2.5/me/taggable_friends", parameters: params, HTTPMethod: "GET")
             
-            var friends: [User] = []
-            
-            //Build [User] array
-            for friendData in friendsData {
+            //Get friends list
+            friendsRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+                /////////////////////Won't come inside here for some reason
+                let res = result as! NSDictionary
+                let friendsData = res["data"] as! [NSDictionary]
                 
-                //Profile picture
-                let pictureData = (friendData["picture"] as! NSDictionary)["data"] as! NSDictionary
-                let profilePictureUrl = NSURL(string: pictureData["url"] as! String)
-                let profilePictureUrlData = NSData(contentsOfURL: profilePictureUrl!)
-                let profilePicture = UIImage(data: profilePictureUrlData!)
+                var friends: [User] = []
                 
-                let friend = User(id: 0, fbId: friendData["id"] as! String, name: friendData["name"] as! String, email: friendData["id"] as! String, image: profilePicture!)
+                //Build [User] array
+                for friendData in friendsData {
+                    
+                    //Profile picture
+                    let pictureData = (friendData["picture"] as! NSDictionary)["data"] as! NSDictionary
+                    let profilePictureUrl = NSURL(string: pictureData["url"] as! String)
+                    let profilePictureUrlData = NSData(contentsOfURL: profilePictureUrl!)
+                    let profilePicture = UIImage(data: profilePictureUrlData!)
+                    
+                    let friend = User(id: 0, fbId: friendData["id"] as! String, name: friendData["name"] as! String, email: friendData["id"] as! String, image: profilePicture!)
+                    
+                    friends.append(friend)
+                }
                 
-                friends.append(friend)
-            }
-            
-            //This isn't working because facebook is giving me an Int id for myself, but then ids like this for friends:
-            //'AaKIcOnx-LX366J0z_yCYEdkVaKr1frKHjFaK9qk1BbI8VtuFBxjE5oHA9tvGNQrrReKAL-9VexVqYYbn7gseuDQQNZhjauYJydiYrK3K6cDKw'
-            DatabaseWrapper.getFriendIds(friends) { (friends: [User]) -> () in
-                self.friendsList = [self.getJournal()] + friends
-                
-                //self.loadFeed()
-            }
-        })
+                //This isn't working because facebook is giving me an Int id for myself, but then ids like this for friends:
+                //'AaKIcOnx-LX366J0z_yCYEdkVaKr1frKHjFaK9qk1BbI8VtuFBxjE5oHA9tvGNQrrReKAL-9VexVqYYbn7gseuDQQNZhjauYJydiYrK3K6cDKw'
+                DatabaseWrapper.getFriendIds(friends) { (friends: [User]) -> () in
+                    self.friendsList = [self.getJournal()] + friends
+                    
+                    self.loadFeed()
+                }
+            })
+        }
     }
     
+    /**
+     * App is all ready to show feed
+     */
     func loadFeed() {
         if let feed = self.feedVC {
             self.refreshNotes(true, callback: feed.reloadTable)
             self.refreshNotes(false, callback: nil)
             
             self.readyForUserControl = true
+            
+            print("App State Initialized...")
         }
     }
     
