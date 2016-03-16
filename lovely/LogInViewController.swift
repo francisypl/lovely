@@ -40,15 +40,22 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
             let params = ["fields":"id,email,name"]
             let request = FBSDKGraphRequest(graphPath: "/" + result.token.userID, parameters: params, HTTPMethod: "GET")
             request.startWithCompletionHandler({ (connection, result, error) -> Void in
-                let res = result as! [String : String]
-                
-                if DatabaseWrapper.getUserIdForFbId(res["id"]!) == -1 {
-                    DatabaseWrapper.createUser(User(fbId: res["id"]!, name: res["name"]!, email: res["email"]!, image: UIImage()))
+                if let res = result as? [String : AnyObject] {
+                    DatabaseWrapper.getUserIdForFbId(res["id"] as! String) { (id) -> () in
+                        if id == -1 {
+                            DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()), fbResult: res) { (newId, fbResult) -> () in
+                                _ = AppState.getInstance()
+                                
+                                self.removeLoading()
+                            }
+                        }
+                        else {
+                            _ = AppState.getInstance()
+                            
+                            self.removeLoading()
+                        }
+                    }
                 }
-                
-                _ = AppState.getInstance()
-                
-                self.removeLoading()
             })
         }
         else {

@@ -52,7 +52,14 @@ class Note {
      * Inserts note into db and gets id
      */
     func send() {
-        self.id = DatabaseWrapper.send(self)
+        DatabaseWrapper.send(self)
+    }
+    
+    /**
+     * Inserts note into db and gets id
+     */
+    func setId(id: Int) {
+        self.id = id
     }
     
     /**

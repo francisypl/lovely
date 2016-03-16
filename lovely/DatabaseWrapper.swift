@@ -14,8 +14,8 @@ struct DatabaseWrapper {
     * Sends post request to the server to insert note
     * @return note id
     */
-    static func send(note: Note) -> Int {
-        return Int(HttpHelper.post([
+    static func send(note: Note) {
+        HttpHelper.post_async([
             "message": note.message,
             "sub-type": note.subType.rawValue,
             "type": note.type,
@@ -23,17 +23,21 @@ struct DatabaseWrapper {
             "sender-name": note.sender.name,
             "recipient-id": String(note.recipient.id),
             "is-public": note.isPublic ? "1" : "0"
-        ], url: "send-note.php"))!
+        ], url: "send-note.php") { (response) -> () in
+            if let id = Int(response) {
+                note.setId(id)
+            }
+        }
     }
     
     /**
      * Deletes note from db
      */
     static func deleteNote(note: Note) {
-        HttpHelper.post([
+        HttpHelper.post_async([
             "mode": "delete",
             "note-id": String(note.id)
-        ], url: "note.php")
+        ], url: "note.php", callback: nil)
     }
     
     /**
@@ -101,15 +105,19 @@ struct DatabaseWrapper {
     /**
      * Get user from db by fbId
      */
-    static func getUserIdForFbId(fbId: String) -> Int {
-        let postData = HttpHelper.post([
+    static func getUserIdForFbId(fbId: String, callback: ((id: Int) -> ())?) {
+        HttpHelper.post_async([
             "mode": "select",
             "fb-id": fbId,
-            ], url: "user.php")
+        ], url: "user.php") { (response) -> () in
+            if let userData = HttpHelper.jsonToDictionary(response) {
+                if callback != nil {
+                    callback!(id: Int(userData["id"] as! String)!)
+                }
+            }
+        }
         
-        let userData = HttpHelper.jsonToDictionary(postData)!
         
-        return Int(userData["id"] as! String)!
     }
     
     /**
@@ -130,13 +138,19 @@ struct DatabaseWrapper {
      * Sends post request to the server to insert user
      * @return user id
      */
-    static func createUser(user: User) -> Int {
-        return Int(HttpHelper.post([
+    static func createUser(user: User, fbResult: [String : AnyObject]?, callback: ((id: Int, fbResult: [String : AnyObject]?) -> ())?) {
+        HttpHelper.post_async([
             "mode": "insert",
             "email": user.email,
             "fb-id": user.fbId,
             "name": user.name
-        ], url: "user.php"))!
+        ], url: "user.php") { (response) -> () in
+            if let id = Int(response) {
+                if callback != nil {
+                    callback!(id: id, fbResult: fbResult)
+                }
+            }
+        }
     }
     
     /**
@@ -144,11 +158,11 @@ struct DatabaseWrapper {
      */
     static func createDevice(token: String) {
         if let state = AppState.getInstance() {
-            HttpHelper.post([
+            HttpHelper.post_async([
                 "mode": "insert",
                 "token": token,
                 "user-id": String(state.currentUser.id)
-            ], url: "device.php")
+            ], url: "device.php", callback: nil)
         }
     }
     
@@ -184,7 +198,7 @@ struct DatabaseWrapper {
                 }
         }
         catch {
-            print("Something went wrong")
+            print("Couldn't get pair FB ids with user ids")
         }
     }
 }

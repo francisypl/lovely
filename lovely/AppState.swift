@@ -75,14 +75,26 @@ class AppState {
         let request = FBSDKGraphRequest(graphPath: "/v2.5/me", parameters: params, HTTPMethod: "GET")
         
         request.startWithCompletionHandler({ (connection, result, error) -> Void in
-            let res = result as! [String : AnyObject]
-            var id = DatabaseWrapper.getUserIdForFbId(res["id"] as! String)
-            print(res["id"] as! String)
-            //Verify user exists, create if they don't
-            if id == -1 {
-                id = DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()))
+            if let res = result as? [String : AnyObject] {
+                DatabaseWrapper.getUserIdForFbId(res["id"] as! String) { ( id) -> () in
+                    //Verify user exists, create if they don't
+                    if id == -1 {
+                        DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()), fbResult: res, callback: self.buildCurrentUser)
+                    }
+                    else {
+                        self.buildCurrentUser(id, fbResult: res)
+                    }
+                }
             }
-            
+        })
+        
+        //I want these here but they make the app state initalize indefinitely
+        //self.refreshNotes(true)
+        //self.refreshNotes(false)
+    }
+    
+    func buildCurrentUser(id: Int, fbResult: [String : AnyObject]?) {
+        if let res = fbResult {
             //Profile picture
             let pictureData = (res["picture"] as! NSDictionary)["data"] as! NSDictionary
             let profilePictureUrl = NSURL(string: pictureData["url"] as! String)
@@ -93,11 +105,7 @@ class AppState {
             self.currentUser = User(id: id, fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: profilePicture!)
             
             self.getFriendsList()
-        })
-        
-        //I want these here but they make the app state initalize indefinitely
-        //self.refreshNotes(true)
-        //self.refreshNotes(false)
+        }
     }
     
     /**
@@ -175,7 +183,7 @@ class AppState {
             }
             else {
                 self.privateFeed = notes
-                self.outOfPrivateNotes = true
+                self.outOfPrivateNotes = false
                 
                 if notes.last != nil {
                     self.lastPrivateNoteId = notes.last!.id
@@ -217,7 +225,7 @@ class AppState {
                         self.lastPrivateNoteId = notes.last!.id
                     }
                     else {
-                        self.outOfPublicNotes = true
+                        self.outOfPrivateNotes = true
                     }
                 }
                 

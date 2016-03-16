@@ -48,7 +48,9 @@ class User {
      * Inserts user into db
      */
     func insertIntoDb() {
-        self.id = DatabaseWrapper.createUser(self)
+        DatabaseWrapper.createUser(self, fbResult: nil) { (id, fbResult) -> () in
+            self.id = id
+        }
     }
     
     /**
