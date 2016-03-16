@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol FeedPublicRequestTableViewCellDelegate {
+    func showSend(recipient: User?)
+}
+
 class FeedPublicRequestTableViewCell: UITableViewCell {
+    
+    var delegate: FeedPublicRequestTableViewCellDelegate?
+    var noteSender: User?
     
     @IBOutlet weak var fromProfilePicture: UIImageView!
     @IBOutlet weak var fromName: UILabel!
@@ -16,5 +23,12 @@ class FeedPublicRequestTableViewCell: UITableViewCell {
     @IBOutlet weak var noteIcon: UIImageView!
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var noteCopy: UILabel!
+    @IBOutlet weak var sendLoveButton: UIButton!
+    
+    @IBAction func sendLoveButtonPressed(sender: AnyObject) {
+        if let user = noteSender {
+            self.delegate?.showSend(user)
+        }
+    }
     
 }

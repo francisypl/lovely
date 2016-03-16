@@ -70,6 +70,14 @@ struct UIHelper {
         }
     }
     
+    static func showIntroduction(vc: UIViewController) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("IntroductionViewController") as? IntroductionViewController {
+            vc.presentViewController(newVC, animated: false, completion: nil)
+        }
+    }
+    
     static func ago(date:NSDate) -> String {
         let calendar = NSCalendar.currentCalendar()
         let now = NSDate()

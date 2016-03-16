@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate, ProfileViewDelegate {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate, ProfileViewDelegate, FeedPublicRequestTableViewCellDelegate {
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
@@ -17,7 +17,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var isPublic = true
     var isLoading = false
-    var profileViewHeight: CGFloat = 200
     let feedFontSize: CGFloat = 13
     var refreshControl: UIRefreshControl!
     var privateTableOffset: CGFloat = 0
@@ -26,6 +25,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        considerPresentingIntroduction()
         considerPresentingNotificationRequest()
         
         tableView.delegate = self
@@ -66,6 +66,15 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if userDefaults.valueForKey("notificationsRequested") == nil {
             UIHelper.showNotificationRequest(self)
+        }
+        
+    }
+    
+    func considerPresentingIntroduction() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        if userDefaults.valueForKey("shownIntroduction") == nil {
+            UIHelper.showIntroduction(self)
         }
         
     }
@@ -187,6 +196,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
                 cell.noteCopy.text = note.message
                 
+                if IAmSender {
+                    cell.sendLoveButton.hidden = true
+                }
+                else {
+                    cell.noteSender = note.sender
+                }
+                
+                cell.delegate = self
                 cell.selectionStyle = UITableViewCellSelectionStyle.None
                 
                 return cell

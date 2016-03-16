@@ -228,6 +228,7 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         sendButton.setTitle("Send Love", forState: UIControlState.Normal)
         recipientField.placeholder = "Love Recipient"
+        //noteContent.placeholder = "Why are you sending love?"
     }
     /**
      * Changes subType to fist

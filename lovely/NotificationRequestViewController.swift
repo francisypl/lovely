@@ -43,7 +43,6 @@ class NotificationRequestViewController: UIViewController {
     func done() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setValue(true, forKey: "notificationsRequested")
-        
         userDefaults.synchronize()
         
         self.dismissViewControllerAnimated(true, completion: nil)
