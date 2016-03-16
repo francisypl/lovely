@@ -22,12 +22,16 @@ struct UIHelper {
         }
     }
     
-    static func showFeed(vc: UIViewController) {
+    static func showFeed(vc: UIViewController) -> FeedViewController? {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         
         if let newVC = storyBoard.instantiateViewControllerWithIdentifier("FeedViewController") as? FeedViewController {
             vc.presentViewController(newVC, animated: true, completion: nil)
+            
+            return newVC
         }
+        
+        return nil
     }
     
     static func showLogIn(vc: UIViewController) {

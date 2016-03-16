@@ -170,12 +170,15 @@ class AppState {
      */
     func loadFeed() {
         if let feed = self.feedVC {
-            self.refreshNotes(true, callback: feed.reloadTable)
+            self.refreshNotes(true) { Void -> () in
+                feed.reloadTable()
+                
+                self.readyForUserControl = true
+                
+                print("Initialized...")
+            }
+            
             self.refreshNotes(false, callback: nil)
-            
-            self.readyForUserControl = true
-            
-            print("App State Initialized...")
         }
     }
     

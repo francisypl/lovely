@@ -44,15 +44,11 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
                     DatabaseWrapper.getUserIdForFbId(res["id"] as! String) { (id) -> () in
                         if id == -1 {
                             DatabaseWrapper.createUser(User(fbId: res["id"] as! String, name: res["name"] as! String, email: res["email"] as! String, image: UIImage()), fbResult: res) { (newId, fbResult) -> () in
-                                _ = AppState.getInstance()
-                                
-                                self.removeLoading()
+                                self.loggedIn()
                             }
                         }
                         else {
-                            _ = AppState.getInstance()
-                            
-                            self.removeLoading()
+                            self.loggedIn()
                         }
                     }
                 }
@@ -63,8 +59,16 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
         }
     }
     
+    private func loggedIn() {
+        dispatch_async(dispatch_get_main_queue()) {
+            _ = AppState.getInstance()
+            
+            self.removeLoading()
+        }
+    }
+    
     private func displayLoading() {
-        print("Loading...")
+        print("Logging In...")
         self.loginButton.removeFromSuperview()
         
         indicator.frame = CGRectMake(0.0, 0.0, 40.0, 40.0)
@@ -75,11 +79,16 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     private func removeLoading() {
-        print("Loading Removed...")
+        print("Logged In...")
         // Transition to Feed View
         indicator.stopAnimating()
         indicator.removeFromSuperview()
-        UIHelper.showFeed(self)
+        
+        if let feedVC = UIHelper.showFeed(self) {
+            let state = AppState.getInstance()!
+            
+            state.feedVC = feedVC
+        }
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
