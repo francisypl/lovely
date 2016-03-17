@@ -204,12 +204,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
                 cell.noteCopy.text = note.message
                 
-                if IAmSender {
+                //if IAmSender {
                     cell.sendLoveButton.hidden = true
-                }
+                /*}
                 else {
                     cell.noteSender = note.sender
-                }
+                }*/
                 
                 cell.delegate = self
                 cell.selectionStyle = UITableViewCellSelectionStyle.None

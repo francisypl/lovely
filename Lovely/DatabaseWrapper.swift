@@ -45,16 +45,7 @@ struct DatabaseWrapper {
      * @return array of notes
      */
     static func getNotes(isPublic: Bool, callback: ((notes: [Note]) -> ())?) {
-        if let state = AppState.getInstance() {
-            HttpHelper.post_async([
-                "user-id": String(state.currentUser.id),
-                "is-public": isPublic ? "1" : "0"
-            ], url: "notes.php") { (response) -> () in
-                if callback != nil {
-                    callback!(notes: getNotesArrayFromPostData(response))
-                }
-            }
-        }
+        DatabaseWrapper.getNotes(0, isPublic: isPublic, callback: callback)
     }
     
     /**
@@ -62,14 +53,24 @@ struct DatabaseWrapper {
      */
     static func getNotes(lastNoteId: Int, isPublic : Bool, callback: ((notes: [Note]) -> ())?) {
         if let state = AppState.getInstance() {
-            HttpHelper.post_async([
-                "user-id": String(state.currentUser.id),
-                "is-public": isPublic ? "1" : "0",
-                "last-note-id": String(lastNoteId)
-            ], url: "notes.php") { (response) -> () in
-                if callback != nil {
-                    callback!(notes: getNotesArrayFromPostData(response))
+            do {
+                let ids = Array(state.friendsList.keys)
+                let idsJsonData = try NSJSONSerialization.dataWithJSONObject(ids, options: NSJSONWritingOptions.PrettyPrinted)
+                let idsString = NSString(data: idsJsonData, encoding: NSUTF8StringEncoding)
+                
+                HttpHelper.post_async([
+                    "user-id": String(state.currentUser.id),
+                    "is-public": isPublic ? "1" : "0",
+                    "last-note-id": String(lastNoteId),
+                    "ids": idsString as! String
+                ], url: "notes.php") { (response) -> () in
+                    if callback != nil {
+                        callback!(notes: getNotesArrayFromPostData(response))
+                    }
                 }
+            }
+            catch {
+                print("Couldn't convert ids to json")
             }
         }
     }
