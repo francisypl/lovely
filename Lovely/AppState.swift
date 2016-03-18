@@ -326,5 +326,10 @@ class AppState {
     static func clearState() {
         AppState.state = nil
     }
+    
+    static func internetConnectIsAvaliable() -> Bool {
+        let reach = Reachability.reachabilityForInternetConnection()
+        return reach.currentReachabilityStatus() != NetworkStatus.NotReachable
+    }
 
 }

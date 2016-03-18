@@ -285,7 +285,11 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
-        //let recipient = User(id: -1, fbId: "", name: "user", email: "")
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            return
+        }
+
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         let note = Note(message: noteContent.text, recipient: recipient!, isPublic: isPublic, type: "note", subType: subType)

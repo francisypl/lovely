@@ -155,6 +155,15 @@ struct UIHelper {
                 })
         }
     }
+    
+    static func showConnectionLostErrorMessage(vc: UIViewController) {
+        showErrorMessage("Connection Lost", vc: vc)
+    }
+    
+    static func showAlertView(withTitle title: String, message: String) {
+        let alert = UIAlertView(title: title, message: message, delegate: nil, cancelButtonTitle: "OK")
+        alert.show()
+    }
 }
 
 extension UIImageView{

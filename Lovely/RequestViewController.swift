@@ -398,6 +398,11 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
      * Attempt to send message
      */
     @IBAction func send(sender: AnyObject) {
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            return
+        }
+    
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         if isPublic {
