@@ -162,7 +162,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
                 
                 cell.ageLabel.text = UIHelper.ago(note.date)
-                cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
+                cell.ageLabel.font = UIFont.systemFontOfSize(11, weight: UIFontWeightLight);
                 
                 cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
                 cell.noteCopy.text = note.message
@@ -199,17 +199,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
                 
                 cell.ageLabel.text = UIHelper.ago(note.date)
-                cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
+                cell.ageLabel.font = UIFont.systemFontOfSize(11, weight: UIFontWeightLight);
                 
                 cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
                 cell.noteCopy.text = note.message
                 
-                //if IAmSender {
+                if IAmSender {
                     cell.sendLoveButton.hidden = true
-                /*}
+                }
                 else {
                     cell.noteSender = note.sender
-                }*/
+                }
                 
                 cell.delegate = self
                 cell.selectionStyle = UITableViewCellSelectionStyle.None

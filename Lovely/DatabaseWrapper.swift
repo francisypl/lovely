@@ -24,6 +24,7 @@ struct DatabaseWrapper {
             "recipient-id": String(note.recipient.id),
             "is-public": note.isPublic ? "1" : "0"
         ], url: "send-note.php") { (response) -> () in
+            print(response)
             if let id = Int(response) {
                 note.setId(id)
             }
