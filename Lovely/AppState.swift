@@ -19,6 +19,14 @@ extension FBSDKAccessToken {
     }
 }
 
+extension String {
+    static func capitalizeFirstLetter(str: String) -> String {
+        var strVal = String(str)
+        strVal.replaceRange(strVal.startIndex...strVal.startIndex, with: String(strVal[strVal.startIndex]).capitalizedString)
+        return strVal
+    }
+}
+
 class AppState {
     private(set) var currentUser: User
     static var state: AppState?

@@ -10,6 +10,7 @@ import UIKit
 
 protocol SendViewControllerDelegate {
     func noteCreated()
+    func showMessage(message: String, type: MessageType)
 }
 
 class SendViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
@@ -300,6 +301,17 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.delegate!.noteCreated()
         }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            let type = note.subType.rawValue
+            let arr = type.componentsSeparatedByString("-")
+            var ret = ""
+            for elem in arr {
+                let capStr = String.capitalizeFirstLetter(elem)
+                ret += capStr + " "
+            }
+            let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            
+            self.delegate?.showMessage(final + " Sent", type: MessageType.Success)
+        }
     }
 }

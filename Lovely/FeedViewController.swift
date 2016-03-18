@@ -415,4 +415,11 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.reloadData()
     }
+    
+    /**
+     * Displays a message
+     */
+    func showMessage(message: String, type: MessageType) {
+        UIHelper.showMessage(message, vc: self, type: type)
+    }
 }

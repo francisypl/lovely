@@ -405,16 +405,17 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
     
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
+        var note: Note? = nil
         if isPublic {
-            let note = Note(message: noteContent.text, recipient: AppState.getPublicUser(), isPublic: isPublic, type: "request", subType: subType)
+            note = Note(message: noteContent.text, recipient: AppState.getPublicUser(), isPublic: isPublic, type: "request", subType: subType)
             
-            note.send()
+            note!.send()
         }
         else {
             for recipient in recipients {
-                let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "request", subType: subType)
+                note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "request", subType: subType)
                 
-                note.send()
+                note!.send()
             }
         }
         
@@ -422,6 +423,17 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.delegate!.noteCreated()
         }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            let type = note!.subType.rawValue
+            let arr = type.componentsSeparatedByString("-")
+            var ret = ""
+            for elem in arr {
+                let capStr = String.capitalizeFirstLetter(elem)
+                ret += capStr + " "
+            }
+            let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            
+            self.delegate?.showMessage(final + " Day Sent", type: MessageType.Success)
+        }
     }
 }
