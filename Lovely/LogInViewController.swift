@@ -98,6 +98,12 @@ class LogInViewController: UIViewController, FBSDKLoginButtonDelegate {
     }
     
     func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
-        return true
+        let willLogin = AppState.internetConnectIsAvaliable()
+        
+        if !willLogin {
+            UIHelper.showAlertView(withTitle: "Connection Lost", message: "Internet connect is currently not available. Connect to the internet and try again.")
+        }
+        
+        return willLogin
     }
 }

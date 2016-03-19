@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate, ProfileViewDelegate, FeedPublicRequestTableViewCellDelegate {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SendViewControllerDelegate, RequestViewControllerDelegate, ProfileViewDelegate, FeedNoteTableViewCellDelegate {
     
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +31,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset = UIEdgeInsetsZero
-        //tableView.backgroundColor = UIColor.clearColor()
         
         refreshControl = {
             let refreshControl = UIRefreshControl()
@@ -140,44 +139,23 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let IAmSender = note.sender.id == state.currentUser.id
             let IAmRecipient = note.recipient.id == state.currentUser.id
             
+            let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
+            
+            cell.note = note
+            
+            cell.fromProfilePicture.image = IAmSender && !IAmRecipient ? state.currentUser.image : note.sender.image
+            cell.fromProfilePicture.contentMode = .ScaleAspectFit
+            cell.fromProfilePicture.circle()
+            
             if note.type == "note" {
-                let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
-                
-                cell.fromProfilePicture.image = IAmSender && !IAmRecipient ? state.currentUser.image : note.sender.image
-                cell.fromProfilePicture.contentMode = .ScaleAspectFit
-                cell.fromProfilePicture.circle()
-                
                 if IAmSender {
                     cell.fromName.text = "You"
                 }
                 else {
                     cell.fromName.text = note.sender.name
                 }
-                
-                cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
-                
-                cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
-                
-                cell.toName.text = IAmSender || !IAmRecipient ? note.recipient.name : "You"
-                cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
-                
-                cell.ageLabel.text = UIHelper.ago(note.date)
-                cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
-                
-                cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
-                cell.noteCopy.text = note.message
-                
-                cell.selectionStyle = UITableViewCellSelectionStyle.None
-                
-                return cell
             }
             else {
-                let cell = tableView.dequeueReusableCellWithIdentifier("Request") as! FeedPublicRequestTableViewCell
-                
-                cell.fromProfilePicture.image = IAmSender && !IAmRecipient ? state.currentUser.image : note.sender.image
-                cell.fromProfilePicture.contentMode = .ScaleAspectFit
-                cell.fromProfilePicture.circle()
-                
                 if IAmSender {
                     if !note.isPublic {
                         let recipientName = IAmSender || !IAmRecipient ? note.recipient.name : "You"
@@ -190,32 +168,54 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 else {
                     cell.fromName.text = note.sender.name
                 }
-                
-                cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
-                
+            }
+            
+            cell.fromName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
+            
+            cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
+            
+            cell.dayType.text = ""
+            cell.toName.text = ""
+            
+            if note.type == "note" {
+                cell.toName.text = IAmSender || !IAmRecipient ? note.recipient.name : "You"
+                cell.toName.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightSemibold);
+            }
+            else {
                 cell.dayType.text = "had a " + note.subType.rawValue + " day"
                 cell.dayType.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
-                
-                cell.noteIcon.image = UIImage(named: note.subType.rawValue + "-option")
-                
-                cell.ageLabel.text = UIHelper.ago(note.date)
-                cell.ageLabel.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightLight);
-                
-                cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
-                cell.noteCopy.text = note.message
-                
-                //if IAmSender {
-                    cell.sendLoveButton.hidden = true
-                /*}
-                else {
-                    cell.noteSender = note.sender
-                }*/
-                
-                cell.delegate = self
-                cell.selectionStyle = UITableViewCellSelectionStyle.None
-                
-                return cell
             }
+            
+            cell.ageLabel.text = UIHelper.ago(note.date)
+            cell.ageLabel.font = UIFont.systemFontOfSize(11, weight: UIFontWeightLight);
+            
+            cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
+            cell.noteCopy.text = note.message
+            
+            cell.likeButton.alpha = 0.5
+            cell.likeButton.setTitleColor(UIHelper.darkMainColor, forState: .Normal)
+            cell.likeButton.titleLabel?.font = UIFont.systemFontOfSize(12, weight: UIFontWeightRegular)
+            
+            cell.commentButton.hidden = true
+            
+            if note.liked {
+                cell.likeButton.setImage(UIImage(named: "like-active.png"), forState: .Normal)
+                cell.likeButton.alpha = 0.8
+            }
+            else {
+                cell.likeButton.setImage(UIImage(named: "like.png"), forState: .Normal)
+            }
+            
+            if note.likes > 0 {
+                cell.likeButton.setTitle(" "+String(note.likes), forState: .Normal)
+            }
+            else {
+                cell.likeButton.setTitle("", forState: .Normal)
+            }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            return cell
         }
     }
     
@@ -332,6 +332,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Repulls notes & refreshes data
      */
     func handleRefresh(refreshControl: UIRefreshControl) {
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            refreshControl.endRefreshing()
+            return
+        }
+        
         if let state = AppState.getInstance() {
             if state.readyForUserControl {
                 state.refreshNotes(isPublic, callback: { Void -> () in
@@ -408,5 +414,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         tableView.reloadData()
+    }
+    
+    /**
+     * Displays a message
+     */
+    func showMessage(message: String, type: MessageType) {
+        UIHelper.showMessage(message, vc: self, type: type)
     }
 }

@@ -398,25 +398,56 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
      * Attempt to send message
      */
     @IBAction func send(sender: AnyObject) {
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            return
+        }
+    
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         if isPublic {
             let note = Note(message: noteContent.text, recipient: AppState.getPublicUser(), isPublic: isPublic, type: "request", subType: subType)
             
-            note.send()
-        }
-        else {
-            for recipient in recipients {
-                let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "request", subType: subType)
+            note.send() { () -> () in
+                self.delegate?.noteCreated()
                 
-                note.send()
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    let type = note.subType.rawValue
+                    let arr = type.componentsSeparatedByString("-")
+                    var ret = ""
+                    for elem in arr {
+                        let capStr = String.capitalizeFirstLetter(elem)
+                        ret += capStr + " "
+                    }
+                    let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    
+                    self.delegate?.showMessage(final + " Day Sent", type: MessageType.Success)
+                })
             }
         }
-        
-        if (self.delegate != nil) {
-            self.delegate!.noteCreated()
+        else {
+            for var i = 0; i < recipients.count; i++ {
+                let note = Note(message: noteContent.text, recipient: recipients[i], isPublic: isPublic, type: "request", subType: subType)
+                
+                note.send() { () -> () in
+                    if i == self.recipients.count - 1 {
+                        self.delegate?.noteCreated()
+                        
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            let type = note.subType.rawValue
+                            let arr = type.componentsSeparatedByString("-")
+                            var ret = ""
+                            for elem in arr {
+                                let capStr = String.capitalizeFirstLetter(elem)
+                                ret += capStr + " "
+                            }
+                            let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            
+                            self.delegate?.showMessage(final + " Day Sent", type: MessageType.Success)
+                        })
+                    }
+                }
+            }
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

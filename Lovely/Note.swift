@@ -22,6 +22,9 @@ class Note {
     private(set) var subType: NoteSubType
     private(set) var date: NSDate
     
+    internal var likes = 0
+    internal var liked = false
+    
     /**
     * Primarily used for creating a new note
     */
@@ -53,8 +56,8 @@ class Note {
     /**
      * Inserts note into db and gets id
      */
-    func send() {
-        DatabaseWrapper.send(self)
+    func send(callback: (() -> ())?) {
+        DatabaseWrapper.send(self, callback: callback)
     }
     
     /**

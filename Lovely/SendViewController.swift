@@ -10,6 +10,7 @@ import UIKit
 
 protocol SendViewControllerDelegate {
     func noteCreated()
+    func showMessage(message: String, type: MessageType)
 }
 
 class SendViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate {
@@ -285,17 +286,34 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
-        //let recipient = User(id: -1, fbId: "", name: "user", email: "")
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            return
+        }
+
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         let note = Note(message: noteContent.text, recipient: recipient!, isPublic: isPublic, type: "note", subType: subType)
         
-        note.send()
-        
-        if (self.delegate != nil) {
-            self.delegate!.noteCreated()
+        note.send() { () -> () in
+            if (self.delegate != nil) {
+                self.delegate!.noteCreated()
+            }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            let type = note.subType.rawValue
+            let arr = type.componentsSeparatedByString("-")
+            var ret = ""
+            for elem in arr {
+                let capStr = String.capitalizeFirstLetter(elem)
+                ret += capStr + " "
+            }
+            let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            
+            self.delegate?.showMessage(final + " Sent", type: MessageType.Success)
+        }
     }
 }
