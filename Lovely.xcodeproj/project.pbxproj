@@ -37,7 +37,6 @@
 		6D5129A11C9B2D0C009B6CA2 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D51299C1C9B2D0C009B6CA2 /* Note.swift */; };
 		6D5129A21C9B2D0C009B6CA2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D51299D1C9B2D0C009B6CA2 /* User.swift */; };
 		6D5129AE1C9B2D65009B6CA2 /* FeedNoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5129A61C9B2D65009B6CA2 /* FeedNoteTableViewCell.swift */; };
-		6D5129AF1C9B2D65009B6CA2 /* FeedPublicRequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5129A71C9B2D65009B6CA2 /* FeedPublicRequestTableViewCell.swift */; };
 		6D5129B01C9B2D65009B6CA2 /* KMPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5129A81C9B2D65009B6CA2 /* KMPlaceholderTextView.swift */; };
 		6D5129B11C9B2D65009B6CA2 /* LeftAlignedFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5129A91C9B2D65009B6CA2 /* LeftAlignedFlowLayout.swift */; };
 		6D5129B21C9B2D65009B6CA2 /* PaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5129AA1C9B2D65009B6CA2 /* PaddedTextField.swift */; };
@@ -112,7 +111,6 @@
 		6D51299C1C9B2D0C009B6CA2 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		6D51299D1C9B2D0C009B6CA2 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6D5129A61C9B2D65009B6CA2 /* FeedNoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedNoteTableViewCell.swift; sourceTree = "<group>"; };
-		6D5129A71C9B2D65009B6CA2 /* FeedPublicRequestTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedPublicRequestTableViewCell.swift; sourceTree = "<group>"; };
 		6D5129A81C9B2D65009B6CA2 /* KMPlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPlaceholderTextView.swift; sourceTree = "<group>"; };
 		6D5129A91C9B2D65009B6CA2 /* LeftAlignedFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignedFlowLayout.swift; sourceTree = "<group>"; };
 		6D5129AA1C9B2D65009B6CA2 /* PaddedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddedTextField.swift; sourceTree = "<group>"; };
@@ -226,6 +224,9 @@
 				6D1DF2F71C9B30100032A362 /* intro-request@2x.png */,
 				6D1DF2F81C9B30100032A362 /* intro-send-love@2x.png */,
 				6D1DF2F91C9B30100032A362 /* journal-icon@3x.png */,
+				6D5CE2051C9DC381009285CF /* comment@3x.png */,
+				6D5CE2061C9DC381009285CF /* like-active@3x.png */,
+				6D5CE2071C9DC381009285CF /* like@3x.png */,
 				6D1DF2FA1C9B30100032A362 /* journal@3x.png */,
 				6D1DF2FB1C9B30100032A362 /* long-option@3x.png */,
 				6D1DF2FC1C9B30100032A362 /* love-option@3x.png */,
@@ -290,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				6D5129A61C9B2D65009B6CA2 /* FeedNoteTableViewCell.swift */,
-				6D5129A71C9B2D65009B6CA2 /* FeedPublicRequestTableViewCell.swift */,
 				6D5129A81C9B2D65009B6CA2 /* KMPlaceholderTextView.swift */,
 				6D5129A91C9B2D65009B6CA2 /* LeftAlignedFlowLayout.swift */,
 				6D5129AA1C9B2D65009B6CA2 /* PaddedTextField.swift */,
@@ -407,14 +407,17 @@
 			files = (
 				6D1DF3071C9B30100032A362 /* intro-send-love@2x.png in Resources */,
 				6D1DF30E1C9B30100032A362 /* settings@2x.png in Resources */,
+				6D5CE2091C9DC381009285CF /* like-active@3x.png in Resources */,
 				6D5129C91C9B2DAC009B6CA2 /* Main.storyboard in Resources */,
 				6D1DF3031C9B30100032A362 /* intro-feed@2x.png in Resources */,
 				6D1DF30D1C9B30100032A362 /* sad-option@3x.png in Resources */,
 				6D5129C81C9B2DAC009B6CA2 /* LaunchScreen.storyboard in Resources */,
 				6D1DF30C1C9B30100032A362 /* lovely@2x.png in Resources */,
 				6D1DF3021C9B30100032A362 /* good-option@3x.png in Resources */,
+				6D5CE2081C9DC381009285CF /* comment@3x.png in Resources */,
 				6D1DF3081C9B30100032A362 /* journal-icon@3x.png in Resources */,
 				6D1DF3061C9B30100032A362 /* intro-request@2x.png in Resources */,
+				6D5CE20A1C9DC381009285CF /* like@3x.png in Resources */,
 				6D1DF30A1C9B30100032A362 /* long-option@3x.png in Resources */,
 				6D1DF3041C9B30100032A362 /* intro-journal@2x.png in Resources */,
 				6D1DF3001C9B30100032A362 /* fbLogInButton@3x.png in Resources */,

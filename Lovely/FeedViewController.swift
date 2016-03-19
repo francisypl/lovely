@@ -31,7 +31,6 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorInset = UIEdgeInsetsZero
-        //tableView.backgroundColor = UIColor.clearColor()
         
         refreshControl = {
             let refreshControl = UIRefreshControl()
@@ -197,7 +196,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.likeButton.setTitleColor(UIHelper.darkMainColor, forState: .Normal)
             cell.likeButton.titleLabel?.font = UIFont.systemFontOfSize(12, weight: UIFontWeightRegular)
             
-            cell.commentButton.alpha = 0.5
+            cell.commentButton.hidden = true
             
             if note.liked {
                 cell.likeButton.setImage(UIImage(named: "like-active.png"), forState: .Normal)

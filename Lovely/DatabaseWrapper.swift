@@ -14,7 +14,7 @@ struct DatabaseWrapper {
     * Sends post request to the server to insert note
     * @return note id
     */
-    static func send(note: Note) {
+    static func send(note: Note, callback: (() -> ())?) {
         HttpHelper.post_async([
             "message": note.message,
             "sub-type": note.subType.rawValue,
@@ -26,6 +26,8 @@ struct DatabaseWrapper {
         ], url: "send-note.php") { (response) -> () in
             if let id = Int(response) {
                 note.setId(id)
+                
+                callback?()
             }
         }
     }
