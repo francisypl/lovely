@@ -106,7 +106,7 @@ struct UIHelper {
             return "\(components.weekOfYear)w"
         }
         else if (components.day >= 1){
-            return "1d"
+            return "\(components.day)d"
         }
         else if (components.hour >= 1){
             return "\(components.hour)h"
