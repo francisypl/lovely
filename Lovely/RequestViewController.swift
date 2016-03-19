@@ -403,20 +403,24 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
         if isPublic {
             let note = Note(message: noteContent.text, recipient: AppState.getPublicUser(), isPublic: isPublic, type: "request", subType: subType)
             
-            note.send()
-        }
-        else {
-            for recipient in recipients {
-                let note = Note(message: noteContent.text, recipient: recipient, isPublic: isPublic, type: "request", subType: subType)
+            note.send() { () -> () in
+                self.delegate?.noteCreated()
                 
-                note.send()
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
-        if (self.delegate != nil) {
-            self.delegate!.noteCreated()
+        else {
+            for var i = 0; i < recipients.count; i++ {
+                let note = Note(message: noteContent.text, recipient: recipients[i], isPublic: isPublic, type: "request", subType: subType)
+                
+                note.send() { () -> () in
+                    if i == self.recipients.count - 1 {
+                        self.delegate?.noteCreated()
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                }
+            }
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

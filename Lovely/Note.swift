@@ -56,8 +56,8 @@ class Note {
     /**
      * Inserts note into db and gets id
      */
-    func send() {
-        DatabaseWrapper.send(self)
+    func send(callback: (() -> ())?) {
+        DatabaseWrapper.send(self, callback: callback)
     }
     
     /**

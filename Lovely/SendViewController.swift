@@ -290,12 +290,12 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let note = Note(message: noteContent.text, recipient: recipient!, isPublic: isPublic, type: "note", subType: subType)
         
-        note.send()
-        
-        if (self.delegate != nil) {
-            self.delegate!.noteCreated()
+        note.send() { () -> () in
+            if (self.delegate != nil) {
+                self.delegate!.noteCreated()
+            }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
