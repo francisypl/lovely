@@ -24,7 +24,6 @@ struct DatabaseWrapper {
             "recipient-id": String(note.recipient.id),
             "is-public": note.isPublic ? "1" : "0"
         ], url: "send-note.php") { (response) -> () in
-            print(response)
             if let id = Int(response) {
                 note.setId(id)
             }
@@ -39,6 +38,37 @@ struct DatabaseWrapper {
             "mode": "delete",
             "note-id": String(note.id)
         ], url: "note.php", callback: nil)
+    }
+    
+    /**
+     * Sends post request to the server to insert note
+     * @return note id
+     */
+    static func likeNote(note: Note) {
+        if let state = AppState.getInstance() {
+            HttpHelper.post_async([
+                "mode": "like",
+                "user-id": String(state.currentUser.id),
+                "user-name": state.currentUser.name,
+                "note-id": String(note.id)
+                ], url: "note.php") { (response) -> () in
+                    print(response)
+            }
+        }
+    }
+    
+    /**
+     * Sends post request to the server to insert note
+     * @return note id
+     */
+    static func unlikeNote(note: Note) {
+        if let state = AppState.getInstance() {
+            HttpHelper.post_async([
+                "mode": "unlike",
+                "user-id": String(state.currentUser.id),
+                "note-id": String(note.id)
+            ], url: "note.php", callback: nil)
+        }
     }
     
     /**
@@ -89,6 +119,8 @@ struct DatabaseWrapper {
                     let recipientId = Int(noteData["recipient_id"] as! String)!
                     let id = Int(noteData["id"] as! String)!
                     let message = noteData["message"] as! String
+                    let likes = Int(noteData["like_count"] as! String)!
+                    let liked = (noteData["liked"] as! String) == "1"
                     let isPublic = noteData["is_public"] as! String == "1"
                     let type = noteData["type"] as! String
                     let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
@@ -105,7 +137,12 @@ struct DatabaseWrapper {
                         }
                         
                         if recipient != nil {
-                            notes.append(Note(id: id, message: message, sender: sender, recipient: recipient!, isPublic: isPublic, type: type, subType: subType, date: date))
+                            let note = Note(id: id, message: message, sender: sender, recipient: recipient!, isPublic: isPublic, type: type, subType: subType, date: date)
+                            
+                            note.likes = likes
+                            note.liked = liked
+                            
+                            notes.append(note)
                         }
                     }
                 }
