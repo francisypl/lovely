@@ -116,7 +116,7 @@ struct DatabaseWrapper {
             var notes : [Note] = []
             
             for noteData in notesData {
-                if let note = DatabaseWrapper.noteFromNoteData(noteData) {
+                if let note = DatabaseWrapper.noteFromNoteData(noteData, mode: "bulk") {
                     notes.append(note)
                 }
             }
@@ -133,7 +133,7 @@ struct DatabaseWrapper {
             "note-id": String(id)
         ], url: "note.php") { (response) -> () in
             if let noteData = HttpHelper.jsonToDictionary(response) {
-                if let note = DatabaseWrapper.noteFromNoteData(noteData) {
+                if let note = DatabaseWrapper.noteFromNoteData(noteData, mode: "individual") {
                     callback?(note: note)
                 }
             }
@@ -141,8 +141,9 @@ struct DatabaseWrapper {
 
     }
     
-    static func noteFromNoteData(noteData: [String: AnyObject]) -> Note? {
+    static func noteFromNoteData(noteData: [String: AnyObject], mode: String) -> Note? {
         if let state = AppState.getInstance() {
+            print(noteData)
             let senderId = Int(noteData["sender_id"] as! String)!
             let recipientId = Int(noteData["recipient_id"] as! String)!
             let id = Int(noteData["id"] as! String)!
@@ -165,9 +166,11 @@ struct DatabaseWrapper {
                 if recipient != nil {
                     let note = Note(id: id, message: message, sender: sender, recipient: recipient!, isPublic: isPublic, type: type, subType: subType, date: date)
                     
-                    note.likes = Int(noteData["like_count"] as! String)!
-                    note.liked = (noteData["liked"] as! String) == "1"
-                    note.comments = Int(noteData["comment_count"] as! String)!
+                    if mode == "bulk" {
+                        note.likes = Int(noteData["like_count"] as! String)!
+                        note.liked = (noteData["liked"] as! String) == "1"
+                        note.comments = Int(noteData["comment_count"] as! String)!
+                    }
                     
                     return note
                 }
@@ -331,6 +334,6 @@ struct DatabaseWrapper {
         HttpHelper.post_async([
             "mode": "delete",
             "comment-id": String(comment.id)
-            ], url: "comment.php", callback: nil)
+        ], url: "comment.php", callback: nil)
     }
 }

@@ -495,6 +495,8 @@
 				6D51299F1C9B2D0C009B6CA2 /* DatabaseWrapper.swift in Sources */,
 				6D51299E1C9B2D0C009B6CA2 /* AppState.swift in Sources */,
 				6DC347CC1C9F470A00AEE90D /* Comment.swift in Sources */,
+				151C9CD61C9B9C6200264A0B /* Reachability.m in Sources */,
+				6D5129AF1C9B2D65009B6CA2 /* FeedPublicRequestTableViewCell.swift in Sources */,
 				6D5129B31C9B2D65009B6CA2 /* ProfileTableViewCell.swift in Sources */,
 				6D5129B01C9B2D65009B6CA2 /* KMPlaceholderTextView.swift in Sources */,
 				6D5129C21C9B2D86009B6CA2 /* NotificationRequestViewController.swift in Sources */,

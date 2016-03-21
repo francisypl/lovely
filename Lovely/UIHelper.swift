@@ -18,8 +18,9 @@ struct UIHelper {
     static var darkMainColor = UIColor(red: 167/255.0, green: 110/255.0, blue: 175/255.0, alpha: 1)
     static var lightMainColor = UIColor(red: 201/255.0, green: 138/255.0, blue: 210/255.0, alpha: 1)
     static var deleteColor = UIColor(red: 223/255.0, green: 96/255.0, blue: 96/255.0, alpha: 1)
-    static var successColor = UIColor(red: 101/255.0, green: 173/255.0, blue: 73/255.0, alpha: 1)
+    static var successColor = UIColor(red: 117/255.0, green: 187/255.0, blue: 178/255.0, alpha: 1)
     static var fbColor = UIColor(red: 66/255.0, green: 103/255.0, blue: 178/255.0, alpha: 1)
+    static var notificationShowing = false
     static var standardFontSize : CGFloat = 13
     
     static func animateUpdateLayout(vc: UIViewController) {
@@ -151,10 +152,10 @@ struct UIHelper {
         vc.view.bringSubviewToFront(notification)
         vc.view.bringSubviewToFront(toolbar)
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
             notification.frame.origin.y += height
             }) { (completed) -> Void in
-                UIView.animateWithDuration(0.5, delay: 1.0, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+                UIView.animateWithDuration(0.25, delay: 1.5, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
                     notification.frame.origin.y -= height
                     }, completion: { (completed) -> Void in
                         notification.removeFromSuperview()

@@ -430,7 +430,7 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let note = Note(message: noteContent.text, recipient: recipients[i], isPublic: isPublic, type: "request", subType: subType)
                 
                 note.send() { () -> () in
-                    if i == self.recipients.count - 1 {
+                    if i == self.recipients.count {
                         self.delegate?.noteCreated()
                         
                         self.dismissViewControllerAnimated(true, completion: { () -> Void in

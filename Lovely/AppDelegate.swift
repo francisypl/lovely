@@ -14,28 +14,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var activated = false
+    var backgrounded = false
+    var notificationData: [NSObject : AnyObject]?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         application.statusBarStyle = UIStatusBarStyle.LightContent
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        /*
+        if launchOptions != nil {
+            if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as! [NSObject : AnyObject]? {
+                notificationData = remoteNotification
+            }
+        }
+        
+        return true
+    }
+    
+    func handleBackgroundNotification(vc: UIViewController, userInfo: [NSObject : AnyObject]) {
         if let aps = userInfo["aps"] as? NSDictionary {
             if let noteId = Int(aps["note_id"] as! String) {
                 DatabaseWrapper.getNote(noteId, callback: { (note: Note) -> () in
                     dispatch_async(dispatch_get_main_queue()) {
-                        if let state = AppState.getInstance() {
-                            if state.feedVC != nil {
-                                UIHelper.showNote(state.feedVC!, note: note)
-                            }
-                        }
+                        UIHelper.showNote(vc, note: note)
                     }
                 })
             }
-        }*/
-        
-        return true
+        }
     }
     
     /**
@@ -68,6 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window!.frame = UIScreen.mainScreen().bounds
             
             activated = true
+            
+            if AppState.isAuthenticated() {
+                if let data = notificationData {
+                    handleBackgroundNotification(rootViewController!, userInfo: data)
+                }
+            }
         }
     }
     
@@ -85,8 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        backgrounded = true
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -110,11 +120,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        if let state = AppState.getInstance() {
-            if let aps = userInfo["aps"] as? NSDictionary {
-                if let type = aps["type"] as? NSString {
-                    if type == "note" {
-                        state.recievedNote()
+        if backgrounded {
+            if let state = AppState.getInstance() {
+                if let vc = state.feedVC {
+                    handleBackgroundNotification(vc, userInfo: userInfo)
+                }
+            }
+        
+            backgrounded = false
+        }
+        else {
+            if let state = AppState.getInstance() {
+                if let aps = userInfo["aps"] as? NSDictionary {
+                    if let type = aps["type"] as? NSString {
+                        if type == "note" {
+                            state.recievedNote()
+                        }
                     }
                 }
             }
