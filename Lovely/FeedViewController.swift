@@ -361,6 +361,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
      * Repulls notes & refreshes data
      */
     func handleRefresh(refreshControl: UIRefreshControl) {
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            refreshControl.endRefreshing()
+            return
+        }
+        
         if let state = AppState.getInstance() {
             if state.readyForUserControl {
                 state.refreshNotes(isPublic, callback: { Void -> () in
@@ -441,5 +447,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         tableView.reloadData()
+    }
+    
+    /**
+     * Displays a message
+     */
+    func showMessage(message: String, type: MessageType) {
+        UIHelper.showMessage(message, vc: self, type: type)
     }
 }

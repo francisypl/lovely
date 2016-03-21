@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		151C9CD01C9B7F5500264A0B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151C9CCD1C9B7F5500264A0B /* Bolts.framework */; };
+		151C9CD11C9B7F5500264A0B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151C9CCE1C9B7F5500264A0B /* FBSDKCoreKit.framework */; };
+		151C9CD21C9B7F5500264A0B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151C9CCF1C9B7F5500264A0B /* FBSDKLoginKit.framework */; };
+		151C9CD61C9B9C6200264A0B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C9CD51C9B9C6200264A0B /* Reachability.m */; };
+		151C9CD81C9B9DC500264A0B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 151C9CD71C9B9DC500264A0B /* SystemConfiguration.framework */; };
 		6D1DF3001C9B30100032A362 /* fbLogInButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1DF2F11C9B30100032A362 /* fbLogInButton@3x.png */; };
 		6D1DF3011C9B30100032A362 /* fist-bump-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1DF2F21C9B30100032A362 /* fist-bump-option@3x.png */; };
 		6D1DF3021C9B30100032A362 /* good-option@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6D1DF2F31C9B30100032A362 /* good-option@3x.png */; };
@@ -78,6 +83,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		151C9CCD1C9B7F5500264A0B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../FacebookSDKs-iOS-20160210/Bolts.framework"; sourceTree = "<group>"; };
+		151C9CCE1C9B7F5500264A0B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../FacebookSDKs-iOS-20160210/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
+		151C9CCF1C9B7F5500264A0B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../FacebookSDKs-iOS-20160210/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
+		151C9CD31C9B9C6200264A0B /* Lovely-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lovely-Bridging-Header.h"; sourceTree = "<group>"; };
+		151C9CD41C9B9C6200264A0B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		151C9CD51C9B9C6200264A0B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		151C9CD71C9B9DC500264A0B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D1DF2F11C9B30100032A362 /* fbLogInButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fbLogInButton@3x.png"; sourceTree = "<group>"; };
 		6D1DF2F21C9B30100032A362 /* fist-bump-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fist-bump-option@3x.png"; sourceTree = "<group>"; };
 		6D1DF2F31C9B30100032A362 /* good-option@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "good-option@3x.png"; sourceTree = "<group>"; };
@@ -142,9 +154,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D8EE2261C9B5D1500C9C41F /* FBSDKLoginKit.framework in Frameworks */,
-				6D8EE2271C9B5D1500C9C41F /* FBSDKCoreKit.framework in Frameworks */,
-				6D8EE2251C9B5D1500C9C41F /* Bolts.framework in Frameworks */,
+				151C9CD81C9B9DC500264A0B /* SystemConfiguration.framework in Frameworks */,
+				151C9CD11C9B7F5500264A0B /* FBSDKCoreKit.framework in Frameworks */,
+				151C9CD21C9B7F5500264A0B /* FBSDKLoginKit.framework in Frameworks */,
+				151C9CD01C9B7F5500264A0B /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,9 +261,13 @@
 		6D5129971C9B2CE4009B6CA2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6D8EE2221C9B5D1500C9C41F /* Bolts.framework */,
-				6D8EE2231C9B5D1500C9C41F /* FBSDKLoginKit.framework */,
-				6D8EE2241C9B5D1500C9C41F /* FBSDKCoreKit.framework */,
+				151C9CD71C9B9DC500264A0B /* SystemConfiguration.framework */,
+				151C9CD41C9B9C6200264A0B /* Reachability.h */,
+				151C9CD51C9B9C6200264A0B /* Reachability.m */,
+				151C9CCD1C9B7F5500264A0B /* Bolts.framework */,
+				151C9CCE1C9B7F5500264A0B /* FBSDKCoreKit.framework */,
+				151C9CCF1C9B7F5500264A0B /* FBSDKLoginKit.framework */,
+				151C9CD31C9B9C6200264A0B /* Lovely-Bridging-Header.h */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -602,15 +619,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"/Users/francis/Documents/FacebookSDKs-iOS-20160210",
 					/Users/maxhudson/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Lovely/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovelyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lovely-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -618,15 +639,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"/Users/francis/Documents/FacebookSDKs-iOS-20160210",
 					/Users/maxhudson/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Lovely/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = dweeb.lovelyapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lovely-Bridging-Header.h";
 			};
 			name = Release;
 		};

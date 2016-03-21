@@ -398,6 +398,11 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
      * Attempt to send message
      */
     @IBAction func send(sender: AnyObject) {
+        if !AppState.internetConnectIsAvaliable() {
+            UIHelper.showConnectionLostErrorMessage(self)
+            return
+        }
+    
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         if isPublic {
@@ -406,7 +411,18 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
             note.send() { () -> () in
                 self.delegate?.noteCreated()
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    let type = note.subType.rawValue
+                    let arr = type.componentsSeparatedByString("-")
+                    var ret = ""
+                    for elem in arr {
+                        let capStr = String.capitalizeFirstLetter(elem)
+                        ret += capStr + " "
+                    }
+                    let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    
+                    self.delegate?.showMessage(final + " Day Sent", type: MessageType.Success)
+                })
             }
         }
         else {
@@ -417,7 +433,18 @@ class RequestViewController: UIViewController, UITableViewDelegate, UITableViewD
                     if i == self.recipients.count - 1 {
                         self.delegate?.noteCreated()
                         
-                        self.dismissViewControllerAnimated(true, completion: nil)
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            let type = note.subType.rawValue
+                            let arr = type.componentsSeparatedByString("-")
+                            var ret = ""
+                            for elem in arr {
+                                let capStr = String.capitalizeFirstLetter(elem)
+                                ret += capStr + " "
+                            }
+                            let final = ret.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            
+                            self.delegate?.showMessage(final + " Day Sent", type: MessageType.Success)
+                        })
                     }
                 }
             }
