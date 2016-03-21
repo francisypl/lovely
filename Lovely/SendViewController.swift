@@ -285,17 +285,18 @@ class SendViewController: UIViewController, UITableViewDelegate, UITableViewData
     * Attempt to send message
     */
     @IBAction func send(sender: AnyObject) {
-        //let recipient = User(id: -1, fbId: "", name: "user", email: "")
         let isPublic = publicToggle.selectedSegmentIndex == 0
         
         let note = Note(message: noteContent.text, recipient: recipient!, isPublic: isPublic, type: "note", subType: subType)
         
         note.send() { () -> () in
-            if (self.delegate != nil) {
-                self.delegate!.noteCreated()
+            dispatch_async(dispatch_get_main_queue()) {
+                if (self.delegate != nil) {
+                    self.delegate!.noteCreated()
+                }
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 }

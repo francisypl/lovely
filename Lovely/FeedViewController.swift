@@ -21,7 +21,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     var refreshControl: UIRefreshControl!
     var privateTableOffset: CGFloat = 0
     var publicTableOffset: CGFloat = 0
-    var extraPrivateCells = 0
+    var extraPrivateCells = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,10 +142,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let cell = tableView.dequeueReusableCellWithIdentifier("Note") as! FeedNoteTableViewCell
             
             cell.note = note
+            cell.delegate = self
             
             cell.fromProfilePicture.image = IAmSender && !IAmRecipient ? state.currentUser.image : note.sender.image
             cell.fromProfilePicture.contentMode = .ScaleAspectFit
             cell.fromProfilePicture.circle()
+            
+            cell.sendLove.hidden = true
             
             if note.type == "note" {
                 if IAmSender {
@@ -167,6 +170,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 else {
                     cell.fromName.text = note.sender.name
+                    cell.sendLove.hidden = false
                 }
             }
             
@@ -192,17 +196,17 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.noteCopy.font = UIFont.systemFontOfSize(feedFontSize, weight: UIFontWeightRegular);
             cell.noteCopy.text = note.message
             
-            cell.likeButton.alpha = 0.5
-            cell.likeButton.setTitleColor(UIHelper.darkMainColor, forState: .Normal)
-            cell.likeButton.titleLabel?.font = UIFont.systemFontOfSize(12, weight: UIFontWeightRegular)
+            cell.likeButton.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+            cell.likeButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 1.5, right: 0)
             
-            cell.commentButton.hidden = true
+            //cell.commentButton.hidden = true
             
             if note.liked {
+                cell.likeButton.setTitleColor(UIHelper.darkMainColor, forState: .Normal)
                 cell.likeButton.setImage(UIImage(named: "like-active.png"), forState: .Normal)
-                cell.likeButton.alpha = 0.8
             }
             else {
+                cell.likeButton.setTitleColor(UIColor(white: 0.5, alpha: 1), forState: .Normal)
                 cell.likeButton.setImage(UIImage(named: "like.png"), forState: .Normal)
             }
             
@@ -211,6 +215,24 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             else {
                 cell.likeButton.setTitle("", forState: .Normal)
+            }
+            
+            cell.commentButton.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+            cell.commentButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 1.5, right: 0)
+            cell.commentButton.setTitleColor(UIColor(white: 0.5, alpha: 1), forState: .Normal)
+            
+            if note.comments > 0 {
+                cell.commentButton.setTitle(" "+String(note.comments), forState: .Normal)
+            }
+            else {
+                cell.commentButton.setTitle("", forState: .Normal)
+            }
+            
+            if note.isPublic {
+                cell.privateIndicator.hidden = true
+            }
+            else {
+                cell.privateIndicator.hidden = false
             }
             
             cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -265,6 +287,13 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 newVC.delegate = self
                 
                 self.presentViewController(newVC, animated: true, completion: nil)
+            }
+        }
+        else if isPublic || indexPath.row >= Int(privateTableOffset) {
+            if let state = AppState.getInstance() {
+                let note = isPublic ? state.publicFeed[indexPath.row] : state.privateFeed[indexPath.row - extraPrivateCells]
+                
+                UIHelper.showNote(self, note: note)
             }
         }
     }
@@ -382,6 +411,10 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.presentViewController(newVC, animated: true, completion: nil)
         }
+    }
+    
+    func showNote(note: Note) {
+        UIHelper.showNote(self, note: note)
     }
     
     /**

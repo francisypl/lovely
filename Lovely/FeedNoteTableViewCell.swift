@@ -10,6 +10,7 @@ import UIKit
 
 protocol FeedNoteTableViewCellDelegate {
     func showSend(recipient: User?)
+    func showNote(note: Note)
 }
 
 class FeedNoteTableViewCell: UITableViewCell {
@@ -24,10 +25,10 @@ class FeedNoteTableViewCell: UITableViewCell {
     @IBOutlet weak var dayType: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var noteCopy: UILabel!
+    @IBOutlet weak var sendLove: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var commentButton: UIButton!
-
-    
+    @IBOutlet weak var privateIndicator: UIImageView!
     
     @IBAction func sendLoveButtonPressed(sender: AnyObject) {
         if let sender = note?.sender {
@@ -40,7 +41,7 @@ class FeedNoteTableViewCell: UITableViewCell {
         
         if note.liked {
             likeButton.setImage(UIImage(named: "like-active"), forState: .Normal)
-            likeButton.alpha = 0.8
+            likeButton.setTitleColor(UIHelper.darkMainColor, forState: .Normal)
             
             note.likes++
             
@@ -48,7 +49,7 @@ class FeedNoteTableViewCell: UITableViewCell {
         }
         else {
             likeButton.setImage(UIImage(named: "like"), forState: .Normal)
-            likeButton.alpha = 0.5
+            likeButton.setTitleColor(UIColor(white: 0.5, alpha: 1), forState: .Normal)
             
             note.likes--
             
@@ -64,6 +65,6 @@ class FeedNoteTableViewCell: UITableViewCell {
     }
     
     @IBAction func commentButtonPressed(sender: AnyObject) {
-        
+        self.delegate?.showNote(note)
     }
 }

@@ -112,48 +112,69 @@ struct DatabaseWrapper {
      * Convert post result to structured notes array
      */
     static func getNotesArrayFromPostData(postData: String) -> [Note] {
-        if let state = AppState.getInstance() {
-            if let notesData = HttpHelper.jsonToDictionaryArray(postData) {
-                var notes : [Note] = []
-                
-                for noteData in notesData {
-                    let senderId = Int(noteData["sender_id"] as! String)!
-                    let recipientId = Int(noteData["recipient_id"] as! String)!
-                    let id = Int(noteData["id"] as! String)!
-                    let message = noteData["message"] as! String
-                    let likes = Int(noteData["like_count"] as! String)!
-                    let liked = (noteData["liked"] as! String) == "1"
-                    let isPublic = noteData["is_public"] as! String == "1"
-                    let type = noteData["type"] as! String
-                    let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
-                    let date = NSDate(timeIntervalSince1970: Double(noteData["date"] as! String)!)
-                    
-                    if let sender = state.friendsList[senderId] {
-                        var recipient : User?
-                        
-                        if type == "request" && recipientId == 0 {
-                            recipient = AppState.getPublicUser()
-                        }
-                        else if (state.friendsList[recipientId] != nil) {
-                            recipient = state.friendsList[recipientId]!
-                        }
-                        
-                        if recipient != nil {
-                            let note = Note(id: id, message: message, sender: sender, recipient: recipient!, isPublic: isPublic, type: type, subType: subType, date: date)
-                            
-                            note.likes = likes
-                            note.liked = liked
-                            
-                            notes.append(note)
-                        }
-                    }
+        if let notesData = HttpHelper.jsonToDictionaryArray(postData) {
+            var notes : [Note] = []
+            
+            for noteData in notesData {
+                if let note = DatabaseWrapper.noteFromNoteData(noteData) {
+                    notes.append(note)
                 }
-                
-                return notes
             }
+            
+            return notes
         }
         
         return []
+    }
+    
+    static func getNote(id: Int, callback: ((note: Note) -> ())?) {
+        HttpHelper.post_async([
+            "mode": "request",
+            "note-id": String(id)
+        ], url: "note.php") { (response) -> () in
+            if let noteData = HttpHelper.jsonToDictionary(response) {
+                if let note = DatabaseWrapper.noteFromNoteData(noteData) {
+                    callback?(note: note)
+                }
+            }
+        }
+
+    }
+    
+    static func noteFromNoteData(noteData: [String: AnyObject]) -> Note? {
+        if let state = AppState.getInstance() {
+            let senderId = Int(noteData["sender_id"] as! String)!
+            let recipientId = Int(noteData["recipient_id"] as! String)!
+            let id = Int(noteData["id"] as! String)!
+            let message = noteData["message"] as! String
+            let isPublic = noteData["is_public"] as! String == "1"
+            let type = noteData["type"] as! String
+            let subType = NoteSubType(rawValue: (noteData["sub_type"] as! String))!
+            let date = NSDate(timeIntervalSince1970: Double(noteData["date"] as! String)!)
+            
+            if let sender = state.friendsList[senderId] {
+                var recipient : User?
+                
+                if type == "request" && recipientId == 0 {
+                    recipient = AppState.getPublicUser()
+                }
+                else if (state.friendsList[recipientId] != nil) {
+                    recipient = state.friendsList[recipientId]!
+                }
+                
+                if recipient != nil {
+                    let note = Note(id: id, message: message, sender: sender, recipient: recipient!, isPublic: isPublic, type: type, subType: subType, date: date)
+                    
+                    note.likes = Int(noteData["like_count"] as! String)!
+                    note.liked = (noteData["liked"] as! String) == "1"
+                    note.comments = Int(noteData["comment_count"] as! String)!
+                    
+                    return note
+                }
+            }
+        }
+        
+        return nil
     }
     
     /**
@@ -255,5 +276,61 @@ struct DatabaseWrapper {
         catch {
             print("Couldn't get pair FB ids with user ids")
         }
+    }
+    
+    /**
+     * Gets array of basic comment data
+     */
+    static func getComments(note: Note, callback: (comments: [Comment]) -> ()) {
+        HttpHelper.post_async([
+            "mode" : "request",
+            "note-id": String(note.id)
+        ], url: "comment.php") { (response) -> () in
+            if let commentsData = HttpHelper.jsonToDictionaryArray(response) {
+                var comments = [Comment]()
+                
+                for commentData in commentsData {
+                    let id = Int(commentData["id"] as! String)!
+                    let fbId = commentData["fb_id"] as! String
+                    let userId = Int(commentData["user_id"] as! String)!
+                    let message = commentData["message"] as! String
+                    let date = NSDate(timeIntervalSince1970: Double(commentData["date"] as! String)!)
+                    
+                    comments.append(Comment(id: id, userFbId: fbId, userId: userId, note: note, message: message, date: date))
+                }
+                
+                callback(comments: comments)
+            }
+        }
+    }
+    
+    /**
+     * Sends post request to the server to insert note
+     * @return note id
+     */
+    static func comment(message: String, note: Note, callback: ((comment: Comment) -> ())?) {
+        if let state = AppState.getInstance() {
+            HttpHelper.post_async([
+                "mode": "insert",
+                "message": message,
+                "note-id": String(note.id),
+                "user-id": String(state.currentUser.id),
+                "sender-name": state.currentUser.name
+            ], url: "comment.php") { (response) -> () in
+                if let id = Int(response) {
+                    callback?(comment: Comment(id: id, userFbId: state.currentUser.fbId, userId: state.currentUser.id, note: note, message: message, date: NSDate()))
+                }
+            }
+        }
+    }
+    
+    /**
+     * Deletes comment from db
+     */
+    static func deleteComment(comment: Comment) {
+        HttpHelper.post_async([
+            "mode": "delete",
+            "comment-id": String(comment.id)
+            ], url: "comment.php", callback: nil)
     }
 }

@@ -22,8 +22,9 @@ class Note {
     private(set) var subType: NoteSubType
     private(set) var date: NSDate
     
-    internal var likes = 0
-    internal var liked = false
+    var likes = 0
+    var liked = false
+    var comments = 0
     
     /**
     * Primarily used for creating a new note

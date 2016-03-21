@@ -15,6 +15,7 @@ struct UIHelper {
     static var lightMainColor = UIColor(red: 201/255.0, green: 138/255.0, blue: 210/255.0, alpha: 1)
     static var deleteColor = UIColor(red: 223/255.0, green: 96/255.0, blue: 96/255.0, alpha: 1)
     static var fbColor = UIColor(red: 66/255.0, green: 103/255.0, blue: 178/255.0, alpha: 1)
+    static var standardFontSize : CGFloat = 13
     
     static func animateUpdateLayout(vc: UIViewController) {
         UIView.animateWithDuration(0.35) {
@@ -82,7 +83,17 @@ struct UIHelper {
         }
     }
     
-    static func ago(date:NSDate) -> String {
+    static func showNote(vc: UIViewController, note: Note) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let newVC = storyBoard.instantiateViewControllerWithIdentifier("NoteViewController") as? NoteViewController {
+            newVC.note = note
+            
+            vc.presentViewController(newVC, animated: true, completion: nil)
+        }
+    }
+    
+    static func ago(date: NSDate) -> String {
         let calendar = NSCalendar.currentCalendar()
         let now = NSDate()
         let earliest = now.earlierDate(date)
@@ -90,31 +101,24 @@ struct UIHelper {
         
         let components:NSDateComponents = calendar.components([NSCalendarUnit.Minute , NSCalendarUnit.Hour , NSCalendarUnit.Day , NSCalendarUnit.WeekOfYear , NSCalendarUnit.Month , NSCalendarUnit.Year , NSCalendarUnit.Second], fromDate: earliest, toDate: latest, options: NSCalendarOptions())
         
-        if (components.year >= 1){
-            return "\(components.year)y"
+        if components.day >= 1 {
+            let formatter = NSDateFormatter()
+            formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+            formatter.timeStyle = .NoStyle
+            
+            return formatter.stringFromDate(date)
         }
-        else if (components.month >= 1){
-            return "\(components.month)m"
-        }
-        else if (components.weekOfYear >= 1){
-            return "\(components.weekOfYear)w"
-        }
-        else if (components.day >= 1){
-            return "\(components.day)d"
-        }
-        else if (components.hour >= 1){
+        else if components.hour >= 1 {
             return "\(components.hour)h"
         }
-        else if (components.minute >= 1){
+        else if components.minute >= 1 {
             return "\(components.minute)m"
         }
-        else if (components.second >= 3) {
+        else if components.second >= 3 {
             return "\(components.second)s"
         }
-        else {
-            return "now"
-        }
         
+        return "now"
     }
 }
 

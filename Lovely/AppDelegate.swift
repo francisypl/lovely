@@ -20,6 +20,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        /*
+        if let aps = userInfo["aps"] as? NSDictionary {
+            if let noteId = Int(aps["note_id"] as! String) {
+                DatabaseWrapper.getNote(noteId, callback: { (note: Note) -> () in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let state = AppState.getInstance() {
+                            if state.feedVC != nil {
+                                UIHelper.showNote(state.feedVC!, note: note)
+                            }
+                        }
+                    }
+                })
+            }
+        }*/
+        
         return true
     }
     
